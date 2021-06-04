@@ -1,0 +1,901 @@
+# Basics of R
+
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "setup/R_course_setup.R" );
+```
+
+## Data sets
+
+Throughout the course we will use the two data sets described below.
+
+### Pulse
+
+
+Students in an introductory statistics class (MS212 taught by Professor John Eccleston and Dr Richard Wilson at The University of Queensland) participated in a simple experiment. The students measured their own pulse rate. They were then asked to flip a coin. If the coin came up heads, they were to run in place for one minute. Otherwise they sat without movement for one minute. Then everyone measured their pulse again. The pulse rates and other physiological and lifestyle data are given in the data table.
+
+|Variable | Explanation |
+|---|-----------------------------------------------------|
+| name | Name of a participant |
+| height	  |	Height (cm) |
+| weight	  |	Weight (kg) |
+| age	    |	Age (years) |
+| gender	  |	Sex (male/female) |
+| smokes	  |	Regular smoker? (yes/no) |
+| alcohol	|	Regular drinker? (yes/no) |
+| exercise	|	Frequency of exercise (high/moderate/low) |
+| ran	    |	Whether the student ran or sat between the first and second pulse measurements (ran/sat) |
+| pulse1  	|	First pulse measurement (rate per minute) |
+| pulse2	  |	Second pulse measurement (rate per minute) |
+| year		  | Year of the class (1993 - 1998) |
+
+The pulse data set is available in the data folder as tab-delimited text: `pulse.txt`. It is also available in SPSS-format as `pulse.sav`.
+
+
+### Survey
+
+This data frame contains the responses of 233 Statistics I students at the University of Adelaide to a number of questions. It is a slightly modified version of the `survey` data from the `MASS` pacakge.
+
+|Variable | Explanation |
+|---|-----------------------------------------------------|
+| name | Name of a participant  |
+| gender	  |	Sex (male/female) |
+| span1   | Span (distance from tip of thumb to tip of little finger of spread hand) of writing hand (cm) | 
+| span2   | Span of non-writing hand (cm) | 
+| hand  | Writing hand of student (left/right) |
+| fold | Fold your arms! which is on top? (right/left/neither) |
+| pulse  	|	Pulse measurement (rate per minute)|
+| clap | Clap your hands! which is on top? (right/left/neither) |
+| exercise	|	Frequency of exercise (freq/some/none)|
+| smokes	  |	How much the student smokes (heavy/regul/occas/never)|
+| height	  |	Height (cm) |
+| m.i	  |	whether the student expressed height in imperial (feet/inches) or metric (centimetres/metres) units. (metric/imperial) |
+| age	    |	Age of the student (years)|
+
+The pulse data set is available in the data folder as tab-delimited text: `survey.txt`.
+
+
+## Introduction
+
+### Why this course?
+
+Modern science requires modern statistical methods:
+ 
+- Genomics/bioinformatics
+- Advanced survival data analysis
+- Causal modeling
+- ...
+
+Statisticians make methods are made available as packages in R.
+
+No need to wait until they are programmed into SPSS.
+
+### What is R? 
+
+#### _R_: a short history
+
+_S_: a programming language for statistics by John Chambers (Bell Labs) in the 1970s-80s.
+
+Two implementations:
+
+- S-plus (1988, commercial)
+- R (1993, GNU public license) by Robert Gentleman and Ross Ihaka (Univ. of Auckland)
+
+The R Foundation for Statistical Computing. Non-profit. 
+
+Huge community (users, package writers).
+
+#### Open source
+
+Free software.
+
+Volunteer work (mostly by academics).
+
+Anyone can see the source code.
+
+Anyone can contribute:
+
+- write code
+- report bugs
+- write documentation
+
+
+#### Obtaining R
+
+CRAN: Comprehensive R Archive Network 
+
+- Repository for R and packages
+- Go to http://www.r-project.org
+
+Free download
+
+- New major version (R 3.2.0) every year 
+- New minor versions (R 3.2.4) in between
+
+Also on CRAN
+
+- Manuals (don't read them)
+- Mailing lists + archives (well indexed on google)
+
+
+### R and RStudio
+
+RStudio: open source integrated development environment to R (2011)
+
+Adds useful features to help write code and organize projects
+
+Not necessary to use R, but highly recommended
+
+RStudio organises input and output in useful windows
+
+
+### Course overview
+
+#### What we teach
+
+This is not a statistics course!
+	
+To learn about statistics, follow the _Medical Statistics course_ (or more advanced courses).
+
+This course teaches R proficiency:
+
+- The mechanics of R
+- How to use other people's R scripts
+- How to write your own R scripts
+- How to use R packages 
+
+Focus: R as a _language_ for data analysis.
+
+
+#### Course structure
+
+- Interactive lectures 
+- Practice time in between
+
+Hands-on at four levels:
+
+1. *Type with me*
+2. Mini-exercises briefly interrupt the lecture
+3. Longer exercises to do it on your own
+4. Advanced exercises introduce advanced concepts for quick learners (optional)
+
+Eight half-day slots.
+
+
+
+## Basics
+
+### R as a calculator
+
+#### Calculations
+
+At the prompt `>` you can do any calculations you like. Press enter to see the result.
+
+
+```{r}
+2*8
+4+5
+2/8
+5^2  # ^ = to the power
+```
+
+Note: decimals always with `.`, never `,`.
+
+#### Parentheses
+
+Use parentheses as much as possible to make sure the calculations are done in the right order.
+
+```{r}
+12/2*3
+12/(2*3)
+```
+
+
+
+RStudio will automatically insert a closing parenthesis. If you don't like this, change using Tools...Global options...Code...Editing.
+
+#### Arithmetic functions
+
+Useful functions.
+
+```{r}
+sqrt(10)             # square root
+log(10)              # natural logarithm
+```
+
+Terminology: the _function_ (e.g. `log`) is applied to its _argument_ (e.g. `10`). The argument of a function is always between parentheses.
+
+Other useful functions 
+
+- `log2` (logartithm base 2) 
+- `log10` (logarithm base 10)
+- `abs` (absolute value)
+
+
+#### Multiline commands
+
+Use up/down arrow to retrieve previous/next commands. Use Ctrl-R to see command history and type letters to select a line.
+
+Getting a `+` as a prompt means the command is not finished yet. Continue typing or press _Esc_.
+```{r}
+5*(1+1
+)
+```
+
+#### (*) Integer division and remainders
+
+The remainder of one number after division by another.
+
+```{r}
+17 %/% 5    # integer division
+17 %% 5     # remainder
+```
+
+`17 %/% 5` evaluates to 3 because `17 = 3*5+2`, so 5 fits into 17 3 times.
+`17 %% 5` evaluates to 2 because `17 = 3*5+2`, so 2 is the remainder of 17 when divided by 5.
+
+### Variables
+
+#### Variable names
+
+Variables store values or results of calculations. Choose the names of variables freely.
+```{r}
+x <- 5
+my_calculation <- 6 + x
+```
+
+To find out what the value of a variable is: type the name.
+```{r}
+x
+```
+
+Rstudio has autocomplete (with `tab`). Useful for long variable names.
+
+#### Legal variable names
+
+Note that `_` and `.` are allowed in variable names. Numbers are allowed too. 
+
+Not allowed:
+
+- names containing a space
+- names containing a one of @#!%$^()-+=!~?,<>}{][`
+- for, while, repeat, if, else, TRUE, FALSE, Inf, NA, NaN (reserved names)
+- a name that starts with a number
+
+Variable names in R are case sensitive. Everything else too!
+
+Choose meaningful variable names for readable code.
+
+#### Assignment
+
+Arrow is called "assignment". Also allowed: `=`.
+
+```{r}
+x = 5
+```
+
+Assignments are needed to store a result. No assignment: printed to screen and lost.
+
+```{r}
+x+1
+x
+```
+
+You have asked R what `x+1` is, but `x` did not change. To change the value of a variable, reassign.
+
+```{r}
+x <- x + 1
+x
+```
+
+Remember: _no assignment, no change_
+
+Important: variables are stored in memory, not on disk. If you close R, all variables are lost (if save workspace image = no)
+
+Your RStudio has an *environment* tab that lists all the variables you made.
+
+#### (*) The workspace
+
+To list the variable(s) you have defined:
+```{r}
+ls()
+```
+
+Note that this is a function with no arguments.
+
+To remove a variable from memory:
+```{r}
+rm(x)
+```
+
+You only need to remove a variable from memory when:
+
+1. The variable is large and you want to free memory
+2. You have accidentaly overwritten one of R's fixed constants
+
+Note that `rm` is definitive and you cannot _undo_ it!
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "firstVariables", "_book/02_basics.Rmd" );
+```
+
+### Vectors 
+
+Vectors are the basic building blocks of the R language. 
+
+#### Vector basics
+
+Variables can contain _vectors_ of numbers. A vector can be e.g. just any sequence of numbers.
+
+You can make a vector using `c` (combine):
+```{r}
+x <- c(3, 6, 7, 2)
+```
+
+Calculations or functions often work on vectors elementwise. This is helpful to do many calculations simultaneously:
+```{r}
+x^2
+x - 18
+sqrt(x)
+```
+
+Some functions summarize a vector to a single number:
+```{r}
+sum(x)
+```
+
+To find out the number of elements in a vector:
+```{r}
+length(x)
+```
+
+#### Simple sequences
+
+A simple regular sequence you can make with `:` (colon) operator:
+```{r}
+y <- 1:10
+7:9
+```
+
+#### Simple selection
+
+To see only part of a vector use square brackets. Combine with `:` to select more than one element:
+```{r}
+x[1]
+x[3:4]
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "exercisesBasics", "_book/02_basics.Rmd" );
+```
+
+## Projects and scripts
+
+### Projects
+
+We are going to read our first data set into R. To structure this, we are going to make a `project`.
+
+#### Opening a new project
+
+Choose File...New project...New directory... and create a new folder on your computer for this R course.
+
+Projects are a feature of RStudio to organize all files and scripts that you need for a single project and to keep them separate from other projects. From now on in this course you are going to work within the new R course project you created.
+
+Look top right in the RStudio window to check which project you are working in. There, you can also switch between projects.
+
+RStudio has created a `.Rproj` file for you that you can use to open Rstudio. You end up in the right project immediately.
+
+
+#### Creating a folder
+
+In our new project we are going to create a folder that contains our data sets
+
+Choose the files tab and click `new folder` to create a `data` folder, or type at the prompt
+
+```{r, eval=FALSE}
+dir.create('data')
+```
+
+From the course webpage, download the data set `pulse.txt` from the course webpage and store them in the new data folder you created.
+
+Check in Rstudio that the files are indeed in the right folder.
+
+
+
+#### Quick exercise
+
+- Close RStudio and open it again. Make sure you are in the right project.
+
+### Reading data
+
+Now we can read data into R. 
+
+#### Reading tab-delimited text
+
+The file `pulse.txt` is a tab-delimited text file. We can read it into R with 
+
+```{r result="asis", echo=FALSE, comment="", eval=TRUE}
+pulse <- catReadTable( "pulse.txt", "pulse" )
+```
+
+```{r eval=FALSE}
+pulse <- read.delim( "data/pulse.txt" )
+```
+
+
+We added `data/` because the file is in the data subfolder we just created.
+
+Note that we assigned `<-` the result of `read.delim` to `pulse`. We have given our dataset the name `pulse`.
+
+#### View
+
+To check that you've read the data correctly 
+
+
+
+```{r, eval=FALSE}
+View(pulse)
+```
+
+Note the capital V.
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "firstLoad", "_book/03_projects_and_scripts.Rmd" );
+```
+
+### Scripts
+
+So far we have been typing at the prompt. What we type at the prompt is executed and lost. Using scripts allows repeating things and make our results reproducible.
+
+#### Making a script
+
+We will open an R  script File...New file...R script. An R script is just a text editor. Type some R code into the script
+
+```{r, eval=FALSE}
+2^6
+14+15
+3-4
+```
+
+We can `run` (Ctrl+Enter) part of this code by sending it to the prompt. Check what happens if we run when
+
+- The cursor is in a line
+- We made a bock of several lines
+- We made a block of part of a line
+
+We can `source` to run the whole script.
+
+We can save a script. Use the `.R` extension.
+
+#### Using a script
+
+The script should contain the analysis you want to reproduce later.
+
+Type at the prompt only to try things out.
+
+To check that the script works, close RStudio and open again. Run the script.
+
+More advanced way of working with scripts: R markdown (later in the course)
+
+
+#### Comments
+
+R ignores everyting in a line after `#`. Use to put human readable text in your scripts (explanation).
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "firstScript", "03_projects_and_scripts.Rmd" );
+```
+
+
+## Data frames (basics)
+
+So we are now able to read in data sets (tables). A data set in R is called a `data.frame`. 
+
+```{r eval=FALSE}
+pulse <- read.delim( "data/pulse.txt" )
+```
+
+```{r eval=FALSE}
+survey <- read.delim( "data/survey.txt" )
+```
+
+
+R can have many data sets in memory simultaneously. You will always have to specify which data set you are working in.
+
+### Exploring 
+
+#### Dimensions
+
+Rows in a data.frame are typically subjects; columns are variables.
+
+To find the size of a data.frame
+
+
+```{r}
+pulse <- read.delim( "data/pulse.txt" )
+ncol(pulse)
+nrow(pulse)
+dim(pulse)
+```
+
+#### Showing head and tail
+
+To get a quick impression of a data.frame:
+
+- `head` prints the first 6 rows
+- `tail` prints the last 6 rows
+
+If you want more or less than 6, add the number you want as a second argument to the function:
+```{r}
+head(pulse)
+tail(pulse, 3)
+```
+
+
+
+We've already seen `View`.
+
+With `names` (alternatively `colnames`) you find the names of the variables (columns) in the data.frame:
+```{r}
+names(pulse)
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "explore", "04_dataframes.Rmd" );
+```
+
+
+### Extracting 
+
+#### Columns
+
+To extract a column of a data.frame use `$`. The result is a vector:
+```{r}
+pulse$age
+```
+
+
+Note the autocomplete in RStudio that helps suggest the right column.
+
+To add a column to a data.frame, use the assigmnent:
+```{r}
+pulse$pulse.diff <- pulse$pulse2 - pulse$pulse1
+head( pulse )
+```
+
+
+#### Row names
+
+A data.frame always has row names. Note that these names are not themselves a column of the data.frame!
+```{r}
+rownames(pulse)
+```
+
+
+Name of each row must be unique.
+
+#### Elements
+
+An individual entry to a data.frame can be extracted using square brackets `[`, either using the names of row and column (note the quotes) or their indices. Row comes before the comma, column after.
+```{r}
+pulse["1993_E", "height"]
+pulse[5, 2]
+```
+
+You can also use ranges like with vectors
+```{r}
+pulse[4:6, 1:5]
+```
+
+Much more about using square brackets later in the course.
+
+
+#### (*) Removing a column 
+
+To remove a column from a data.frame, assign `NULL` to that column:
+```{r}
+pulse$pulse.diff <- NULL
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "columns", "04_dataframes.Rmd" );
+```
+
+### Example data
+
+
+R contains many example data sets. To see which, see:
+```{r, eval=FALSE}
+data()
+```
+
+Example data are immediately accessible in R. For example:
+```{r}
+BOD
+```
+
+Some description is always available:
+```{r, eval=FALSE}
+?BOD
+help("BOD")
+```
+
+We will make use of example data from the `MASS` package. Packages are bundles with additional functions and data. To make `MASS` available in your R session, say:
+```{r}
+library(MASS)
+```
+More about packages later.
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "newFrame", "04_dataframes.Rmd" );
+```
+
+
+## Basic data types
+
+We will use the `pulse` and `survey` data again for illustration and exercises:
+
+
+```{r eval=FALSE}
+pulse <- read.delim( "data/pulse.txt" )
+```
+
+
+```{r eval=FALSE}
+survey <- read.delim( "data/survey.txt" )
+```
+
+### Types
+
+Columns in a data.frame can be of different types. Typically:
+
+- numeric (we've seen already)
+- character (for text)
+- factor (for categorical variables)
+
+#### `str` and `class`
+
+To get a quick overview (structure) of the types of data in your data.frame:
+```{r}
+str(pulse)
+```
+
+To learn about the type of a specific column:
+```{r}
+class(pulse$name)
+```
+
+### Vector classes
+
+#### Numeric data
+
+Numeric data can be `integer` (whole numbers) or `numeric` (continuous data) but you can ignore that distinction if you are not a programmer.
+
+We've seen how to make numeric data with `c` or `:`
+
+##### Useful functions for numeric data
+
+Summarizing a single variable:
+
+- `mean`
+- `median`
+- `min`
+- `max`
+- `range` (two values: min, max)
+- `sd` (standard deviation)
+- `var` (variance)
+- `hist` (histogram)
+
+A six-number summary: range, three quartiles and the mean:
+```{r}
+summary(pulse$age)
+```
+
+##### Relationships between two variables
+
+- `cor` (correlation)
+- `plot` (scatterplot)
+
+```{r}
+cor(pulse$height, pulse$weight)
+plot(pulse$height, pulse$weight)
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "numeric", "05_character_factor_basics.Rmd" );
+```
+
+### Character data
+
+Texts in R is called `character`. You recognize is by the quotes around the values.
+
+#### Creating character data
+
+Use either single or double quotes
+
+```{r}
+text <- c('alpha', 'beta', 'gamma')
+TEXT <- c("ALPHA", "BETA", "GAMMA")
+```
+
+#### Names
+
+Row and column names in a data.frame are always `character`:
+```{r}
+rownames(pulse)[1:10]
+```
+
+#### (*) Useful premade character vectors
+
+- `LETTERS` (capitals)
+- `letters` (lower case)
+- `month.name` (months)
+
+#### (*) Calculating with character vectors
+
+Arithmetics of text
+
+```{r}
+toupper("me")
+paste(LETTERS, letters, sep='_')
+```
+
+
+### Factor - categorical data
+
+A categorical variable in R is called `factor`:
+
+- They are internally coded as numbers 1,2,3,...
+- The numbers have value labels attached to them (called levels)
+
+#### Making a factor
+
+To make a factor variable, start with a character vector and use `factor`:
+
+```{r}
+fac <- factor(c('A', 'B', 'A', 'B', 'B'))
+```
+
+#### Factor basics
+
+You recognize a factor by the `Levels:` line when printing:
+```{r}
+fac
+```
+
+To get the numeric coding:
+```{r}
+as.numeric(fac)
+```
+
+To get the value labels:
+```{r}
+levels(fac)
+```
+
+To get the number of levels (categories):
+```{r}
+nlevels(fac)
+```
+
+#### Turning factor (back) into character
+
+```{r}
+as.character(fac)
+```
+
+#### Table
+
+Factors are best summarized with `table`:
+```{r}
+table(pulse$exercise)
+```
+
+`table` can also crosstabulate two (or even more) variables:
+```{r}
+table(pulse$gender, pulse$exercise)
+```
+
+#### (*) Table of table
+
+It is suprisingly useful to use table twice.
+
+```{r}
+table(table(pulse$name))
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "factors", "05_character_factor_basics.Rmd" );
+```
+
+
+
+
+## Functions and help files
+
+### Function arguments
+
+#### Functions may have multiple arguments
+
+Example `round`:
+```{r}
+round(pi,3)
+round(pi,5)
+```
+
+Optional arguments may be left out:
+```{r}
+round(pi)
+```
+
+#### Getting help for a function
+
+Functions do calculations for you based on one or more arguments. To find out what arguments a function has and how they work, check the help file of the function. Two ways of getting help for a function
+```{r eval=FALSE}
+help(round)
+?round
+```
+
+We see that `round` has two arguments and that the default of the second argument is 0.
+
+
+#### Specifying arguments by name
+
+Function arguments may be either given in the right order or specified explicitly by name.
+
+```{r}
+round(pi, digits = 3)
+```
+
+The latter option is especially useful for functions with many arguments.
+
+#### Default arguments
+
+Look at the help file of `cor`. We see that the argument `method` has a vector of three options as a default. This means that the first mentioned value (`pearson`) is the default and the others (`kendall`, `spearman`) are alternative options.
+
+#### (*) the `...` argument
+
+The argment `...` means that a variable number of arguments may be given. See e.g. `sum` has a `...` argument since it sums all arguments together
+```{r}
+sum(1,4,5:7,1)
+```
+Arguments appearing after `...` must always be specified by name.
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "signif", "06_help.Rmd" );
+```
+
+
+### Other help file aspects
+
+Help files typically explain the type of object that is returned by the function.
+
+Help files also contain examples that can be run.
+
+#### Help search
+
+Finding help if you don't know the function name
+```{r eval=FALSE}
+help.search("mean")
+??mean
+```
+
+Usually better: use the R help mailing list: <http://www.r-project.org/mail.html>. Someone has usually asked the same question you want to ask. The R mailing list is well indexed in google.
+
+Or ask some local expert. 
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "help", "06_help.Rmd" );
+```
+
+
+
+
+
+
+

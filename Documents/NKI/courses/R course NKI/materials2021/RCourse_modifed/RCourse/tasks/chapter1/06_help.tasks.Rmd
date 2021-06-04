@@ -1,0 +1,105 @@
+---
+title: "Functions and help (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "../R_course_setup.R" );
+```
+
+# Round and signif {#signif}
+
+- Use the `signif` function to give pi in 4 significant digits
+```{r}
+signif(pi, 4)
+```
+
+- (*) What is the value of `round(pi,-1)` and why?
+```{r}
+round(pi,-1)
+```
+
+- (*) For what `x` is `trunc(x)` different from `floor(x)`
+```{r}
+x=-1.1
+trunc(x)
+floor(x)
+```
+
+
+## `barplot` options {#help}
+
+Have a look at the `women` example data
+
+- Open the help file for `women` to understand the data.
+```{r eval=FALSE}
+?women
+```
+
+- The `barplot` function can be used for barplots. Make a barplot of `weight`.
+```{r}
+barplot(women$weight)
+```
+
+-	What argument of `barplot` can be used to add names to the bars? HINT: `names.arg`. Add `height` as a names under the bars.
+```{r}
+barplot(women$weight, names.arg=women$height)
+```
+
+- Basic colors are represented in R simply by their names, e.g. `"yellow"`. Note the quotation marks. Make the bars in the plot purple.
+```{r}
+barplot(women$weight, names.arg=women$height, col="purple")
+```
+
+- Add labels to the plot and a title
+```{r}
+barplot(women$weight, names.arg=women$height, xlab='height', ylab='weight', main='Average weight vs. height') 
+```
+
+
+## Spearman correlation
+
+In the `survey` data:
+
+```{r result="as.is", echo=FALSE, comment="", eval=TRUE}
+survey <- catReadTable( "survey.txt", "survey" )
+```
+```{r eval=FALSE}
+survey <- read.delim( "data/survey.txt" )
+```
+
+-	The function for correlation in R is `cor`. Calculate correlation between average `span1` and `span2`
+```{r}
+cor(survey$span1, survey$span1)
+```
+
+- Is this a Pearson or Spearman correlation? Calculate the Spearman correlation.
+```{r}
+cor(survey$span1, survey$span1, method='spearman')
+```
+
+# (*) `table` options
+
+`NA` in R stands for missing values
+
+- Open the help file for `table`.
+```{r eval=FALSE}
+?table
+```
+
+- What is the default of the `useNA` argument?
+```{r}
+"no"
+```
+
+- Apply table to the `clap` and `m.i.`columns in `survey` with all three options for `useNA`
+```{r}
+table(survey$m.i, useNA = 'no')
+table(survey$m.i, useNA = 'ifany')
+table(survey$m.i, useNA = 'always')
+table(survey$clap, useNA = 'no')
+table(survey$clap, useNA = 'ifany')
+table(survey$clap, useNA = 'always')
+```
+
+- Explain the role of the `useNA` argument in your own words.

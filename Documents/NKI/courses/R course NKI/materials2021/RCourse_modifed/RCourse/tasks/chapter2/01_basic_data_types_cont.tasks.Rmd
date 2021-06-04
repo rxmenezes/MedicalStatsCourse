@@ -1,0 +1,240 @@
+---
+title: "Basic data types (cont.)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "../R_course_setup.R" );
+```
+
+# Basic data types (cont.) (tasks)
+
+## Numeric vectors {#numeric}
+
+### Primary tasks
+
+- Create a variable `v` to be a vector of (46,43,...,19,16,13).
+    - Show `v` to check the numbers. 
+    - Show the `head` of 4 elements of `v`.
+    - Show the `tail` of 3 elements of `v`.
+    - Calculate the length of `v`.
+    
+    
+```{r}
+v <- seq( 46, 13, -3 )
+v
+head( v, 4 )
+tail( v, 3 )
+length( v )
+```
+
+- Create a variable `v` to be a vector of (50,40,30,20,10,5,4,3,2,1,NA). 
+    - Use once `seq`, and once `:` (colon). 
+    - Show `v` to check the numbers.
+```{r}
+v <- c( seq( 50, 10, -10),5:1,NA )
+v
+```
+
+### Extra tasks
+
+- Sometimes it is useful to create a vector of given number _n_ of zeroes. Try the function `numeric( n )` to create a vector of 25 zeroes, then create an empty numeric vector with nothing (so, zero zeroes). (*)
+```{r}
+v <- numeric( 25 )
+v
+v <- numeric()
+v
+```
+
+- Read the manual of `rep`. Construct a vector 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2... with 20 pattern repetitions. (*)
+```{r}
+rep( 0:2, 20 )
+```
+
+- Use `rep`. Construct the first 13 elements of a vector 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2... Check the length of the result. (*)
+```{r}
+v <- rep( 0:2, length.out = 13 )
+v
+length( v )
+```
+
+- Read manual of function `rev`. Use this function and the `v` from the previous task to build a vector of (50,40,30,20,10,5,4,3,2,1,NA,NA,1,2,3,4,5,10,20,30,40,50). (*)
+```{r}
+c( v, rev( v ) )
+```
+
+## Character vectors {#character}
+
+### Primary tasks
+
+- Use `readLines` function to read contents of the `survey.txt` file into a (one-dimensional) character vector.  Count the number of lines. Show the first and the last 3 lines. Use the `View` command to show the vector and compare to the view obtained for `survey` data frame, which you used earlier in the course.
+```{r result="asis", comment=""}
+lines <- catReadLines( "survey.txt", "lines" )
+```
+```{r}
+length( lines )
+head( lines, 3 )
+tail( lines, 3 )
+```
+```{r eval=FALSE}
+lines <- read.delim( "data/pulse.txt" )
+```
+
+### Extra tasks
+
+- Create a character vector `fruits` with 5 random and different fruit names. Check how it is shown. (*)
+```{r}
+fruits <- c( "apple", "pear", "orange", "lemon", "cherry" )
+fruits
+```
+
+- Use the `fruits` vector. Understand `nchar( fruits )`. (*)
+```{r}
+nchar( fruits )
+```
+
+- Build (manually) a vector _idx_ so, that `fruits[ idx ]` prints fruit names in alphabetical order. (*)
+```{r}
+idx <- c( 1, 5, 4, 3, 2 )
+fruits[ idx ]
+```
+
+- understand the result of function `order( fruits )`. (*)
+```{r}
+order( fruits )
+```
+
+- Sometimes it is useful to create a vector of given number _n_ of empty texts. Try the function `character( n )` to create a vector of 5 empty texts, then create an empty character vector with nothing (so, zero empty texts). (*)
+```{r}
+v <- character( 5 )
+v
+v <- character()
+v
+```
+
+- Read the documentation of `rep`. Then understand the code below. (*)
+```{r eval=FALSE,echo=TRUE}
+c( rep( "male", 2 ), rep( "female", 1 ) )
+rep( c( "male", "female" ), c( 2, 1 ) )
+```
+
+## Logical vectors {#logical}
+
+### Primary tasks
+
+- Negation operator: 
+    - Practice, what the negation operator produces for these there logical constants: `FALSE`, `TRUE`, `NA`.
+```{r}
+!TRUE
+!FALSE
+!NA
+```
+
+- AND (vector) operator: 
+    - Once symmetries are accounted for, there are six possible combinations of two different values (`a`, `b`)  selected from the three logical constants: `FALSE`, `TRUE`, `NA`. Consider all six of them as arguments to the `&` operator. First predict the result of `a & b` and then calculate it.
+```{r}
+F & F
+F & T
+F & NA
+T & T
+T & NA
+NA & NA
+```
+
+- Make a vector `v <- 19:10`. Build a logical vector `w` which states which positions of `v` are smaller than 12 or at least 17. Print both `v` and `w` to check by eye whether the result is correct.
+```{r}
+v <- 19:10
+v
+w <- v < 12 | v >= 17
+w
+
+```
+
+- Study the logical vector `w` from the previous task. Count how many positions are `TRUE`. For this use the `sum` function.
+```{r}
+w
+sum( w )
+```
+
+### Extra tasks
+
+- OR (vector) operator: (*)
+    - Reproduce the "AND operator" exercise for the `|` (or) operator.
+
+- Elements on `which` positions (indices) are `TRUE`: (*)
+    - Study the logical vector `w` from the earlier task. 
+    - First, answer yourself the question: which positions in `w` are `TRUE`. 
+    - Was your answer the same as the result of `which( w )`? 
+    - Can you explain `which( LETTERS == "R" )`?
+```{r}
+which( w )
+which( LETTERS == "R" )
+```
+
+- Even numbers: (*)
+    - Even numbers are dividable by two with rest zero.
+    - Rest of division can be calculated with the `%%` operator. 
+    - Take the vector `v <- 19:10` and construct the corresponding logical vector `w` stating whether elements of `v` are dividable by two.
+```{r}
+v <- 19:10
+v
+v %% 2
+v %% 2 == 0
+w <- v %% 2 == 0
+w
+```
+
+- AND, OR (single/first value) operators `&&`, `||`: (*)
+    - They work on single values (instead of complete vectors) and are frequently used in programming.
+    - Check the manual ``?`&&` ``. Try with some logical values similarly to `&` and `|`.
+
+- AND, OR (single/first value) functions `all`, `any`:
+    - Programs are more readable, when instead of `a && b && c && d` the following code is written: `all( a, b, c, d )`. 
+    - Read the manual for `all`, `any`. (*)
+
+- Sometimes it is useful to create a vector of given number _n_ of empty texts. Try the function `character( n )` to create a vector of 5 empty texts, then create an empty character vector with nothing (so, zero empty texts). (*)
+```{r}
+v <- character( 5 )
+v
+v <- numeric( 0 )
+v
+```
+
+## Type conversions {#conversions}
+
+### Primary tasks
+
+- Take the following character vector: `v <- c( "0", "1", "11", "121", "1221", "one" )`. Check the result of `as.numeric( v )`.
+```{r}
+v <- c( "0", "1", "11", "121", "1221", "one" )
+v
+as.numeric( v )
+```
+
+- Produce texts (character vector) out of numbers `101:110`.
+```{r}
+as.character( 101:110 )
+```
+
+- Convert `c( -1:1, NA )` to a logical vector with `as.logical`. Explain the result.
+```{r}
+# NA stays NA, zero becomes FALSE, other values become TRUE
+as.logical( c( -1:1, NA ) )
+```
+
+### Extra tasks
+
+- Which of elements of `c( "TRUE", "True", "true", "T", "FALSE", "False", "false", "F" )` are converted to valid logical values with `as.logical`? (*)
+```{r}
+as.logical( c( "TRUE", "True", "true", "T" ) )
+as.logical( c( "FALSE", "False", "false", "F" ) )
+as.logical( c( "f", "t", "F", "T" ) )
+```
+
+- Sometimes it is useful to create a vector of given number _n_ of `FALSE` values. Try the function `logical( n )` to create a vector of 5 `FALSE`s, then create an empty logical vector. (*)
+```{r}
+v <- logical( 5 )
+v
+v <- logical()
+v
+```

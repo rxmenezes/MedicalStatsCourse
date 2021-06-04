@@ -1,0 +1,101 @@
+---
+title: "Data frames (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+# Explore {#explore}
+
+For the quick exercises we will mostly work with the `survey` data. Let's load them into R.
+
+- Download the data in `survey.txt` and load them into R. Use the script you made!
+```{r eval=1:2, echo=3}
+survey <- read.delim("../data/survey.txt")
+pulse <- read.delim("../data/pulse.txt")
+survey <- read.delim("data/survey.txt")
+```
+
+- How many rows and columns does this data set have?
+```{r}
+dim(survey)
+```
+
+- Which variables are in the data?
+```{r}
+names(survey)
+```
+
+
+
+# Data frame columns {#columns}
+
+In the `survey` data 
+
+- Calculate the difference between spans of the the writing and non-writing hands for each student
+```{r}
+diff <- survey$span1 - survey$span2
+```
+
+- Add the result of your calculation as a new column to your data set
+```{r}
+survey$diff <- diff
+```
+
+- What is the minimum age in the data set? Hint: use `min`.
+```{r}
+min(survey$age)
+```
+
+In the `pulse` data
+
+- BMI is weight in kg divided by the square of height in cm. Add a column BMI for each student. HINT: height is given in `m`.
+```{r}
+pulse$BMI <-pulse$weight/(pulse$height/100)^2
+```
+
+- (*) Remove the BMI column you have just added to the pulse data.
+```{r}
+pulse$BMI <- NULL
+```
+
+
+# Exploring a new data.frame {#newFrame}
+
+The `swiss` data set has demographic data on swiss provinces. It is an example data.frame that is available in R. Just type `swiss` at the prompt to see it.
+
+-	Use the functions View, head and tail to get an overview of the data set
+```{r}
+head(swiss)
+tail(swiss)
+```
+
+- Have a look at the help file. What is this data set about?
+```{r eval=FALSE}
+?swiss
+```
+
+- How many provinces are in this data set?
+```{r}
+nrow(swiss)
+```
+
+-	What is the largest percentage of catholics in any of these Swiss provinces? Hint: use `max`
+```{r}
+max(swiss$Catholic)
+```
+
+- Find the Fertility of `Lavaux`.
+```{r}
+swiss["Lavaux", "Fertility"]
+```
+
+- Make a new column in the swiss data that contains the percentage of protestants (100 minus the percentage of catholics)
+```{r}
+swiss$Protestant <- 100 - swiss$Catholic
+```
+
+
+

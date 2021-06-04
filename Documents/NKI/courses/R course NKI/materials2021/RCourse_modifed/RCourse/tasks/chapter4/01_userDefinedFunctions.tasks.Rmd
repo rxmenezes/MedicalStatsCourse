@@ -1,0 +1,323 @@
+---
+title: "User-defined functions and control flow (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+pulse <- read.table("../data/pulse.txt") 
+survey <- read.delim("../data/survey.txt") 
+source( "../R_course_setup.R" )
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# |classification|bmi|  
+# |---------|--------|
+# |underweight|<18.5|
+# |normal|18.5-24.9|
+# |overweight| 25-29.9|
+# |obese| >29.9|
+
+```
+
+# User-defined functions and control flow (tasks)
+
+## Tasks
+
+### functions (0) {#functions0}
+
+- Write the function `even` which tests whether a number is even.
+
+```{r}
+# (v1)
+even <- function(x) {
+  x %% 2 == 0
+}
+```
+
+- Write an alternative version of function `even` using `odd` function.
+
+
+```{r}
+# (v2)
+even <- function(x) {
+  !odd(x)
+}
+
+```
+
+- Write a function, given values `x` and `m`, that tests whether `x` is integer divisible by `m`.
+
+```{r}
+divisible <- function(x,m) {
+  x %% m == 0
+}
+```
+
+
+
+- There are two systems for weight and height measurements, metric (cm,kg) and imperial (inch,lbs). The relation between the measurements in different systems is  (1 kg = 2.2 lbs) and  (1 inch = 2.54 cm). Write the following unit conversion functions:
+    - cm2meter : convert cm to meter
+    - lbs2kg   : convert weight unit pound to kg
+    - inch2cm  : convert inch to cm
+
+```{r, eval=FALSE, echo=TRUE}
+# examples:
+> inch2cm(70)
+[1] 177.8
+> lbs2kg(10)
+[1] 4.545455
+> cm2m(190)
+[1] 1.9
+```
+
+```{r}
+cm2m    <- function(x) x*0.01  # cm to meter
+lbs2kg  <- function(x) x/2.2   # pound to kg
+inch2cm <- function(x) x*2.54  # inch to cm
+```
+
+- (*) Generate the following sequence:
+
+```{r, echo=FALSE, eval=TRUE}
+divisible <- function(x,m) {
+  x %% m == 0
+}
+v <- 1:100
+v[sapply(v,function(x) divisible(x,7))]
+```
+
+```{r}
+v <- 1:100
+v[sapply(v,function(x) divisible(x,7))]
+```
+
+
+### functions (1) {#functions1}
+
+
+  - The following table is a BMI classification. Write a function to determine 
+the classification given a BMI value.
+
+<center>
+```{r, eval=TRUE, echo=FALSE}
+library("htmlTable")
+htmlTable( data.frame(classification=c("underweight","normal","overweight","obese"),
+           bmi=c("<18.5","18.5-24.9","25-29.9","\\>30"), stringsAsFactors = F),  col.rgroup = c("none", "#F7F7F7") )
+```
+</center>
+
+
+
+```{r, eval=FALSE, echo=TRUE}
+bmiClass <- function(bmi) {
+  # Clissifies BMI value given as argument into categories:
+  #
+  #         {"underweight","normal","overweight","obese"}
+  #
+  # your code: 
+  ...
+}  
+# examples:
+> bmiClass(19)
+[1] "normal"
+> bmiClass(29.9)
+[1] "overweight"
+> bmiClass(30)
+[1] "obese"
+```
+
+
+```{r}
+#
+# bmiClass 
+#
+bmiClass <- function(bmi) {
+  # Classifies BMI value given as argument into categories {"underweight","normal","overweight","obese"}
+  #
+  if (bmi < 18.5) {
+    classification <- "underweight"
+  } else if(18.5 <= bmi & bmi <= 24.9) {
+    classification <- "normal"
+  } else if(25 <= bmi & bmi <= 29.9) {
+    classification <- "overweight"
+  } else {
+    classification <- "obese"
+  }  
+  classification
+}
+```
+
+  
+  
+  
+
+### functions (2)  {#functions}
+
+  - Write a function calculating BMI with arguments weight(kg) and height(cm). BMI in the metric system is defined as weight/(height^2) with weight and height in units of kilogram (kg) and meter (m). Use `cm2m` function from previous exercise.   
+
+```{r}
+
+bmi <- function(weight,height) {
+  # Calculates the BMI given weight (kg) and height (cm). 
+  # weight : kg unit as value
+  # height : cm unit as value
+  weight/( cm2m( height )^2 )
+}
+```
+
+  - Upgrade the functions `lbs2kg` and `inch2cm` as such that the conversions can be applied in the opposite direction. You can do this by adding an additional logical argument `invert`  to the function with the default value set to FALSE. For example a call like:
+  
+  
+```{r, eval=FALSE, echo=TRUE}
+lbs2kg(65, invert=TRUE) # convert kg to lbs
+```
+
+will reverse the conversion from kg to lbs. 
+
+
+```{r}
+lbs2kg  <- function(x, invert=FALSE) 
+  if (!invert) {
+    x/2.2   # pound to kg
+  } else {
+    x*2.2   # kg to pound
+  }
+
+inch2cm  <- function(x, invert=FALSE) 
+  if (!invert) {
+    x*2.54  # inch to cm
+  } else {
+    x/2.54   # cm to inch
+  }
+
+```
+  
+  - (*) Update BMI function with an additional logical argument `imperial` with the default value set to FALSE. The function will accept both systems of measurements (metric and imperial). Use the `imperial` argument in the function as a condition to convert imperial measurement to metric when the input values are in imperial. The function can be called  with values for `weight` and `height` in metric system (kg,cm) or imperial (lbs,inch).
+
+  
+```{r}
+
+bmi <- function(weight,height,imperial=FALSE) {
+  # Calculates the BMI given weight and height in either metric or imperial 
+  # systems. By default the metric system is assumed (imperial=FALSE). 
+  # 
+  # weight : pound or kg units as values
+  # height : inch or cm units as values
+  #
+  if (imperial) {
+    height <- inch2cm(height)
+    weight <- lbs2kg(weight)
+  }
+  weight/( cm2m( height )^2 )
+}
+```
+
+
+### apply {#apply}
+
+  - Calculate the mean age and height in survey data using apply function. Note that there are missing data (hint: see na.rm argument to mean). 
+  
+```{r}
+# Two solutions is given.
+
+# (1) anonymous function calls mean
+apply( survey[,c("age","height")], 2, function(x)  mean(x,na.rm=TRUE) )
+
+# (2) direct call to mean with argument `na.rm=TRUE` is passed to mean function through  apply ... argument (see ?apply)
+apply( survey[,c("age","height")], 2, mean, na.rm=TRUE)
+
+```
+
+  - In the previous exercise we removed the missing values per variable. A more fair solution would be to remove the observation completely where one or both variables are missing. Hint : ?complete.cases
+  
+  
+```{r}
+# using an intermediate variable 'd' 
+d <- survey[,c("age","height")] 
+d <- d[complete.cases(d),] # update d where all observations are complete cases (contain no NA's)
+apply(d,2, mean) 
+
+```
+
+  
+  - (*) Upgrade bmiClass function in the previous exercises to process a vector of BMI values. 
+ 
+```{r}
+
+bmiClass <- function(bmi) {
+  # Given a 'vector' of BMI values as argument return the corresponding BMI classifications.
+  #
+  bmiClassFunc <- function(bmi) {  
+    # Clissifies a BMI value given as argument into categories {"underweight","normal",
+    # "overweight","obese"}
+    #
+    if (bmi < 18.5) {
+      classification <- "underweight"
+    } else if(18.5 <= bmi & bmi <= 24.9) {
+      classification <- "normal"
+    } else if(25 <= bmi & bmi <= 29.9) {
+      classification <- "overweight"
+    } else {
+      classification <- "obese"
+    }  
+    classification
+  }
+  sapply(bmi,bmiClassFunc)
+}
+
+```
+
+
+### function argument check {#argcheck}
+
+```{r}
+bmiClass <- function(bmi) {
+  # Clissifies BMI value given as argument into categories {"underweight","normal","overweight","obese"}
+  #
+  if (!is.numeric(bmi))
+    stop("numeric type expected !")
+  if (bmi < 18.5) {
+    classification <- "underweight"
+  } else if(18.5 <= bmi & bmi <= 24.9) {
+    classification <- "normal"
+  } else if(25 <= bmi & bmi <= 29.9) {
+    classification <- "overweight"
+  } else {
+    classification <- "obese"
+  }  
+  classification
+}
+```
+
+
+  - Update the function bmiClass as such to error on wrong input type, e.g.
+
+```{r, echo=TRUE,eval=TRUE, error=TRUE}
+bmiClass("a")
+```
+  
+### Extra exercises {#extra}
+
+  - Update survey data with a new variable `heightInch` with height in inch units (use sapply).
+
+```{r}
+survey$heightInch <- sapply(survey$height, inch2cm, invert=TRUE)
+```
+  
+  - Update the pulse data with `BMI` variable using the *bmi* function (use apply).
+
+```{r}
+d <- pulse[,c("weight","height")]  # intermediate data.frame `d`
+pulse$BMI <- apply(d,1,function(x) bmi(x["weight"],x["height"]) )
+```
+
+  - Update the pulse data with BMI category variable `bmiClass` using the *bmiClass* function 
+  from previous exercise (use sapply).
+  
+```{r}
+pulse$bmiClass <- sapply(pulse$BMI,bmiClass)
+```
+
+  
+  

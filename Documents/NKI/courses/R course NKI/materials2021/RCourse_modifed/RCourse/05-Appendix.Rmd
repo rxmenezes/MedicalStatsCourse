@@ -1,0 +1,466 @@
+# Appendix {-} 
+
+
+## Character string processing & Pattern matching {-}
+
+### Learning goals {-}
+
+- Character string manipulation : string concatenation,splitting, etc. 
+- Pattern matching and replacement  
+
+### Quotes and escape characters (characters with special meaning) {-}
+
+```
+\n  newline                   \v	vertical tab
+\r	carriage return           \\	backslash \
+\t	tab                       \'	ASCII apostrophe '
+\b	backspace                 \"	ASCII quotation mark "
+\a	alert (bell)              \`	ASCII grave accent (backtick) `
+\f	form feed                 \\.   dot (escaped twice ; special meaning in RE)
+```
+
+### Character string {-}
+
+Character string or simply `character`, as it is called in R, is a sequence of characters and a character vector is vector of character strings. 
+
+
+```{r}
+( cs <- "This is a character string" ) 
+( cv <- c(cs, "and this is another !") )
+```
+
+Single and double quotes can be used interchangeably, however, double quotes are preferred.
+
+```{r}
+"string" 
+'string' 
+"'strings'"
+'"string"'   
+```
+
+Formatting the output with `print` and `cat` functions. The function `print` does more formatting than `cat`. On the other hand `cat` interprets escape characters such as whitespaces [\\t\\n\\r,...], note that the behavior will differ depending on the platform. The function `cat` is useful and often used to print progress and/or debugging information in functions. 
+
+```{r}
+print(1:50)
+cat(1:50)
+print("separate\nlines")
+cat("separate\nlines") 
+cat("column1\tcolumn2") 
+
+```
+
+Some useful function:
+
+```{r}
+letters
+LETTERS
+month.name
+month.abb
+```
+
+### paste(..., sep = " ", collapse = NULL): {-}
+
+Concatenates one or more vectors into a character vector.  
+
+```{r}
+paste("Bonnie","@", "lumc.nl")
+paste("Travis","@", "lumc.nl", sep="")
+paste("Travis", "lumc.nl", sep="@")
+paste("Travis", 1,"@", "lumc.nl", sep="") # convert numeric to character 
+paste("Travis","@","lumc.nl",";","Bonnie","@","lumc.nl", sep="")
+paste(c("Bonnie","Travis"),"@", "lumc.nl", sep="") # recycling 
+```
+
+Recycling occurs in expressions involving multiple vectors of different sizes. The rule is that smaller vectors are recycled, partially if necessary, as often as possible to match the size of the largest vector.
+
+
+```{r}
+
+paste(c("Bonnie","Travis"),"@", "lumc.nl", sep="") 
+paste(c("Bonnie","Travis"),"@", "lumc.nl", sep="", collapse = ";") 
+paste(c("Bonnie","Travis"), "lumc.nl", sep="@", collapse = ";")
+```
+
+
+### Pulse data set {-}
+
+```{r, echo=FALSE}
+set.seed(12345)
+```
+
+```{r}
+head(pulse) 
+allNames <- as.vector(pulse$name)
+head(allNames)
+length(allNames)
+( pulseNames <- sample(allNames, size = 5) ) # select randomly 5 names from allNames
+domains <- c("lumc.nl", "leidenuniv.nl", "vumc.nl")
+emails  <- paste(pulseNames,domains, sep="@") 
+emails
+```
+
+### tolower, toupper, nchar {-}
+
+```{r}
+toupper(emails) # convert to uppercase
+tolower(emails) # convert to lowercase
+nchar(emails)   # nr. of characters in string
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "characterVectors", "character_strings.Rmd" )
+```
+
+### Split character string : strsplit(x, split, ...): {-} 
+
+The `strsplit` function splits each element of the character vector `x` by substring `split` into substrings and returns a list of character vectors as the result.
+
+
+```{r}
+strsplit("Bonnie@lumc.nl", "@")
+unlist( strsplit("Bonnie@lumc.nl", "@") )
+strsplit(c("Bonnie@lumc.nl","Melanie@lumc.nl"), "@")
+strsplit("Bonnie@lumc.nl", "n")
+strsplit("Bonnie@lumc.nl", "") # useful
+userDomains <- strsplit(emails,"@")
+userDomains
+```
+
+
+### rbind(...), cbind(...) : combine by rows or columns {-}
+
+```{r,comment=NA}
+
+letters[1:3]
+LETTERS[1:3]
+rbind(letters[1:3], LETTERS[1:3])
+cbind(letters[1:3], LETTERS[1:3])
+```
+
+### strsplit(x, split, ...) {-}
+
+
+```{r}
+userDomains <- strsplit(emails,"@")
+userDomains
+rbind(userDomains[[1]],userDomains[[2]],userDomains[[3]],userDomains[[4]],userDomains[[5]])
+```
+
+
+
+### do.call(what, args, ...) : execute function on list of arguments {-}
+
+```{r, comment=NA}
+do.call(rbind, userDomains) # <=>  rbind(userDomains[[1]],userDomains[[2]],...)
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "strsplit", "character_strings.Rmd" )
+```
+
+### grep(pattern, x, ignore.case = FALSE, value = FALSE, ... ) {-}
+
+Search for matches of `pattern` in strings of character vector `x`.
+
+```{r, comment=NA}
+emails
+grep("Dona", emails)
+grep("Dona", emails, value = TRUE) 
+grep("dona", emails, value = TRUE) # case-sensitive
+grep("dona", emails, value = TRUE, ignore.case = TRUE)
+grep("dona", emails, value = TRUE, ignore.case = TRUE, invert = TRUE)
+
+```
+
+
+### grepl(pattern, x, ignore.case = FALSE, ...) {-}
+
+Same functionality as `grep` except it returns a logical vector of matches found. 
+
+```{r, comment=NA}
+emails
+foundSubject <- grepl("Dona", emails)
+foundSubject
+emails[foundSubject]       # value
+emails[ ! foundSubject ]   # invert
+```
+
+
+### substr(x, start, stop) : extract/replace substrings {-}
+
+
+```{r, comment=NA}
+substr(x = "abc",start = 1,stop = 1)
+substr("abc",1,nchar("abc"))
+(abcs <- rep("abc",3))
+substr(abcs,1,1:nchar("abc"))
+(e <- head(emails))
+substr(e,1,1) 
+tolower(substr(e,1,1))
+substr(e,1,1) <- tolower(substr(e,1,1)) # replace first character with its lowercase
+e
+```
+
+### gsub/sub(pattern, replacement, x, ignore.case = FALSE, ...) {-}
+
+```{r, comment=NA}
+sub("@", "(at)", emails)
+sub("\\.", "\n", "git.lumc.nl")   # first occurence only 
+gsub("\\.", "\n", "git.lumc.nl") # global: apply to all occurrences 
+cat( gsub("\\.", "\n", "git.lumc.nl") )
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "grep", "character_strings.Rmd" )
+```
+
+
+### Extra exercises {-}
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "extra", "character_strings.Rmd" )
+```
+
+
+## S3 and S4 classes {-}
+
+### Learning goals {-}
+
+- General understanding of data objects, in particular objects from S3 and S4 classes.    
+- How to recognize and access S3 and S4 classes
+<!-- - Introducing functions `attributes`, `methods` and `isS4` and `pryr` package.  -->
+
+
+### Objects {-}
+
+- Object is a piece of data with a type (class)
+- Basic types and precedence
+  - NULL < raw < <span style="color:blue">`logical < integer < double < character`</span> < list < expression
+  - `is.<basic type>`, `as.<basic type>` functions  for type test and conversion respectively.
+  - `typeof` function
+- Object may be associated to methods/functions (Object Orientation : S3/S4)
+  - S3 : ad hoc 
+    - most objects in `base` and `stats` and R core
+  - S4 : formal/strict
+    - e.g. `Bioconductor`
+
+
+### S3 {-}
+
+Most objects in `base` and `stats` are of S3 class and are almost always based on `list`, but not necessarily. 
+
+```{r}
+res <- lm(extra ~ group, data=sleep)
+res
+class(res)
+```
+
+
+You will recognize a S3 class via an explicit attribute `class`:
+
+```{r}
+attributes(res)
+```
+
+There are many generic functions in R such as `print`, `plot`, `summary` etc. that behave differently based on the class of an object:
+
+```{r}
+methods(plot)
+```
+
+<!-- Problem of S3 objects is that it can be difficult to find out what kind of functions are available for your object.  -->
+
+### S4 {-}
+
+S4 objects are more structured and more strict than S3 objects. They are not so popular with packages on CRAN, but very popular for packages on Bioconductor. Let’s look at an example from Bioconductor
+
+
+```{r, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("graph", "Rgraphviz"))
+```
+
+The packages graph and Rgraphviz are for working with graphs and visualizing them.
+
+
+```{r, message=FALSE}
+#install.packages("BiocManager")
+#BiocManager::install("Rgraphviz")
+library(graph) ; library(Rgraphviz)
+```
+
+
+
+```{r}
+g1 <- randomEGraph(LETTERS[1:5], edges=6)
+g1
+class(g1)
+plot(g1)
+```
+
+Note the attr(,"package") at the bottom. This shows that it is an S4, not an S3 object. To check explicitly
+
+```{r}
+isS4(g1)
+```
+
+There is no isS3. Things you may expect to work for these objects from S3 don’t:
+
+```{r}
+names(g1)
+getSlots('graphNEL') # class name
+```
+
+
+With S4 object you can directly access the contents with `@` but you are not meant to:
+
+```{r}
+g1@nodes
+```
+
+There is always a help file for an S4 object which lists all the methods you can use:
+
+```{r, eval=FALSE}
+class?graphNEL
+?graphNEL
+```
+
+
+
+```{r results="asis", echo=FALSE, comment=""}
+# ***************  QUIZ  ********************
+catLinkTaskSection( "s3s4", "s3s4.Rmd" )
+```
+
+
+
+## Making errors the right way {-}
+
+```{r echo=FALSE}
+pulse <- read.delim("data/pulse.txt")
+survey <- read.delim("data/survey.txt")
+```
+
+
+There are two types of programming errors: the annoying ones and the dangerous ones.
+
+### Annoying errors {-}
+
+These are errors that yield an error message. Such errors can be avoided by including flags in your script, to check that all objects are as they are expected, their classes correspond to what they should be, etc. For example, when reading data into R, it should always be checked what was read, its dimensions, and the variable types. One such useful summary is given by `str()`:
+
+```{r}
+pul <- read.table("data/pulse.txt")
+str(pul)
+```
+
+It is also a good idea to make graphs (or tables, if more appropriate) of variables at different stages, to check if values are as expected.  In fact, any summary is helpful. Here we could compute the mean for some numeric columns, the 2nd and 3rd ones, in `pul`:
+
+```{r}
+apply(pul[, 2:3], 2, mean)
+```
+
+
+If you have different objects with same row or column names, it is a good idea to check that this property is preserved as well.
+
+### How to correct (annoying) errors {-}
+
+All the above help us check that things are as they should, but it does not prevent errors from happening. To find the source or an error, it is useful to think "like R", and to follow what R does step-by-step. This may require splitting some expressions to enable intermediate checking. 
+
+Say we want to use a t test to compare the two vectors of pulse, `pulse1` ans `pulse2`, from the `pul` data. We know we can do this by:
+
+```{r}
+t.test(pul["pulse1"], pul["pulse2"])
+```
+
+Although the t test works, there is some doubt that the normality assumption holds, so we also run the Wilcoxon test with:
+
+```{r, error = TRUE}
+wilcox.test(pul["pulse1"], pul["pulse2"])
+```
+
+but this gives an error, complaining that `'x' must be numeric`. We know that the data was read in correctly from the `str()` result, so we check the class of the objects involved in the function call:
+
+```{r}
+class( pul["pulse1"] )
+```
+
+Indeed, this sort of selection preserves the object class as `data.frame`, which is not numeric. If we do instead:
+
+```{r}
+class( pul[, "pulse1"] )
+```
+
+we get a numeric object. So now we try this as argument in the `wilcox.test()`:
+
+```{r}
+wilcox.test(pul[, "pulse1"], pul[, "pulse2"])
+```
+
+and this works.
+
+It is strange as we had used the same syntax as used in the `t.test()` call. If we look at the help files of these two functions, we notice that the `t.test()` accepts data.frames as arguments, whilst the `wilcox.test()` does not.
+
+
+### Dangerous errors {-}
+
+These are errors that do not yield any error message. Such errors can remain silently in your code for ages (or many lines) before they are discovered.
+
+We return to the example where we wish to compare the heights of students in Amsterdam and of students in Rio. We decide to not use the syntax with square brackets, due to the confusion between selecting columns that are numeric and selecting objects that are data.frames. Instead, we will select the columns using the `$` sign, which is commonly done with data.frames. So we use:
+
+```{r}
+wilcox.test(pul$pulse1, pul$puse2)
+```
+
+This seems OK, although the output is slightly different from the one we had above. The syntax used is very clear, though, so there should not be any differences. Just to check the syntax, we now apply the same test pretending it involves paired data (this is possible since the two vectors of heights have the same length).
+
+```{r,error = TRUE}
+wilcox.test(pul$pulse1, pul$puse2, paired=TRUE)
+```
+
+Now we get an error message, suggesting that 'y' is missing and mentioning the paired test, but in fact we have the data to use stated clearly. So we decide to check this once more by using another syntax, now selecting the columns according to their number:
+
+```{r}
+wilcox.test(pul[, 2], pul[, 3])
+```
+
+This now yields the same output as when we used `wilcox.test(pul[, "pulse1"], pul[, "pulse2"])`, but not as `wilcox.test(pul$pulse1, pul$puse2)`. What could be going wrong here?
+
+If we check carefully, the variable (column) names in `pul` are:
+
+```{r}
+colnames(pul)
+```
+
+So, what does the statement `pulse$puse2` represent? Check:
+
+```{r}
+pulse$puse2
+```
+
+It turns out that `y=NULL` is a valid input for the `wilcox.test` function. However, it was not what we wanted to do.
+
+### How to avoid (dangerous) errors {-}
+
+We all make mistakes, and this does not stop when we are programming/scripting. In fact, this happens more often than we wish when programming, as we are required to write steps precisely but we may overlook internal working differences in functions.
+
+The difference between a beginner and an experienced R user is that the beginner will take longer to sort the error out (typically - I am willing to be proven wrong!). This is partly because a beginner goes through phases like panic (due to the red error message appearing on the screen), followed by frustration (why did this script did not just run? why is this happening to me?), and finally by closing R down and opening Excel instead.
+
+A more experienced R user will, when encountering an error or an unexpected result, first read the error message. This may sometimes give clues as to what is going wrong - although, agreed, not always. Then it is important to try to go back a few steps on the script and check if the objects created were as expected: check `class()` and object size (via `dim()`, `length()` and `str()` are here useful). If these fail to uncover anything unexpected, check the values contained in objects. Here it is useful to perform checks in small parts of the data, when handling large objects. With data.frames, this can be done via `head()` and `tail()`. Also check for the existence of NAs creeping into the objects, via the use of `sum()` onto a `is.na(object)`, possibly in combination with apply to yield row or column summaries. Plots are of course also very useful - both scatterplots as well as heatmaps can greatly help uncover strange values/patterns in the data. Retracing steps should continue until objects are found to contain the expected values/have the expected format. 
+
+If in the few steps preceding the strange results nothing unexpected is found, then one way to continue searching for the problem source is by "peeling" of the code: this involves splitting the code into ever simpler operations, or re-writing them as we did in the wilcox.test example, and checking if these actions change the output.
+
+What is important for any beginner in R to understand is that error messages are there to help us - by reading them carefully and performing checks we improve our understanding of how specific R functions work, and how they do not work!
+
+
+## Useful links {-}
+
+- [R for Data Science](http://r4ds.had.co.nz/)
+- [RStudio Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/)
+- [LUMC Git course](https://git.lumc.nl/courses/gitcourse)
+- [A curated list of R tutorials for Data Science, NLP and Machine Learning](https://github.com/ujjwalkarn/DataScienceR)
+- [Great R packages for data import, wrangling and visualization](http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html)
+- [ggplot2: great R package for beautiful plots - cheat sheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
+
+

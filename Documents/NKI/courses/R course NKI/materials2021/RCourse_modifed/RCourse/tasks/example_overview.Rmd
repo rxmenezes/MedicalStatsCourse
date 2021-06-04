@@ -1,0 +1,182 @@
+---
+title: "Get started with R markdown"
+author: "Renee Menezes"
+date:  "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Introduction
+
+A RMarkdown document is, above all, a text file that is further formatted with possible sections, plus some added bits.
+
+Text can just be written, 
+and paragraphs are made when you leave one empty line between two text parts.
+Just pressing enter on a line will not, then, create a new paragraph in RMarkdown text.
+
+### Create your own RMarkdown
+
+Start by creating your own RMarkdown. 
+
+- open RStudio and create a new RMarkdown document
+- add a title and your name at the beginning
+- modify the text if you like
+- save the file in a folder of your choice - this creates a file with a .Rmd extension
+- produce the report using CTRL+Shift+k (knit)
+
+Note: you need to save the file because the file location needs to be defined. Then RMarkdown will create the report in the same folder.
+
+The report created always uses the same file name as the original .Rmd file, now with the extension corresponding to the output type chosen. So, if you process `example.Rmd` from folder `/Documents/renee/examples` requiring a html output, then a file called `example.html` will be created in the 
+same folder.
+
+
+
+### The header
+
+The header that you get by default when creating a new RMarkdown document includes a title, which is used at the beginning of the produced report, an author name, a date and the type of output. Note that none of these is mandatory, and you can always just produce a report without them.
+
+### Report file types
+
+By default RMarkdown produces a html report. You may also wish to choose creating a pdf output. Then LaTeX needs to be installed in your computer alongside RStudio and RMarkdown.
+
+
+### Creating a dynamic date
+
+A newly created RMarkdown file will receive the current date in the header. Then once you update the report, it is useful to update the header date as well, thus making clear when analyses were run.
+
+To avoid having to modify the date by hand every time the analysis is re-run, you can use a dynamic date, corresponding to the current date. In this way, every time you re-run the analysis, the output report will have the correct date.
+
+To do this, you can add to the `date` file in the header a R in-line code chunk that gets the system date: `r Sys.Date()`. This works hier in the text as well as in the header.
+
+
+### Including R scripts
+
+RMarkdown mixes up comments, R scripts and output. R scripts are included in two ways: via code chunks or as in-line commands.
+
+Code chunks are parts of the file where all rows are R scripts, and therefore are not formatted as text. Many of the useful functions in RStudio are also available within code chunks: matching parentheses, indenting, showing function syntax as you write.
+
+In addition, parts within R code chunks are coloured so as to highlight different parts of the text, such as strings, package loads via `library` and indices.
+
+```{r def.data}
+    # Generate data and export as tab-delimited file
+
+mydata <- matrix(rnorm(100), nrow=10, ncol=10)
+write.table(mydata, file = "./data/data_example.txt", sep = "\t", row.names = F)
+```
+
+In-line R commands can be used to add analysis results to text. This is useful as then parts of the report conclusions are automatically updated if the analysis changes.
+
+### Including results
+
+By default, results are included in the text. This includes tables, printing of objects, as well as plots. Of course, not everything is useful to have explicit in the report. Large tables are perhaps better stored as tab-delimited files, which allows for easier cheking if needed. 
+
+```{r plot.x}
+set.seed(34523)
+x <- rnorm(1000)
+hist(x, breaks = 50)
+```
+
+Output is then printed immediately after the command that produced it. So, in the report each code chunk may appear split between commands, to allow for the output to be printed near its command. 
+
+### Relative paths
+
+Your research is only considered to be reproducible if someone else, now or later, is able to re-run it and obtain the same results. 
+
+To make sure your research is reproducible, one important point is to use relative paths to subfolders where scripts, data or output is stored. 
+
+A .Rmd is always compiled within the folder it is saved on. A relative path is, then, a path relative to the location of the .Rmd file. Say that you have the subfolder `data` in the folder where the .Rmd is stored. Then define the variable containing that (relative) path as:
+
+```{r def.rel.path}
+dir.data <- './data'
+```
+
+You now are able to read in data from this subfolder using:
+
+```{r read.data}
+mydata <- read.delim(file.path(dir.data, "data_example.txt"))
+
+```
+
+An easier alternative is to use the `here` package. It will create the path for the file you need. It works like `file.path`, but the path created uses as root (reference) the folder where the .Rmd is saved. So, in the above, we could have used:
+
+```{r example.here, eval = FALSE}
+mydata <- read.delim( here("data", "data_example.txt") )
+```
+
+
+### The setup
+
+At the beginning of any RMarkdown document, a code chunk is included called `setup`. This code chunk contains the options that `knitr` (the package which in the background combines text, R scripts and output) will use when compiling the report. Many options exist, but a couple are particularly useful. We will see those here below.
+
+By default, all scripts in code chunks are displayed explicitly in the final report. This makes it easier for others to follow explicitly the analysis steps. However, it may be desirable to omit the code chunks in some situations, for example if the report is to be circulated to a large number of people with no experience in quantitative data analysis. In such a case, you may use `echo = FALSE` in the chunk options.
+
+Another useful option is to set `warning = FALSE` in this part. Then any warnings yielded during the analysis will be suppressed in the final report. 
+
+A third useful option is to use `message = FALSE`. This omits all messages R produces when processing the report, such as messages yielded while loading packages.
+
+Note that in-line r chunks are never printed out, only their output.
+
+### Options in code chunks
+
+Much in the same way as in the setup, options can also be set per code chunk. For example, you may have considered two types of plots at some point previously, but you have now decided to use a single type only. You want to keep the script for the second plot type for your own records though, to remind yourself of what you tried out. In such a case, you wish to keep the code chunk but not evaluate it. Then you may use the option `eval = FALSE` on that chunk. You may also suppress the printing of a single code chunk in the final report. Then you may use `echo = FALSE` on that chunk only.
+
+Other useful options are `fig.width` and `fig.height`, which define the dimensions of the output of a given code chunk. Compare the output of the following two code chunks in the `html` produced. The default values for width and height are used in the first:
+
+```{r plot.data}
+par(mfrow = c(1, 2))
+hist(x)
+plot(density(x), col = "blue", lwd = 2)
+```
+
+Now define the size of the output window to display these graphs more clearly.
+
+```{r plot.data2, fig.width = 10, fig.height = 5}
+par(mfrow = c(1, 2))
+hist(x)
+plot(density(x), col = "blue", lwd = 2)
+```
+
+As 2 graphs are to be displayed side-by-side, using a width which is twice the value of the height makes the individual plots approximately square, which is a nicer and clearer display than with the default chunk output.
+
+### Random seeds
+
+Note that random seeds can only be fixed within a code chunk, but not across it. To see this, you can compare the results of the code chunk where we generate random numbers with a normal distribution, with and without the seed being set within the code chunk:
+
+```{r plot.x2}
+set.seed(34523)
+x <- rnorm(1000)
+hist(x, breaks = 50)
+```
+
+```{r plot.x3}
+x <- rnorm(1000)
+hist(x, breaks = 50)
+```
+
+If you knit this document a couple of times, you will notice that the first histogram above does not change across runs, whilst the second does.
+
+### Cheatsheet and tutorials
+
+One useful cheatsheet is
+
+
+https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf
+
+
+In addition, you can find various tutorials in the RMarkdown page:
+
+
+https://rmarkdown.rstudio.com/lesson-1.html
+
+
+
+### And finally
+
+Always include the package versions at the end of your report.
+
+```{r sinfo}
+sessionInfo()
+```

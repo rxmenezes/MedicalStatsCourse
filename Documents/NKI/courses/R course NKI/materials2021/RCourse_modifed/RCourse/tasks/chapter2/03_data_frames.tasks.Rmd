@@ -1,0 +1,88 @@
+---
+title: "Data frames (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "../R_course_setup.R" );
+```
+
+# Data frames (tasks)
+
+## Tasks
+
+### Reading a different format
+
+#### Primary tasks
+
+- Load the `pulse.csv` file into the `d` variable. Display the structure of `d` and the first few rows.
+```{r eval=FALSE}
+d <- read.csv( "data/pulse.csv" );
+```
+```{r result="as.is", echo=FALSE, comment="",eval=TRUE}
+d <- catReadCsv( "pulse.csv", "d" )
+```
+```{r}
+str( d )
+head( d )
+```
+
+- Random sampling of rows:
+    - Sample randomly 10 rows from table `d`. 
+    - First create a variable `rows` which will contain the row numbers.
+    - Show selected rows.
+```{r}
+rows <- sample( 1:nrow( d ), 10 )
+d[ rows, ]
+```
+
+- Sorting (ordering) a table (by multiple keys):
+    - Use `View( d )` to visualize the `d` data frame.
+    - Understand: `rows <- order( d$age )`. Use `View` to visualize `d[ rows, ]`.
+    - Understand: `rows <- order( d$age, d$weight )`. Use `View` to visualize `d[ rows, ]`.
+    - Finally: display only columns `name`, `age` and `weight` of sorted `d`.
+    - Note: for clarity, the solutions use only random 10 rows of `d`.
+```{r}
+set.seed( 1000 ) # for reproducible generation of random numbers
+rows <- sample( 1:nrow( d ), 10 )
+dd <- d[ rows, ]
+dd
+rows <- order( dd$age )
+dd[ rows, ]
+rows <- order( dd$age, dd$weight )
+dd[ rows, ]
+dd[ rows, c( "name", "age", "weight" ) ]
+```
+
+- Selecting rows by a logical condition.
+    - Goal: select rows with males of weight range 60-80
+    - Build a logical vector `isMale` stating whether a row describes a male
+    - Build a logical vector `isInWeightRange` stating whether a row describes a person with weight between 60 and 80
+    - Select rows which are `isMale & isInWeightRange`
+    - Note: for clarity, the solutions use only random 10 rows of `d`.
+```{r}
+set.seed( 1000 ) # for reproducible generation of random numbers
+rows <- sample( 1:nrow( d ), 10 )
+dd <- d[ rows, ]
+isMale <- dd$gender == "male"
+isMale
+isInWeightRange <- dd$weight >= 60 & dd$weight <= 80
+isInWeightRange
+isMale & isInWeightRange
+dd[ isMale & isInWeightRange, ]
+```
+
+#### Extra tasks
+
+- Enforce a data frame type.
+    - Observe below, that `d[ ,cols ]` might sometimes return a vector, and sometimes return a data frame.
+    - Adding `drop = FALSE` argument enforces returning a data frame object.
+```{r echo=TRUE}
+cols <- c( "weight", "height" )
+class( d[ , cols ] )
+cols <- c( "weight" )
+class( d[ , cols ] )
+cols <- c( "weight" )
+class( d[ , cols, drop = FALSE ] )
+```
+

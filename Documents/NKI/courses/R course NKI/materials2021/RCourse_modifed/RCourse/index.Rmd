@@ -1,0 +1,92 @@
+--- 
+title: "Using R for data analysis" 
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+github-repo: rstudio/bookdown-demo
+params:
+  RCourseURL: https://barmsijs.lumc.nl/R_course/index.html
+  RCourseGitURL: https://git.lumc.nl/bce_core/R_course_2016.git
+description: "This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R."
+---
+# About this course {-}
+
+This course teaches the basics of [R](https://www.r-project.org/) , an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach [R Markdown](http://rmarkdown.rstudio.com/), a tool to make dynamic reports in R.
+
+[R](https://www.r-project.org/) is an open-source, free environment for statistical computing and graphics. 
+It provides a large repository of statistical analysis methods, both classic and new. 
+However, R has a steep learning curve, due partly to its using a command-line type of user interface, rather than the usual pull-down menus. 
+The course aims at helping researchers climb this curve, enabling them to perform basic data analysis and graphic displays at the end of the course, as well as giving a platform from which they can deepen their R knowledge later on if necessary.
+
+## Teachers {-}
+
+- [Renee Menezes](https://www.nki.nl/research/find-a-researcher/groupleaders/renee-x-menezes/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/) (__coordinator__)
+- [Renaud Tissier](https://www.nki.nl/research/find-a-researcher/researchers/renaud-tissier/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/)
+- [Leyla Azarang](https://www.nki.nl/research/find-a-researcher/researchers/leyla-azarang/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/)
+
+
+## Goals & Topics {-}
+
+After the course you will be able to:
+
+- understand and write simple R scripts
+- use R to perform simple statistical analyses of your own data
+- use and adapt R scripts and functions 
+- generate analysis reports from your own data in html format
+
+We will cover the following topics:
+
+- R expressions
+- R data objects (vectors (arrays), data frames (tables), lists) creation and usage
+- [R Markdown](http://rmarkdown.rstudio.com/) for building reproducible reports [[cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)]
+- R functions for descriptive statistics and linear model fitting; R formula objects
+- histograms, scatter plots, boxplots (in basic R) 
+
+## Prerequisites {-}
+
+The course assumes no prior programming knowledge. Elementary statistics knowledge is necessary.
+
+Participants must **bring own laptops** capable of running [RStudio](https://www.rstudio.com/products/rstudio/). 
+
+
+Before the course **please prepare your laptop**:
+
+1. install [R](https://www.r-project.org/), an open-source, free environment for statistical computing and graphics. You can find instructions for downloading and installing it from one of the CRAN mirrors, for example from the [Univ. of Gent](https://lib.ugent.be/CRAN/) or from the [Imperial College](https://cran.ma.imperial.ac.uk/). A full list of mirrors can be found [here](https://cran.r-project.org/mirrors.html).
+
+
+2. install RStudio. Go to [the RStudio download page](https://www.rstudio.com/products/rstudio/download/#download), select a version of RStudio appropriate for your laptop, download it and then install. Please check whether you can start RStudio. 
+
+
+3. install [RMarkdown](https://rmarkdown.rstudio.com/),  a very nice and easy tool to produce reports using RStudio. It is made available as an R package for Rstudio. One easy way to install it is as follows:
+
+i) open RStudio
+
+ii) click on the "File" menu on the top left, and choose "New file">"R Markdown". If RMarkdown is not yet installed on your machine, this will prompt you to install it and any packages required. Just follow the instructions that appear on the screen.
+
+
+4. download the course materials from the [github repository] (https://github.com/rxmenezes/IntroductionToRCourse/), by looking for the .zip file and dowloading to your laptop. Unpack the zip file to a folder. This will be your course folder.
+
+## Materials {-}
+
+The material in your course folder can be assessed in two ways:
+
+- by clicking on the `RcourseNKI.Rproj` file on the root folder, which will open the entire course as an R project within your RStudio. This will be the handiest way during the lectures. The material for each chapter/day of the course is then available via a file with extension .Rmd, as follows: `01-basicR.Rmd`, `02-datatypes1.Rmd`, `03-datatypes2.Rmd` and `04-functions.Rmd` for chapters 1-4, respectively. We will give lectures, and you will   follow them, by clicking on each one of these files at a time.
+
+- as a HTML page by opening the file `index.html` from the `_book` folder in any browser. This gives an overview of the course material, and is therefore very useful for later reference.
+
+The materials contain also a [`data` directory](https://github.com/rxmenezes/RcourseNKI/tree/master/data) with the __data__ __files__ used in the presentations/tasks. The directory can be also accessed at https://github.com/rxmenezes/RcourseNKI/tree/master/data
+
+
+## Programme {-}
+
+### Second NKI edition, June 7th, 8th, 10th, and 11th 2021
+
+This course will be given online via Zoom. All course days are in the period 9:00-16:00, with the last hour reserved for general Q&A.
+
+
+
+
+
+
+

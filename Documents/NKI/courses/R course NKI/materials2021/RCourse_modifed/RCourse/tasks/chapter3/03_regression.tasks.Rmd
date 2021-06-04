@@ -1,0 +1,235 @@
+---
+title: "Regression (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+```{r echo=FALSE}
+pulse <- read.delim("../data/pulse.txt")
+survey <- read.delim("../data/survey.txt")
+```
+
+
+# Formulae basics {#formula}
+
+Try to execute the tasks below using a formula in the syntax.
+
+- In the survey data, compute an unpaired t-test for association between `height` and `hand`.
+
+```{r}
+t.test(height ~ hand, data=survey)
+```
+
+- Make a plot `height` (y-axis) against `hand` (x-axis).
+
+```{r}
+plot(height ~ hand, data=survey)
+```
+
+- (*) Repeat the previous exercises using a formula stored as an object, then calling it in the syntax.
+
+```{r eval=FALSE}
+form <- height ~ hand
+t.test(form, data=survey)
+plot(form, data=survey)
+```
+
+# Wilcoxon test and formula syntax {#formula}
+
+- Compare the values of `pulse` between males and females in the survey data using a t test. Save the resulting p-value as a variable.
+
+```{r}
+t.test(pulse ~ gender, data = survey)
+p.t <- t.test(pulse ~ gender, data = survey)$p.value
+```
+
+
+- Perform the same comparison, now using a Wilcoxon test, by means of a formula syntax. Hint: the syntax of the input in wilcox.test is similar to that needed for t.test. Save the resulting p-value as a variable.
+
+```{r}
+wilcox.test(pulse ~ gender, data = survey)
+p.w <- wilcox.test(pulse ~ gender, data = survey)$p.value
+```
+
+- Print the two computed p-values on the console, rounded off to 3 decimal places.
+
+```{r}
+round(p.t, 3)
+round(p.w, 3)
+```
+
+# Simple regression {#lm}
+
+
+- Perform a linear regression of `span1` against `span2` from the survey data. Save the regression result yielded by `lm` as an object and check which components it has. 
+
+```{r}
+fit <-lm(span1 ~ span2, data=survey)
+names(fit)
+```
+
+- Print the summary of the object by using the function `summary`. Save the summary produced as a separate object and check which components it has.
+
+```{r}
+summary(fit)
+sum.fit <- summary(fit)
+names(sum.fit)
+```
+
+
+- Visualize the fitted regression line using a plot which includes the scatterplot of the observed variables `span1` and `span2`.
+
+```{r}
+plot(span1 ~ span2, data=survey)
+abline(coef(fit))
+```
+
+- What is the confidence interval for the slope (i.e. the coefficient of `span2`) in the regression?
+
+```{r}
+confint(fit, 'span2')
+```
+
+- (*) What is the exact p-value for the coefficient of `span1`? Hint: use the component `coefficients` of the summary object.
+
+```{r}
+sum.fit$coefficients
+sum.fit$coefficients['span2', 'Pr(>|t|)']
+```
+
+
+# Multiple regression {#multiple}
+
+We look at the `swiss` data. In this data set we explain fertility of Swiss regions using various indicators.
+
+- Check the dimensions of the data, row and column names.
+
+```{r}
+dim(swiss)
+rownames(swiss)
+colnames(swiss)
+# Note that, except for the rownames, much information can also be obtained by using str:
+str(swiss)
+```
+
+- Perform a linear regression of `Fertility` with `Agriculture` and `Catholic` as the explanatory variables. 
+
+```{r}
+res <- lm(Fertility ~ Agriculture + Catholic, data=swiss)
+summary(res)
+```
+
+- What is the confidence interval of the regression coefficient of `Agriculture`?
+
+```{r}
+confint(res, 'Agriculture')
+```
+
+- Create a new dataset that excludes the region `Courtelary`. Hint: use logical indices and the rownames of the dataset.
+
+```{r}
+sel.court <- rownames(swiss) == "Courtelary"
+swiss1 <- swiss[!sel.court, ]
+```
+
+- Fit the regression model again in the data set that leaves out the region `Courtelary`. Then use the fitted model to predict `Fertility` in `Courtelary`.
+
+```{r}
+fit1 <- lm(Fertility ~ Agriculture + Catholic, data=swiss1)
+predict(fit1, swiss[sel.court,])
+```
+
+- (*) Fit a model that uses Agriculture, Catholic, as well as their interaction.
+
+```{r}
+summary(lm(Fertility ~ Agriculture * Catholic, data=swiss))
+```
+
+- (*) Save the p-value of the interaction term in the last model as a variable. 
+
+```{r}
+fit <- lm(Fertility ~ Agriculture * Catholic, data=swiss)
+summary(fit)
+summary(fit)$coefficients
+# The above gives the same result as 
+coef( summary(fit) )
+# The coefficients table, extracted by either way above, can be manipulated as other objects
+# In particular, the desired p-value is available via:
+P <- coef(summary(fit))['Agriculture:Catholic', 'Pr(>|t|)']
+```
+
+
+# (*) Tests, graphs and formula objects {#formula}
+
+
+The dataset `Seatbelts` contains data relating to people killed or seriously injured monthly in car accidents, between Jan 1969 and Dec 1984, in the UK. Compulsory wearing of seat belts was introduced on 31st January 1983.
+
+- Check the help page for the data set, and the structure of the dataset via `str`. You will see that the data's 8th column called `law` corresponds to a binary variable indicating whether or not the seat belt law was already in effect in that month. Produce a table of this variable. Note: you will need to select it via square brackets, either by the column name, or by the column number. For this sort of object, a `$` cannot be used for selection.
+
+```{r}
+table(Seatbelts[, 8])
+# table(Seatbelts[,"law"]) # also works
+# Selection via Seatbelts$law does not work because this is not available for mts objects 
+# Check that Seatbelts is of this class
+```
+
+- The number of  deaths or serious injuries is given by the column `drivers`. Compute its median using the function `median`, storing it into a variable.
+
+```{r}
+med.drivers <- median( Seatbelts[, "drivers" ] )
+```
+
+- Make a boxplot of `drivers`. 
+
+```{r}
+boxplot(Seatbelts[, "drivers"])
+```
+
+- Make a boxplot of `drivers` according to whether or not the law was already in effect. Hint: use a formula object to divide entries in `drivers` according to the groups defined by `law`, and use this object as input for the boxplot.
+
+```{r}
+boxplot(Seatbelts[, "drivers"] ~ Seatbelts[, "law"])
+```
+
+- Use a Wilcoxon test to compare the number of driver deaths or serious injuries before and after the law was introduced. Use the same formula  in the function call as the one used for the boxplot above. Save the resulting p-value as a variable
+
+```{r}
+wilcox.test(Seatbelts[, "drivers"] ~ Seatbelts[, "law"])
+p.w <- wilcox.test(Seatbelts[, "drivers"] ~ Seatbelts[, "law"])$p.value
+```
+
+- Create a binary variable indicating whether or not the number of drivers deaths or serious injuries was above its median. Produce a table of this variable and the `law` variable. Store this table in an object.
+
+```{r}
+ind.high <- Seatbelts[, "drivers"] > median(Seatbelts[, "drivers"])
+table(ind.high, Seatbelts[, "law"])
+mytable <- table(ind.high,Seatbelts[, "law"])
+```
+
+- Use a chi-square test to check if there seems to be any association between the number of drivers deaths or serious injuries being higher than its median, and the law coming into effect. Since one of the observed counts in the table is small, also check evidence for this association using a Fisher's exact test. In both test calls, use the table created as input. Save the p-values computed as variables.
+
+```{r}
+chisq.test(mytable)
+p.chi <- chisq.test(mytable)$p.value
+fisher.test(mytable)
+p.fis <- fisher.test(mytable)$p.value
+```
+
+- Print the three p-values computed with 3 decimal places.
+
+```{r}
+round(p.w, 3)
+round(p.chi, 3)
+round(p.fis, 3)
+```
+
+```{r,eval=FALSE,echo=FALSE}
+# From here on, exercises for correlation, linear regression
+```
+
+
+
+

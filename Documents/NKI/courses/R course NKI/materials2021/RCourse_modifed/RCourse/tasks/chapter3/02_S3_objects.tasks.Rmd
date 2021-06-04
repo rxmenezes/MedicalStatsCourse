@@ -1,0 +1,172 @@
+---
+title: "Basic statistical tests (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE, eval=F}
+source( "../R_course_setup.R" );
+```
+
+```{r echo=FALSE}
+pulse <- read.delim("../data/pulse.txt")
+survey <- read.delim("../data/survey.txt")
+```
+
+# wilcox.test {#S3}
+
+- Perform a (paired) Wilcoxon signed rank test comparing `span1` and `span2` in the survey data
+
+```{r}
+wilcox.test(survey$span1, survey$span2, paired=TRUE)
+```
+
+- Store the p-value and the test statistic as two separate variables
+
+```{r}
+res <- wilcox.test(survey$span1, survey$span2, paired=TRUE)
+names(res)
+p <- res$p.value
+V <- res$statistic
+```
+
+- Apply now the Wilcoxon test ignoring the paired nature of the data and save the p-value generated as a variable. Then print on the console the two p-values computed (using the pairing and then not using it) on two subsequent lines.
+
+
+```{r}
+res.np <- wilcox.test(survey$span1, survey$span2, paired=FALSE)
+names(res.np)
+p.np <- res.np$p.value
+p
+p.np
+```
+
+# Unpaired t.test
+
+- Study the `t.test` help file. How should we supply the input if we want to do a t test to compare `span1` between males and females?
+
+```{r eval=FALSE}
+?t.test
+```
+
+- Make two separate vectors of `span1` values for males and females.
+```{r}
+span1.male <- survey$span1[survey$gender == 'male']
+span1.female <- survey$span1[survey$gender == 'female']
+```
+
+- Perform the unpaired t test that compares span1 between males and females.
+
+```{r}
+t.test(span1.male, span1.female)
+```
+
+- Extract the confidence interval for the difference in spans from the resulting object.
+```{r}
+res <- t.test(span1.male, span1.female)
+names(res)
+res$conf.int
+```
+
+- Round the p-value to 3 significant digits. Hint: use `round`
+```{r}
+round(res$p.value, 3)
+```
+
+
+# Tests for count tables 
+
+- In the survey data, make a table of the `fold` against the `clap` variables. Hint: use the function `table`.
+```{r}
+table(survey$fold, survey$clap)
+```
+
+- Now use a chi-square test to study the association between `fold` and `clap`. For this, check the help file for the function `chisq.test`.  
+
+```{r}
+chisq.test(survey$fold, survey$clap)
+```
+
+- Check the class and the names of this object. Save the computed p-value as a separate variable.
+
+```{r}
+class(chisq.test(survey$fold, survey$clap))
+names(chisq.test(survey$fold, survey$clap))
+p.cs <- chisq.test(survey$fold, survey$clap)$p.value
+```
+
+- A warning message was generated  because the expected count is less than 5 in some of the cells in the table. Get the expected counts from the object returned by `chisq.test`. Hint: use the component `expected` of the object.
+
+```{r}
+res <- chisq.test(survey$fold, survey$clap)
+res$expected
+```
+
+
+- Alternatively, an exact p-value can be obtained using a Fisher's exact test. Use `fisher.test` to test association between `fold` and `clap`. Check the syntax in the help file of the function. Check the class of the object generated and its names. Then save the p-value computed as a separate variable.
+
+```{r}
+fisher.test(survey$fold, survey$clap)
+class(fisher.test(survey$fold, survey$clap))
+names(fisher.test(survey$fold, survey$clap))
+p.fis <- fisher.test(survey$fold, survey$clap)$p.value
+```
+
+- Print on the console all p-values computed above, rounded to 4 decimal places.
+
+```{r}
+round(p.cs, 4)
+round(p.fis, 4)
+```
+
+# Tests for count tables (continued)
+
+- Make a table of `gender` and `exercise` in the `survey` data and save the resulting object.
+
+```{r}
+t.ge <- table(survey$gender, survey$exercise)
+t.ge
+```
+
+- Test for the association between `gender` and `exercise` in the `survey` data using a chi-square test. Use the table of the two variables in the function call, instead of the variables themselves. Save both the entire test result as the p-value as separate objects.
+
+```{r}
+chi.ge <- chisq.test(t.ge)
+chi.ge
+# Compare the result with that using the variables directly
+chisq.test(survey$gender, survey$exercise)
+p.ge <- chi.ge$p.value
+# This is the same as
+p.ge <- chisq.test(t.ge)$p.value
+```
+
+- Check the names of components in the test object. Extract the expected count table from the object to see if any of the entries are less than 5.
+
+```{r}
+names(chi.ge)
+chi.ge$expected
+```
+
+- The test object also involves a component called `observed`. Check what it contains and compare it to the observed data table you saved.
+
+```{r}
+chi.ge$observed
+t.ge
+# The component observed from the test object corresponds to the cross-table of the variables used
+```
+
+- Compute the p-value for the test again by using simulation, instead of the chi-square approximation. This can be done by means of the `simulate.p.value` slot  in the function call. Save the computed p-value as a separate variable. 
+
+```{r}
+chisq.test(t.ge, simulate.p.value=TRUE)
+p.sim <- chisq.test(t.ge, simulate.p.value=TRUE)$p.value
+```
+
+
+- Print both computed p-values on the console with 2 decimal places.
+
+```{r}
+round(p.ge, 2)
+round(p.sim, 2)
+# Note that the simulated p-value may vary every time it is run
+```
+
