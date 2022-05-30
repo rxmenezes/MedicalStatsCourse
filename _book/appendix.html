@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Appendix | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Appendix | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Appendix | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="exercises.html"/>
+
+<script src="libs/header-attrs-2.11.3/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix" class="section level1" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Appendix</h1>
+<div id="pca-analysis" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> PCA Analysis</h2>
+<div id="motivation-15" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Motivation</h3>
+<p>After having an overview of the relationship between the variables of the dataset <code>decathlon2</code>, the searcher wants to extract more information and a better visualization from this correlation structure for both samples and variables.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="appendix.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb322-2"><a href="appendix.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gplots)</span>
+<span id="cb322-3"><a href="appendix.html#cb322-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb322-4"><a href="appendix.html#cb322-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-5"><a href="appendix.html#cb322-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(decathlon2)</span>
+<span id="cb322-6"><a href="appendix.html#cb322-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-7"><a href="appendix.html#cb322-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-8"><a href="appendix.html#cb322-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-9"><a href="appendix.html#cb322-9" aria-hidden="true" tabindex="-1"></a>data.events <span class="ot">&lt;-</span> decathlon2[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)]</span>
+<span id="cb322-10"><a href="appendix.html#cb322-10" aria-hidden="true" tabindex="-1"></a>correlation.pearson <span class="ot">&lt;-</span> <span class="fu">cor</span>(data.events, <span class="at">method =</span> <span class="st">&#39;pearson&#39;</span>, <span class="at">use =</span> <span class="st">&#39;complete.obs&#39;</span>)</span>
+<span id="cb322-11"><a href="appendix.html#cb322-11" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap.2</span>(correlation.pearson, <span class="at">trace =</span> <span class="st">&#39;none&#39;</span>, <span class="at">cexRow =</span> <span class="fl">0.8</span>, <span class="at">cexCol =</span> <span class="fl">0.8</span>, </span>
+<span id="cb322-12"><a href="appendix.html#cb322-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">col=</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;white&quot;</span>,<span class="st">&quot;red&quot;</span>))(<span class="dv">20</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-266-1.png" width="672" /></p>
+<p>To do so we will use the principal components analysis commonly called PCA.</p>
+</div>
+<div id="working-example-11" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Working example</h3>
+<p>We will use the example that we created in the previous section on correlation:</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="appendix.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb323-2"><a href="appendix.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">352</span>)</span>
+<span id="cb323-3"><a href="appendix.html#cb323-3" aria-hidden="true" tabindex="-1"></a>sample.size <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb323-4"><a href="appendix.html#cb323-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb323-5"><a href="appendix.html#cb323-5" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">45</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb323-6"><a href="appendix.html#cb323-6" aria-hidden="true" tabindex="-1"></a>correlation.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb323-7"><a href="appendix.html#cb323-7" aria-hidden="true" tabindex="-1"></a>correlation.matrix[<span class="fu">upper.tri</span>(correlation.matrix, <span class="at">diag=</span><span class="cn">FALSE</span>)] <span class="ot">&lt;-</span> </span>
+<span id="cb323-8"><a href="appendix.html#cb323-8" aria-hidden="true" tabindex="-1"></a>  correlations </span>
+<span id="cb323-9"><a href="appendix.html#cb323-9" aria-hidden="true" tabindex="-1"></a>correlation.matrix[<span class="fu">lower.tri</span>(correlation.matrix, <span class="at">diag=</span><span class="cn">FALSE</span>)]  <span class="ot">&lt;-</span> </span>
+<span id="cb323-10"><a href="appendix.html#cb323-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(correlation.matrix)[<span class="fu">lower.tri</span>(correlation.matrix)]</span>
+<span id="cb323-11"><a href="appendix.html#cb323-11" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(correlation.matrix) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb323-12"><a href="appendix.html#cb323-12" aria-hidden="true" tabindex="-1"></a>standard.deviations <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>)</span>
+<span id="cb323-13"><a href="appendix.html#cb323-13" aria-hidden="true" tabindex="-1"></a>covariance.matrix<span class="ot">&lt;-</span> <span class="fu">diag</span>(standard.deviations) <span class="sc">%*%</span> </span>
+<span id="cb323-14"><a href="appendix.html#cb323-14" aria-hidden="true" tabindex="-1"></a>  correlation.matrix <span class="sc">%*%</span> </span>
+<span id="cb323-15"><a href="appendix.html#cb323-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(standard.deviations)</span>
+<span id="cb323-16"><a href="appendix.html#cb323-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb323-17"><a href="appendix.html#cb323-17" aria-hidden="true" tabindex="-1"></a>dataset<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(<span class="fu">rmvnorm</span>( sample.size, <span class="at">mean=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), covariance.matrix))</span>
+<span id="cb323-18"><a href="appendix.html#cb323-18" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dataset) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&#39;Variable&#39;</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">sep=</span><span class="st">&#39;&#39;</span>)</span></code></pre></div>
+<p>The principle of principal components analysis relies heavily on mathematical algebra that we won’t detail in this course. The main idea of principal components analysis is to identify new variables carrying most of the variance existing in your dataset. These new variables are created by linear combinations of the variables available in the dataset and can be used to identify hidden patterns, dimension reduction and the correlated variables in your dataset.</p>
+<p><img src="PCexplanation.png" width="90%" /></p>
+<p>In this example we can see that by redefining the variables and using the principal component 1 (a linear combination of variable x and y) we capture most of the variation.</p>
+<p>The principal component analysis consist of finding the principal components and by looking at contribution of each variables on this principal components understanding the structure of the data.</p>
+<p>We will perform a principal component analysis on the dataset we simulated. This can be done by using the function PCA of the package <code>FactoMineR</code>.</p>
+<p>Note that to perform a PCA, it is important to scale the data. Indeed, the PCA results can be strongly influenced by different variances.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="appendix.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb324-2"><a href="appendix.html#cb324-2" aria-hidden="true" tabindex="-1"></a>pca.analysis <span class="ot">&lt;-</span> <span class="fu">PCA</span>(dataset, <span class="at">scale.unit =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Typically there is a number of principal components equal to the number of variables in your dataset. However, not all of them retain the same amount of variance. The amount of variation retained by each component is called eigenvalue and can help us to determine the number of principal components needed to describe properly the data. By definition the principal component 1 is the one retaining most variance.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="appendix.html#cb325-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">&lt;-</span> <span class="fu">get_eigenvalue</span>(pca.analysis)</span>
+<span id="cb325-2"><a href="appendix.html#cb325-2" aria-hidden="true" tabindex="-1"></a>eigenvalues</span></code></pre></div>
+<pre><code>##          eigenvalue variance.percent cumulative.variance.percent
+## Dim.1  3.392355e+00     3.392355e+01                    33.92355
+## Dim.2  2.341258e+00     2.341258e+01                    57.33613
+## Dim.3  1.825827e+00     1.825827e+01                    75.59440
+## Dim.4  9.626093e-01     9.626093e+00                    85.22049
+## Dim.5  8.140583e-01     8.140583e+00                    93.36108
+## Dim.6  4.551795e-01     4.551795e+00                    97.91287
+## Dim.7  2.087128e-01     2.087128e+00                   100.00000
+## Dim.8  1.114076e-31     1.114076e-30                   100.00000
+## Dim.9  6.117524e-32     6.117524e-31                   100.00000
+## Dim.10 4.155684e-32     4.155684e-31                   100.00000</code></pre>
+<p>We see that only 5 principal components are needed to capture 93.36% of the total variance present in the dataset. This can be better seen via the scree plot:</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="appendix.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca.analysis, <span class="at">addlabels =</span> <span class="cn">TRUE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-270-1.png" width="672" /></p>
+<p>There is unfortunately, no consensus on the exact number of principal components to keep. 3 possibilities can be used to select the number of principal components. The first one is to select the number of principal components to retain a sufficient amount of variance present in the dataset such as 80%. In our case 4 principal components</p>
+<p>The second approach is to look at the scree plot to determine the number of components. The number of component is determined at the point, beyond which the remaining eigenvalues are all relatively small and of comparable size. In our case 4 principal components.</p>
+<p>Finally the third approach is to look at the eigenvalues of the different principal components and to keep the principal components having a eigenvalue higher than 1. Indeed an eigenvalue higher than 1 indicates that the related principal components have more variance than one of the original variables. In our case 4 principal components.</p>
+<p>Now that we have obtain the number of principal components to keep, we can use the principal component analysis as a dimension reduction approach and keep these new variables for statistical models. But we can also investigate the contribution of these variables in each components in order to understand better the relationship between our variables in the dataset.</p>
+<p>To do so we need to extract the results for the variables from our PCA.</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="appendix.html#cb328-1" aria-hidden="true" tabindex="-1"></a>pca.analysis <span class="ot">&lt;-</span> <span class="fu">PCA</span>(dataset, <span class="at">ncp=</span><span class="dv">4</span>, <span class="at">scale.unit =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb328-2"><a href="appendix.html#cb328-2" aria-hidden="true" tabindex="-1"></a>variable.analysis <span class="ot">&lt;-</span> <span class="fu">get_pca_var</span>(pca.analysis)</span>
+<span id="cb328-3"><a href="appendix.html#cb328-3" aria-hidden="true" tabindex="-1"></a>variable.analysis</span></code></pre></div>
+<pre><code>## Principal Component Analysis Results for variables
+##  ===================================================
+##   Name       Description                                    
+## 1 &quot;$coord&quot;   &quot;Coordinates for the variables&quot;                
+## 2 &quot;$cor&quot;     &quot;Correlations between variables and dimensions&quot;
+## 3 &quot;$cos2&quot;    &quot;Cos2 for the variables&quot;                       
+## 4 &quot;$contrib&quot; &quot;contributions of the variables&quot;</code></pre>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="appendix.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(variable.analysis<span class="sc">$</span>coord, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##                 Dim.1      Dim.2       Dim.3      Dim.4
+## Variable1 -0.60818282  0.3592227  0.47779077  0.3806998
+## Variable2 -0.67661752 -0.4446899  0.28175127 -0.4878183
+## Variable3  0.03963396  0.7858208 -0.10046524  0.3549273
+## Variable4  0.17456857 -0.7784345 -0.03390743  0.4826220</code></pre>
+<p>The different available results are the coordinates of the variables in the new dimension (important to compute the values of the observation for the new variables) and the contribution of each variable to the different principal components.</p>
+<p>With this information, we can create plots to understand the relationship between the variables and the principal components such as the correlation circle.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="appendix.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot correlation circle</span></span>
+<span id="cb332-2"><a href="appendix.html#cb332-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(pca.analysis, <span class="at">col.var =</span> <span class="st">&quot;black&quot;</span>, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-272-1.png" width="672" /></p>
+<p>This plot shows the relationship existing between the variables. Positively correlated variables will be grouped together whereas negatively correlated variables will be on the opposite side of the plot origin. The closest the variable is from an axis, the more correlated this variable is with the principal component. Finally, the longer the arrow is the better represented this variable is by the two principal components.</p>
+<p>We can see also by plot the amount of contribution that each variable provide to each principal component:</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="appendix.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;corrplot&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: le package &#39;corrplot&#39; a été compilé avec la version R 4.1.1</code></pre>
+<pre><code>## corrplot 0.90 loaded</code></pre>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="appendix.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(variable.analysis<span class="sc">$</span>contrib, <span class="at">is.corr=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-273-1.png" width="672" /></p>
+<p>Mow that we looked at the relationship existing between the variables and the principal components we can do the same thing for the individuals.</p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="appendix.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Scatterplot in the 2 first principal components plane</span></span>
+<span id="cb337-2"><a href="appendix.html#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(pca.analysis, <span class="at">col.var =</span> <span class="st">&quot;black&quot;</span>, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-274-1.png" width="672" /></p>
+<p>By looking at the coordinates of the individual in the new space we can understand how these samples are clustered. By then looking at the contribution of each variable for the principal components we can then derive conclusion on the relatedness of the individuals based on the original variables.</p>
+</div>
+<div id="quick-tasks" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Quick tasks</h3>
+<p>Perform a principal component analysis on the events of the <code>decathlon2</code> dataset. Print the eigenvalues table and make a scree plot to determine the number of principal components to retain.</p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="appendix.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb338-2"><a href="appendix.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb338-3"><a href="appendix.html#cb338-3" aria-hidden="true" tabindex="-1"></a>data.events <span class="ot">&lt;-</span> decathlon2[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)]</span>
+<span id="cb338-4"><a href="appendix.html#cb338-4" aria-hidden="true" tabindex="-1"></a>pca.analysis.deca <span class="ot">&lt;-</span> <span class="fu">PCA</span>(data.events, <span class="at">scale.unit =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb338-5"><a href="appendix.html#cb338-5" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">&lt;-</span> <span class="fu">get_eigenvalue</span>(pca.analysis.deca)</span>
+<span id="cb338-6"><a href="appendix.html#cb338-6" aria-hidden="true" tabindex="-1"></a>eigenvalues</span></code></pre></div>
+<pre><code>##        eigenvalue variance.percent cumulative.variance.percent
+## Dim.1   3.7499727        37.499727                    37.49973
+## Dim.2   1.7451681        17.451681                    54.95141
+## Dim.3   1.5178280        15.178280                    70.12969
+## Dim.4   1.0322001        10.322001                    80.45169
+## Dim.5   0.6178387         6.178387                    86.63008
+## Dim.6   0.4282908         4.282908                    90.91298
+## Dim.7   0.3259103         3.259103                    94.17209
+## Dim.8   0.2793827         2.793827                    96.96591
+## Dim.9   0.1911128         1.911128                    98.87704
+## Dim.10  0.1122959         1.122959                   100.00000</code></pre>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="appendix.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca.analysis.deca, <span class="at">addlabels =</span> <span class="cn">TRUE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-275-1.png" width="672" /></p>
+<p>Plot the correlation circle of the first two principal components as well as the contribution plot</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="appendix.html#cb341-1" aria-hidden="true" tabindex="-1"></a>pca.analysis.deca <span class="ot">&lt;-</span> <span class="fu">PCA</span>(data.events, <span class="at">ncp=</span><span class="dv">5</span>, <span class="at">scale.unit =</span> <span class="cn">TRUE</span>, <span class="at">graph =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb341-2"><a href="appendix.html#cb341-2" aria-hidden="true" tabindex="-1"></a>variable.analysis.deca <span class="ot">&lt;-</span> <span class="fu">get_pca_var</span>(pca.analysis.deca)</span>
+<span id="cb341-3"><a href="appendix.html#cb341-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(pca.analysis.deca, <span class="at">col.var =</span> <span class="st">&quot;black&quot;</span>, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-276-1.png" width="672" /></p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="appendix.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(variable.analysis.deca<span class="sc">$</span>contrib, <span class="at">is.corr=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-276-2.png" width="672" /></p>
+<p>What can you conclude from the first two principal components? What are they mostly measuring?</p>
+<p>Plot the representation of the individuals on these two principal components</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="appendix.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(pca.analysis.deca, <span class="at">col.var =</span> <span class="st">&quot;black&quot;</span>, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-277-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="exercises.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

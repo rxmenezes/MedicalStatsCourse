@@ -1,0 +1,28 @@
+---
+title: "02-Logistic-regression"
+author: "Renaud"
+date: "15/06/2021"
+output: html_document
+---
+
+
+
+### Quick tasks 
+
+1. Continue examining the example of budworms. Fit now the model including the interaction between `ldose` and `sex`. Print the ANOVA table with a test for each coefficient. Extract the fitted probabilities on the scale of the response. 
+
+```{r, echo = FALSE, eval = FALSE}
+budworm.lgi <- glm(resp ~ sex + ldose + sex:ldose, family = binomial)
+summary(budworm.lgi)
+anova(budworm.lgi, test = "Chisq")
+myfitted <- predict(budworm.lgi, type = "response")
+```
+
+2. For the `esoph` data analysis, extract the fitted values for the model without and with the interaction. Put those together in a matrix.
+
+```{r, eval = FALSE, echo = FALSE}
+eso.fit <- predict(eso.logit)
+eso.fit.i <- predict(eso.logit.i)
+eso.fit.mat <- cbind(eso.fit, eso.fit.i)
+eso.fit.mat
+```

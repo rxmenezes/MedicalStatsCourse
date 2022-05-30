@@ -1,0 +1,18 @@
+---
+title: "01-Comparing-more-than-2-groups"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Let us now consider the `quine` data again. Use both the F test as well as the Kruskal-Wallis test to decide if the number of days of absence differs between age groups. 
+
+```{r}
+myfit <- lm(Days ~ Age, data = quine)
+anova(myfit)
+kruskal.test(Days ~ Age, data = quine)
+```

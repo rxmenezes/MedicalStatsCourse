@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1637913087891.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2635137460",
+    "id" : "D12C317E",
+    "lastKnownWriteTime" : 1637913528,
+    "last_content_update" : 1637913528476,
+    "path" : "~/Documents/NKI/courses/medicalStatsCourse/materials2021/202111/MedStatCourse/05-Survival-analysis_suggestions.Rmd",
+    "project_path" : "05-Survival-analysis_suggestions.Rmd",
+    "properties" : {
+        "cursorPosition" : "11,11",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

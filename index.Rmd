@@ -1,0 +1,94 @@
+--- 
+title: "Medical Statistics" 
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+github-repo: rstudio/bookdown-demo
+params:
+  RCourseURL: https://barmsijs.lumc.nl/R_course/index.html
+  RCourseGitURL: https://git.lumc.nl/bce_core/R_course_2016.git
+description: "This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R."
+---
+# About this course {-}
+
+In this course an introduction to basic statistical methods useful for biomedical data analysis will be given. During the course we will alternate between lectures and practicals, allowing for plenty of interaction and illustration with examples of practical interest.
+
+The course requires little prior statistics knowledge, but assumes participants are able to work with R, R packages and RMarkdown for the practicals. Participants with no or little experience in R are strongly advised to follow an introductory R course prior to following this course, such as the one we offer.
+
+The course program includes: exploratory data analysis, basic statistical tests, methods for count data tables, linear and logistic regression, as well as basic methods for survival data analysis. For each method, power analysis and sample size determination will be handled.
+
+## Teachers {-}
+
+- [Renee Menezes](https://www.nki.nl/research/find-a-researcher/groupleaders/renee-x-menezes/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/) (__coordinator__)
+- [Renaud Tissier](https://www.nki.nl/research/find-a-researcher/researchers/renaud-tissier/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/)
+- [Leyla Azarang](https://www.nki.nl/research/find-a-researcher/researchers/leyla-azarang/), [Biostatistics Center, NKI](https://www.nki.nl/research/facilities-platforms/biostatistics-center/)
+
+
+## Goals & Topics {-}
+
+After the course you will be able to:
+
+- Perform data exploration analysis
+- Perform comparison between two different groups using statistical tests
+- Perform linear and logistic regression
+- Perform survival data analysis
+- Use the R software to perform these tasks
+
+We will cover the following topics:
+
+- Probabilistic distributions
+- Hypothesis testing
+- Linear regression
+- Logistic regression
+- Survival data analysis
+- Power analysis
+
+## Prerequisites {-}
+
+The course assumes no prior programming knowledge. Elementary statistics knowledge is necessary.
+
+Participants must **bring own laptops** capable of running [RStudio](https://www.rstudio.com/products/rstudio/). 
+
+
+Before the course **please prepare your laptop**:
+
+1. install [R](https://www.r-project.org/), an open-source, free environment for statistical computing and graphics. You can find instructions for downloading and installing it from one of the CRAN mirrors, for example from the [Univ. of Gent](https://lib.ugent.be/CRAN/) or from the [Imperial College](https://cran.ma.imperial.ac.uk/). A full list of mirrors can be found [here](https://cran.r-project.org/mirrors.html).
+
+
+2. install RStudio. Go to [the RStudio download page](https://www.rstudio.com/products/rstudio/download/#download), select a version of RStudio appropriate for your laptop, download it and then install. Please check whether you can start RStudio. 
+
+
+3. install [RMarkdown](https://rmarkdown.rstudio.com/),  a very nice and easy tool to produce reports using RStudio. It is made available as an R package for Rstudio. One easy way to install it is as follows:
+
+i) open RStudio
+
+ii) click on the "File" menu on the top left, and choose "New file">"R Markdown". If RMarkdown is not yet installed on your machine, this will prompt you to install it and any packages required. Just follow the instructions that appear on the screen.
+
+
+
+4. Several packages are required to perform the course. These packages can be installed before the course to gain some time. The required packages are:
+
+- factoextra
+- gplots
+- pwr
+- statmod
+
+## Materials {-}
+
+After the course material .zip file is downloaded, the course material can be assessed:
+
+- as HTML pages by opening `index.html` in any browser
+- by clicking on the `RcourseNKI.Rproj` file, which will open the entire course as an R project
+- via [the course source git repository](https://github.com/rxmenezes/RcourseNKI)
+
+The materials contain a [`data` directory](https://github.com/rxmenezes/RcourseNKI/tree/master/data) with the __data__ __files__ used in the presentations/tasks. The directory can be also accessed at https://github.com/rxmenezes/RcourseNKI/tree/master/data
+
+
+## Programme {-}
+
+Third NKI edition, Novermber 22nd, 23rd, 24th, 25th and 26th 2021
+
+This course will be given online via Zoom. All course days are in the period 9:00-16:00, with the last hour reserved for general Q&A.
+
+

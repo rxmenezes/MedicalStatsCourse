@@ -1,0 +1,33 @@
+---
+title: "01-Linear-regression"
+author: "Renaud"
+date: "15/06/2021"
+output: html_document
+
+
+---
+
+### Quick Task
+
+Check if the variable `Long.jump` of the `decathlon2` dataset follows a normal distribution using a plot.
+
+```{r}
+hist(decathlon2$Long.jump)
+qqnorm(decathlon2$Long.jump, pch = 1, frame = FALSE)
+qqline(decathlon2$Long.jump, col = "steelblue", lwd = 2)
+```
+
+Perform a linear regression the check for association between the variables `Long.jump` and `X100m`. What is the beta value? Is the resul significant?
+```{r}
+linear.model <- lm(Long.jump ~ X100m, data = decathlon2)
+linear.model
+summary(linear.model)$coefficients
+```
+
+We know that there is a significant difference in mean for the variable `X100m` between both competitions. Add the predictor `Competition` into the model as well as an interaction effect between `Competition` and `X100m` (add X100m:Competition in the formula). Are the results changing?
+
+```{r}
+linear.model <- lm(Long.jump ~ X100m + Competition + X100m:Competition, data = decathlon2)
+linear.model
+summary(linear.model)$coefficients
+```

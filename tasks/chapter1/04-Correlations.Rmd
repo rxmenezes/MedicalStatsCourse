@@ -1,0 +1,24 @@
+---
+title: "04-Correlation"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Compute the correlation matrix between the events (first ten variables) of the decathlon in the dataset `decathlon2` using the Pearson correlation, the Spearman's rank correlation and Kendall's tau. Display the results on heatmaps.
+
+```{r}
+library(gplots)
+data.events <- decathlon2[,c(1:10)]
+correlation.pearson <- cor(data.events, method = 'pearson', use = 'complete.obs')
+heatmap.2(correlation.pearson, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+correlation.spearman <- cor(data.events, method = 'spearman', use = 'complete.obs')
+heatmap.2(correlation.spearman, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+correlation.kendall <- cor(data.events, method = 'kendall', use = 'complete.obs')
+heatmap.2(correlation.kendall, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+
+```

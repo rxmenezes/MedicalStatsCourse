@@ -1,0 +1,18 @@
+---
+title: "06-odds-ratio"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Compute now the odds ratio of developing colon cancer given high BMI, compared to that given normal or low BMI.
+
+```{r}
+myt <- table(data.colon$colon.cancer, data.colon$bmi)
+or <- (myt[2, 2]/myt[1, 2])/(myt[2, 1]/myt[1, 1])
+or
+```

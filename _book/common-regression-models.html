@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Common regression models | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Common regression models | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Common regression models | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistical-tests---part-1.html"/>
+<link rel="next" href="statistical-tests---part-2.html"/>
+<script src="libs/header-attrs-2.11.3/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="common-regression-models" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Common regression models</h1>
+<div id="linear-regression" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Linear regression</h2>
+<div id="motivation-4" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Motivation</h3>
+<p>We have seen in the previous chapter how to compare the distribution between two groups. This gives us an understanding of the relationship between a continuous variable and a binary variable, i.e. a discrete variable with only two possible values. In order to test the association between a continuous variables we need to another approach. For example, does your ability in sprint can influence your pole vault or long jump performances? To answer this kind of question, the best approach is to use linear regression.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="common-regression-models.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb116-2"><a href="common-regression-models.html#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="common-regression-models.html#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(decathlon2)</span></code></pre></div>
+</div>
+<div id="working-example-5" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Working Example</h3>
+<p>Let’s use the simulated dataset we used in the previous chapter and add one variable <code>VariableZ</code> that we will build using the 2 other variables.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="common-regression-models.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">352</span>)</span>
+<span id="cb117-2"><a href="common-regression-models.html#cb117-2" aria-hidden="true" tabindex="-1"></a>sample.size<span class="ot">&lt;-</span><span class="dv">30</span></span>
+<span id="cb117-3"><a href="common-regression-models.html#cb117-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-4"><a href="common-regression-models.html#cb117-4" aria-hidden="true" tabindex="-1"></a>variableX.groupA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample.size, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb117-5"><a href="common-regression-models.html#cb117-5" aria-hidden="true" tabindex="-1"></a>variableX.groupB <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample.size, <span class="at">mean =</span> <span class="fl">2.4</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb117-6"><a href="common-regression-models.html#cb117-6" aria-hidden="true" tabindex="-1"></a>VariableX <span class="ot">&lt;-</span> <span class="fu">c</span>(variableX.groupA, variableX.groupB)</span>
+<span id="cb117-7"><a href="common-regression-models.html#cb117-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-8"><a href="common-regression-models.html#cb117-8" aria-hidden="true" tabindex="-1"></a>variableY.groupA <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(sample.size, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span>
+<span id="cb117-9"><a href="common-regression-models.html#cb117-9" aria-hidden="true" tabindex="-1"></a>variableY.groupB <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(sample.size, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="fl">1.1</span>)</span>
+<span id="cb117-10"><a href="common-regression-models.html#cb117-10" aria-hidden="true" tabindex="-1"></a>VariableY <span class="ot">&lt;-</span> <span class="fu">c</span>(variableY.groupA, variableY.groupB)</span>
+<span id="cb117-11"><a href="common-regression-models.html#cb117-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-12"><a href="common-regression-models.html#cb117-12" aria-hidden="true" tabindex="-1"></a>VariableZ <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)<span class="sc">*</span>VariableX <span class="sc">+</span> </span>
+<span id="cb117-13"><a href="common-regression-models.html#cb117-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)<span class="sc">*</span>VariableY <span class="sc">+</span> </span>
+<span id="cb117-14"><a href="common-regression-models.html#cb117-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">2</span><span class="sc">*</span>sample.size, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb117-15"><a href="common-regression-models.html#cb117-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-16"><a href="common-regression-models.html#cb117-16" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>), <span class="at">each =</span> sample.size)</span>
+<span id="cb117-17"><a href="common-regression-models.html#cb117-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb117-18"><a href="common-regression-models.html#cb117-18" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">VariableX =</span> VariableX, <span class="at">VariableY =</span> VariableY, </span>
+<span id="cb117-19"><a href="common-regression-models.html#cb117-19" aria-hidden="true" tabindex="-1"></a>                      <span class="at">VariableZ =</span> VariableZ, </span>
+<span id="cb117-20"><a href="common-regression-models.html#cb117-20" aria-hidden="true" tabindex="-1"></a>                      <span class="at">group =</span> group, <span class="at">stringsAsFactors =</span> T)</span></code></pre></div>
+<p>What is a linear regression analysis?</p>
+<p>Let’s make a scatterplot of <code>VariableZ</code> and <code>VariableY</code>.</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="common-regression-models.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dataset<span class="sc">$</span>VariableY, dataset<span class="sc">$</span>VariableZ)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p>We can clearly see that as we look at higher values of the <code>VariableY</code> the values of <code>VariableZ</code> are also increasing. Quantifying the effect of a variable <span class="math inline">\(x\)</span> on the variation of a variable of interest <span class="math inline">\(y\)</span> is the aim of a linear regression model. A linear regression model is written as:</p>
+<p><span class="math inline">\(y_i = \alpha + \beta x_i + \epsilon_i\)</span></p>
+<p>where <span class="math inline">\(y\)</span> is the variable of interest also called outcome and <span class="math inline">\(x\)</span> is the variable we are testing for association with the outcome. <span class="math inline">\(\epsilon_i\)</span> are called residuals and represent the part of the outcome that could not be ‘explained’ by <span class="math inline">\(x\)</span>. Each <span class="math inline">\(\epsilon_i\)</span> are supposed independent and drawn from a normal distribution <span class="math inline">\(N(0, \sigma^2)\)</span>. The aim of a logistic regression analysis is to estimate the value of <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span>. To do so we use the method of least square, i.e., we find the value of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> that minimizes the sum of squared residuals:</p>
+<p><span class="math inline">\(SS_{res} = \sum_{i}(y_{i} - (\alpha + \beta x_{i}))^2\)</span></p>
+<p>This equation leads to exact formulas for the estimation of the parameters :</p>
+<p><span class="math inline">\(\hat{\beta} = \frac{\sum_{i}(x_i - \overline{x})(y_i - \overline{y})}{\sum_i (x_i - \overline{x})^2}\)</span></p>
+<p><span class="math inline">\(\hat{\alpha} = \overline{y} - \hat{\beta}\overline{x}\)</span></p>
+<p><span class="math inline">\(\sigma^{2} = \frac{SS_{res}}{n-2}\)</span></p>
+<p>Let’s do a linear regression of <code>VariableY</code> on <code>VariableZ</code> by using the function lm in R:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="common-regression-models.html#cb119-1" aria-hidden="true" tabindex="-1"></a>regression <span class="ot">&lt;-</span> <span class="fu">lm</span>(VariableZ <span class="sc">~</span> VariableY, <span class="at">data =</span> dataset)</span>
+<span id="cb119-2"><a href="common-regression-models.html#cb119-2" aria-hidden="true" tabindex="-1"></a>regression</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = VariableZ ~ VariableY, data = dataset)
+## 
+## Coefficients:
+## (Intercept)    VariableY  
+##      0.2723       0.6487</code></pre>
+<p>The function lm returns 2 values, the intercept which correspond to <span class="math inline">\(\alpha\)</span> and the <span class="math inline">\(\beta\)</span> coefficient corresponding to the value below the <code>VariableY</code>. The 4beta$ coefficent can be interpreted as if my variableX increases of 1 my variableZ will increase of <span class="math inline">\(summary(regression)\)</span>coefficients[2,4]. We can represent the results onto the scatterplot:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="common-regression-models.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dataset<span class="sc">$</span>VariableY, dataset<span class="sc">$</span>VariableZ, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb121-2"><a href="common-regression-models.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(dataset<span class="sc">$</span>VariableY,<span class="fu">fitted</span>(regression), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb121-3"><a href="common-regression-models.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(dataset<span class="sc">$</span>VariableY,<span class="fu">fitted</span>(regression), dataset<span class="sc">$</span>VariableY,dataset<span class="sc">$</span>VariableZ)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p>In this plot, the blue points are the observed values, the red line is the result of the regression analysis with <span class="math inline">\(\alpha\)</span> being the intercept of the line and <span class="math inline">\(\beta\)</span> its slope. Finally the black vertical line represent the residuals, i.e. the variation that could not be explained by the linear regression model.</p>
+<p>The interest of a linear regression is that we can test if the coefficient <span class="math inline">\(\beta\)</span> is equal to 0 in order to test for association between the 2 variables. To do so in a univariate linear regression we define the statistics t as :</p>
+<p><span class="math inline">\(t = \frac{\beta}{se(\beta)}\)</span></p>
+<p>where t (under the assumption that the outcome is normally distributed and under the null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\beta = 0\)</span>) follows a Student’s t distribution with n-2 degress of freedom. With this information computing the p-value of the test is the same as for the Sutdent’s t test.</p>
+<p>For example we can look at the association between <code>VariableX</code> and <code>group</code> using both Student’s t test and the linear regression:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="common-regression-models.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Student&#39;s t test between VariableX and group</span></span>
+<span id="cb122-2"><a href="common-regression-models.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(VariableX <span class="sc">~</span> group, <span class="at">data =</span> dataset)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  VariableX by group
+## t = -2.293, df = 56.263, p-value = 0.02561
+## alternative hypothesis: true difference in means between group A and group B is not equal to 0
+## 95 percent confidence interval:
+##  -1.16872012 -0.07888065
+## sample estimates:
+## mean in group A mean in group B 
+##        1.900228        2.524028</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="common-regression-models.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression between VariableX and group</span></span>
+<span id="cb124-2"><a href="common-regression-models.html#cb124-2" aria-hidden="true" tabindex="-1"></a>linear.regression <span class="ot">&lt;-</span> <span class="fu">lm</span> (VariableX <span class="sc">~</span> group, <span class="at">data =</span> dataset)</span>
+<span id="cb124-3"><a href="common-regression-models.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linear.regression)<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>##              Estimate Std. Error  t value     Pr(&gt;|t|)
+## (Intercept) 1.9002279  0.1923664 9.878170 4.879130e-14
+## groupB      0.6238004  0.2720472 2.292986 2.549308e-02</code></pre>
+<p>We see that we obtain exactly the same results. As both approaches are equivalent the sample size and power computation for a linear regression model are the same than for the student’s t test.</p>
+<p>Note that there is another possible statistical test to apply is the likelihood ratio test. This test comes from a statiscal test called goodness of fit test which allows to test for a significant improvement of the model fit. By comparing the likelihoods, i.e. the probability of observing the set of values based on the statistical model fitted, of the models fitted under the null hypothesis (in our case with only an intercept) and the alternative hypothesis (the model that we fitted). This test will be seen more in detail later in the course. Asymptotically (with the number of samples sufficiently large), both likelihood ratio test and student’s t test are equivalent.</p>
+<p>There are four assumptions associated witha linear regression model. First, the outcome has to be a normally ditributed continuous variable. The relationship between the variable <span class="math inline">\(x\)</span> and <span class="math inline">\(\overline{y}\)</span> is linear. The observations have to be independent and the variance of the residuals have to be independent of X (homoscedasticity). To trust the results of the linear regression several steps have to be taken based on theses assumptions:</p>
+<ul>
+<li><p>Checking the distribution of the outcome if the distribution is too far from a gaussian distribution it can be good to apply a transformation to the data. Such as log transformation.</p></li>
+<li><p>Checking the distributions of the residuals as they are assumed to be normal.</p></li>
+</ul>
+<p>In our case we simulated the outcome <code>VariableZ</code> as the sum of two gaussian distribution so <code>VariableZ</code>. Instead let’s plot the distribution of the residuals:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="common-regression-models.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(regression<span class="sc">$</span>residuals, <span class="at">breaks =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>We can see clearly that the residuals distribution is really close from a normal distribution. This clearly indicates that the regression went well. Another plit is commonly used to check if a distribution is following a gaussian distribution. The Q-Q plot. This plot consist of comparing a set of values with the quantiles of a normal distribution:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="common-regression-models.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(regression<span class="sc">$</span>residuals, <span class="at">pch =</span> <span class="dv">1</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb127-2"><a href="common-regression-models.html#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(regression<span class="sc">$</span>residuals, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p>The closer the points are from the blue line the closer the set of values is close from a normal distribution.</p>
+<p>Another interesting graph to plot is the scatter plot of the outcome and the residuals.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="common-regression-models.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(regression<span class="sc">$</span>residuals, dataset<span class="sc">$</span>VariableZ)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<p>We can clearly see a trend in the scatterplot. This trend is interesting, as it means that the residuals of the linear models are associated with the outcome Y. Meaning that the variation not explained by the linear model is not due to randomess and another linear association, independent to <code>VariableY</code> exists. It is easy to explain in our case as <code>VariableZ</code> was simulated as the weighted sum of <code>VariableX</code> and <code>VariableY</code>.</p>
+<p>To obtain a better linear model it might of interest to use linear models with multiple variables such as:</p>
+<p><span class="math inline">\(z_i = \alpha + \beta_1 y_i + \beta_2 x_i + \epsilon_i\)</span></p>
+<p>let’s run the model using the <code>lm</code> function:</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="common-regression-models.html#cb129-1" aria-hidden="true" tabindex="-1"></a>multiple.regression <span class="ot">&lt;-</span> <span class="fu">lm</span> (VariableZ <span class="sc">~</span> VariableX <span class="sc">+</span> VariableY, <span class="at">data=</span>dataset)</span>
+<span id="cb129-2"><a href="common-regression-models.html#cb129-2" aria-hidden="true" tabindex="-1"></a>multiple.regression</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = VariableZ ~ VariableX + VariableY, data = dataset)
+## 
+## Coefficients:
+## (Intercept)    VariableX    VariableY  
+##     -0.2473       0.2658       0.6158</code></pre>
+<p>And we can check the significance of the <span class="math inline">\(\beta\)</span>s obtained:</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="common-regression-models.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multiple.regression)<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>##               Estimate Std. Error    t value     Pr(&gt;|t|)
+## (Intercept) -0.2473115 0.28451895 -0.8692268 3.883686e-01
+## VariableX    0.2658086 0.10814688  2.4578481 1.704112e-02
+## VariableY    0.6158445 0.07401264  8.3208018 2.020188e-11</code></pre>
+<p>We can indeed see that both coefficents are correctly identified as significant. We can also note that the coefficent of <code>VariableY</code> is almost not impacted by the addition of <code>VariableX</code>. This is due to the fact that these variables were simulated independently and their correlation should be close to 0. After, computation we obtain a correlation of 0.1804148. With a larger correlation between both variables, the impact on the coefficient obtained on the simple linear regression would have been stronger.</p>
+<p>Strong correlation between predictors in the same models can create the so-called multi-collinearity problem that leads to a severe increase of the p.value and therefore a reduction in significance.</p>
+<p>Note that the power and sample size computations for linear regression with multiple predictors becomes rather challenging. Searcher often use rules of thumbs. A commonly encountered rule of thumbs is at least 10-15 samples for each predictors in the model. But this is only a rule of thumbs and as we know, the required sample size is depending on the variation of the outcome of interest as well as the effect size to test.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/01-Linear-regression.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/01-Linear-regression.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="logistic-regression" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Logistic regression</h2>
+<div id="motivation-5" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Motivation</h3>
+<p>In some studies the response variable only has two possible values. Some examples:</p>
+<ul>
+<li><p>individuals who have or have not cancer;</p></li>
+<li><p>cancer patients who, after treatment, relapse or not;</p></li>
+<li><p>from all patients receiving the same treatment, each develops resistance or not.</p></li>
+</ul>
+<p>If analysing data with such a <em>binary</em> response variable, care must be taken, in particular when using regression models. Such a variable can be coded as <span class="math inline">\(\{0, 1\}\)</span> in R, for example. However, linear regression is not going to return predicted values as only 0 or 1. In fact, nothing prevents a linear regression of returning a negative value, or a value larger than 1.</p>
+</div>
+<div id="link-function" class="section level3" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Link function</h3>
+<p>In order to avoid this and model the data correctly, we need to use a regression model with a <em>link</em> function. For a regression model with a response <span class="math inline">\(Y\)</span> and covariates <span class="math inline">\(X_1, X_2\)</span>, this link function can be written as <span class="math inline">\(h\)</span>, as in the model:</p>
+<p><span class="math display">\[
+E(Y) = h^{-1}\left( \alpha + \beta_1X_1 + \beta_2X_2 \right).
+\]</span></p>
+<p>The job of the link function is to make sure that the error is modelled correctly, and it yields predicted values in the range desired. For a binary response, the ideal link function is the <em>logistic</em> function. It takes any values, positive or negative, and always return a value between 0 and 1. The logistic function has can be written as:</p>
+<p><span class="math display">\[
+f(z) = \frac{e^z}{1+e^z},
+\]</span>
+for any value of <span class="math inline">\(z\)</span>. The graph of this function for values of <span class="math inline">\(z\)</span> between -5 and 5 is:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="common-regression-models.html#cb133-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">to =</span> <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb133-2"><a href="common-regression-models.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(z, <span class="fu">exp</span>(z)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(z)), <span class="at">main =</span> <span class="st">&quot;Logistic function&quot;</span>, </span>
+<span id="cb133-3"><a href="common-regression-models.html#cb133-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
+<p>The logistic link function relates the response <span class="math inline">\(Y\)</span> and the linear prediction (which is the function of the covariates, <span class="math inline">\(\alpha + \beta_1 X_1 + \beta_2 X_2\)</span>) in the following way:</p>
+<p><span class="math display">\[
+E(Y) = \frac{e^{\alpha + \beta_1X_1 + \beta_2X_2 }}{1+e^{\alpha + \beta_1X_1 + \beta_2X_2}}.
+\]</span></p>
+<p>The function can be inverted to write:</p>
+<p><span class="math display">\[
+\log(\frac{E(Y)}{1-E(Y)}) = \alpha + \beta_1X_1 + \beta_2X_2.
+\]</span></p>
+</div>
+<div id="the-glm-function" class="section level3" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> The <code>glm</code> function</h3>
+<p>The logistic regression model is fitted by the function <code>glm</code>. This function works in very similar ways to <code>lm</code> for linear regression, such as for example using as main input a formula determining the model to be used. It also may use <code>family</code> and <code>link</code> slots to define which probability distribution is to be used for the errors (<code>family</code>) and which link function is to be used (<code>link</code>). Per family, one link function is used by default. In the case of the logistic model, it is defined <code>family = binomial</code>, and the default link is the logistic.</p>
+<p>The response for the logistic model can be given in different ways. We will here use the pair (number dead, number alive) per combination of dose and sex. See the exercises for an example of a binary response.</p>
+<p>As with a linear regression, <code>summary</code> and <code>anova</code> are used to obtain an overview of the model fit and test for effects of variables.</p>
+</div>
+<div id="working-example-6" class="section level3" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Working example</h3>
+<p>This example is adapted from an example used in Venables and Ripley (1995):</p>
+<p>Venables, W. N. and Ripley, B. D. (1995). Modern applied statistics with S-Plus. Springer-Verlag: New York.</p>
+<p><a href="https://www.springer.com/gp/book/9780387954578" class="uri">https://www.springer.com/gp/book/9780387954578</a></p>
+<p>Collet (11=991, p. 75) reports an experiment on the toxicity of the tobacco budworm <em>Heliothis virescens</em> to doses of the pyrethroid trans-cypermethrin to which the moths were beginning to show resistance. It is of interest to determine which dose level to choose, so as to guarantee a specific death proportion. The response variable is thus dead or alive per moth. Being a binary variable, a logistic regression is an ideal tool to analyse the data.</p>
+<p>Batches of 20 months of each sex were exposed for 3 days to the pyrethroid and the number in each batch which were dead (or knocked down) was recorded. The doses are used in two-fold increases, so it is natural to consider those on the log2-scale. The table of total dead moths per dose and sex is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>sex</th>
+<th>d=1</th>
+<th>d=2</th>
+<th>d=4</th>
+<th>d=8</th>
+<th>d=16</th>
+<th>d=32</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>male</td>
+<td>1</td>
+<td>4</td>
+<td>9</td>
+<td>13</td>
+<td>18</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>female</td>
+<td>0</td>
+<td>2</td>
+<td>6</td>
+<td>10</td>
+<td>12</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<p>We enter the data into R as follows: the dose is entered in its original scale, then log2-transformed. The total numbers of death moths are entered as a single vector, with all males followed by all females. So, the dose vector needs to be repeated (stacked) to produce entries corresponding to all total death count observations. Finally, we enter the sex by repeating <code>male</code> or <code>female</code> the required number of times.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="common-regression-models.html#cb134-1" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>)</span>
+<span id="cb134-2"><a href="common-regression-models.html#cb134-2" aria-hidden="true" tabindex="-1"></a>ldose <span class="ot">&lt;-</span> <span class="fu">log2</span>(dose)</span>
+<span id="cb134-3"><a href="common-regression-models.html#cb134-3" aria-hidden="true" tabindex="-1"></a>numdead <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">16</span>)</span>
+<span id="cb134-4"><a href="common-regression-models.html#cb134-4" aria-hidden="true" tabindex="-1"></a>ldose <span class="ot">&lt;-</span> <span class="fu">rep</span>(ldose, <span class="dv">2</span>)</span>
+<span id="cb134-5"><a href="common-regression-models.html#cb134-5" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), <span class="at">each =</span> <span class="fu">length</span>(dose))</span></code></pre></div>
+<p>To define the response as the pair of (number dead, number alive) we do:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="common-regression-models.html#cb135-1" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(numdead, <span class="at">numalive =</span> <span class="dv">20</span> <span class="sc">-</span> numdead)</span></code></pre></div>
+<p>Now we fit the logistic model:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="common-regression-models.html#cb136-1" aria-hidden="true" tabindex="-1"></a>budworm.lg <span class="ot">&lt;-</span> <span class="fu">glm</span>(resp <span class="sc">~</span> sex <span class="sc">+</span> ldose, <span class="at">family =</span> binomial)</span>
+<span id="cb136-2"><a href="common-regression-models.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(budworm.lg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = resp ~ sex + ldose, family = binomial)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.10540  -0.65343  -0.02225   0.48471   1.42944  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -3.4732     0.4685  -7.413 1.23e-13 ***
+## sexmale       1.1007     0.3558   3.093  0.00198 ** 
+## ldose         1.0642     0.1311   8.119 4.70e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 124.8756  on 11  degrees of freedom
+## Residual deviance:   6.7571  on  9  degrees of freedom
+## AIC: 42.867
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>There may also be an interaction effect between <code>sex</code> and <code>ldose</code>, meaning that the <code>ldose</code> effect may change depending on the sex. To check this, we add the interaction term:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="common-regression-models.html#cb138-1" aria-hidden="true" tabindex="-1"></a>budworm.lg.i <span class="ot">&lt;-</span> <span class="fu">update</span>(budworm.lg, . <span class="sc">~</span> sex<span class="sc">:</span>ldose)</span>
+<span id="cb138-2"><a href="common-regression-models.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(budworm.lg.i)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = resp ~ sex:ldose, family = binomial)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.45854  -0.29503  -0.05339   0.44888   1.06990  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      -2.9073     0.3893  -7.468 8.12e-14 ***
+## sexfemale:ldose   0.8823     0.1275   6.920 4.52e-12 ***
+## sexmale:ldose     1.2893     0.1669   7.723 1.13e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 124.8756  on 11  degrees of freedom
+## Residual deviance:   5.0443  on  9  degrees of freedom
+## AIC: 41.155
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Here we fitted a new model by using the function <code>update</code>, which added the interaction effect <code>sex:dose</code> to the linear predictor already in <code>budworm.lg</code>. Note that this is the same as fitting the model by calling <code>glm</code> again with the interaction term added.</p>
+<p>We can use <code>anova</code> to summarize results for a model, as before. Here we will test for the effect of variables in the model fit <code>budworm.lg</code>. The function <code>anova</code> will perform testing as if variables were added sequentially, one by one. In this case, the effect of <code>sex</code> is tested, subsequently the effect of <code>ldose</code> given that the <code>sex</code> effect is corrected for. Let us try this out:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="common-regression-models.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(budworm.lg)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: resp
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##       Df Deviance Resid. Df Resid. Dev
+## NULL                     11    124.876
+## sex    1    6.077        10    118.799
+## ldose  1  112.042         9      6.757</code></pre>
+<p>Note that the <code>anova</code> function now did not return a p-value for the covariate effects. When applied with generalized linear model fits, this is the default. This forces the user to choose the appropriate test to run (see <code>help(anova.glm)</code> for details). The suitable test in this case is the chi-square, so we rerun it using:</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="common-regression-models.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(budworm.lg, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: resp
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##       Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)    
+## NULL                     11    124.876             
+## sex    1    6.077        10    118.799   0.0137 *  
+## ldose  1  112.042         9      6.757   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In order to test for the main effects, followed by the interaction, use the entire model fit in one <code>glm</code> call:</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="common-regression-models.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">glm</span>(resp <span class="sc">~</span> sex <span class="sc">+</span> ldose <span class="sc">+</span> sex<span class="sc">:</span>ldose, <span class="at">family =</span> binomial), <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: resp
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##           Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)    
+## NULL                         11    124.876             
+## sex        1    6.077        10    118.799   0.0137 *  
+## ldose      1  112.042         9      6.757   &lt;2e-16 ***
+## sex:ldose  1    1.763         8      4.994   0.1842    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We conclude that both <code>sex</code> and <code>ldose</code> have statistically significant effects, but that the interaction does not.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/02-Logistic-regression.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/02-Logistic-regression.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="fitted-values" class="section level3" number="3.2.5">
+<h3><span class="header-section-number">3.2.5</span> Fitted values</h3>
+<p>It is useful to make a graph of the predicted values. For this, we use the function <code>predict</code>. It needs as input the fitted model, in this case <code>budworm.lg</code>, as well as the data for which you want to make predictions. If no data is given, the fitted values corresponding to the observed data are used. If data is provided, it needs to be given as a <code>data.frame</code> object, containing variables with the same variable names as in the original data.</p>
+<p>Let us first extract the fitted values:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="common-regression-models.html#cb146-1" aria-hidden="true" tabindex="-1"></a>myfitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(budworm.lg)</span>
+<span id="cb146-2"><a href="common-regression-models.html#cb146-2" aria-hidden="true" tabindex="-1"></a>myfitted</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6          7 
+## -2.3724119 -1.3081980 -0.2439840  0.8202300  1.8844439  2.9486579 -3.4731553 
+##          8          9         10         11         12 
+## -2.4089413 -1.3447274 -0.2805134  0.7837006  1.8479145</code></pre>
+<p>By default, <code>predict</code> returns values on the scale of the linear predictor, i.e. it returns</p>
+<p><span class="math display">\[
+\hat\alpha + \hat\beta_1 X_1 + \hat\beta_2 X_2,
+\]</span>
+where <span class="math inline">\(\hat\alpha, \hat\beta_1, \hat\beta_2\)</span> are the parameter estimates from the model fit, as given in the column <code>Estimate</code> of the model fit summary:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="common-regression-models.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(budworm.lg)<span class="sc">$</span>coef</span></code></pre></div>
+<pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
+## (Intercept) -3.473155  0.4685202 -7.413032 1.234445e-13
+## sexmale      1.100743  0.3558271  3.093478 1.978249e-03
+## ldose        1.064214  0.1310775  8.118971 4.701542e-16</code></pre>
+<p>While this is useful, it is easier to examine the model fit by comparing the fitted values on the scale of the response. For this, we use</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="common-regression-models.html#cb150-1" aria-hidden="true" tabindex="-1"></a>myfitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(budworm.lg, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb150-2"><a href="common-regression-models.html#cb150-2" aria-hidden="true" tabindex="-1"></a>myfitted</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6          7 
+## 0.08530076 0.21278854 0.43930479 0.69428515 0.86812073 0.95020002 0.03008577 
+##          8          9         10         11         12 
+## 0.08249341 0.20673372 0.43032791 0.68647712 0.86388206</code></pre>
+<p>These are fitted probabilities of dead moths for each combination of <code>ldose</code> and <code>sex</code>.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/03-Fitted-values.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/03-Fitted-values.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistical-tests---part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="statistical-tests---part-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

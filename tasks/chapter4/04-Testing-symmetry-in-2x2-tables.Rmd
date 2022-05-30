@@ -1,0 +1,101 @@
+---
+title: "04-Testing-symmetry-in-2x2-tables"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+
+1. A study of twins submits each twin to the same test. Twin 1 is just told to complete the test, whilst twin 2 receives extra explanation before completing the test. The study then evaluates whether or not the explanation helps, i.e., twin 2 performs better than twin 1 in the test. The table of the test results is:
+
+```{r, echo = FALSE}
+set.seed(56296)
+myn <- 200
+true.status <- runif(myn)
+e1 <- rnorm(myn, sd = 0.1)
+res.radio <- round(true.status + e1)
+res.comp <- round(true.status + e1 + rnorm(myn, mean = 0.1, sd = 0.2))
+res.comp[res.comp > 1] <- 1
+Twin1 <- factor(res.radio, labels = c("fail", "pass"))
+Twin2  <- factor(res.comp , labels = c("fail", "pass"))
+```
+
+```{r}
+table(Twin1, Twin2)
+```
+
+Use a test to decide whether twin 2 performs better than twin 1.
+
+```{r}
+mcnemar.test(table(Twin1, Twin2))
+```
+
+
+
+### Notes
+
+An exact version of the test makes use of the binomial distribution directly. An implementation of this version is also available in R, for example via the `exact2x2` package from Michael Fay, which can be found via the link below:
+
+https://cran.r-project.org/web/packages/exact2x2
+
+### Exercises
+
+
+1. Patients who regular have migraine often also have photophobia. A study was setup to evaluate whether a new treatment helps decrease the frequency of photophobia occurence. Patients first answer a questionnaire, indicating whether they had at least one migraine with photophobia in the last 6 months (`photophobia` = 1) or not (`photophobia` = 0). Six months after the new treatment is completed, they fill in the questionnaire again, indicating whether they had at least one migraine with photophobia in the 6 months after treatment or not. The observed table is as follows:
+
+```{r, echo = FALSE}
+set.seed(53396)
+myn <- 400
+true.status <- runif(myn)
+e1 <- rnorm(myn, sd = 0.1)
+res.radio <- round(true.status + e1)
+res.comp <- round(true.status + e1 + rnorm(myn, mean = 0.05, sd = 0.3))
+res.comp[res.comp > 1] <- 1
+res.comp[res.comp < 0] <- 0
+BeforeTreatment <- factor(res.radio, labels = c("noPhoto", "Photo"))
+AfterTreatment  <- factor(res.comp , labels = c("noPhoto", "Photo"))
+```
+
+
+```{r}
+table(BeforeTreatment, AfterTreatment)
+```
+
+Perform a test to decide whether the results after treatment lead to more often, or less often, photophobia than before treatment.
+
+```{r, echo= FALSE, eval = FALSE}
+mcnemar.test(table(BeforeTreatment, AfterTreatment))
+```
+
+
+2. A case-control study
+
+A study has been put together to better understand whether the exposure to environmental factors is associated with a rare type of cancer or not. To do this, cases of this cancer are included and, per case, a matching control is selected, which is similar to its corresponding case in all important covariates. The data consists thus of pairs of individuals, one being the case and one its matching control. Perform a test to decide whether exposure occurs more often in one of the groups (case or control).
+
+```{r, echo = FALSE, eval = FALSE}
+# The study involves pairs of measurements, and this design aspect needs to be taken into account
+#There is interest in testing whether or not the number of pairs (case, control) with different exposure status
+# differs from what we would expect by chance
+# So, here only the discording cases matter to decide on association between exposure and case/control
+# McNemar's test needs to be used
+
+```
+
+
+```{r, echo = FALSE}
+set.seed(53396)
+myn <- 300
+true.status <- rbeta(myn, shape1 = 4, shape2 = 1)
+e1 <- rnorm(myn, sd = 0.1)
+res.case <- round(true.status + e1)
+res.cont <- round(true.status + e1 + rnorm(myn, mean = 0.05, sd = 0.3))
+res.cont[res.cont > 1] <- 1
+Cases <- factor(res.case, labels = c("noExp", "Exp"))
+Controls  <- factor(res.cont , labels = c("noExp", "Exp"))
+table(Cases, Controls)
+```
+

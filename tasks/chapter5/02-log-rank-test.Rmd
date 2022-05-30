@@ -1,0 +1,36 @@
+---
+title: "02-log-rank-test"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+
+### Quick tasks
+
+1. Consider again the leukemia data in dataset `leuk`. We will now compare survival probabilities between the groups given by `ag`, representing the test result for the presence of Auer rods and/or significant granulation of leukaemic cells.
+
+Plot the Kaplan-Meier survival curves separately per group defined by the AG test. Compute the log-rank test to compare the two survival distributions between the two groups.
+
+```{r}
+# Create the Surv object
+leuk.surv <- Surv(leuk$time) # no event variable as all patients experience the event (death)
+# Define the comparison to be made
+leuk.fit <- survfit(leuk.surv ~ leuk$ag)
+# Make a plot if the survival distributions for the two groups
+mycols <- c("blue", "purple")
+plot(leuk.fit, col = mycols)
+legend("topright", legend = levels(leuk$ag), fill = mycols)
+# Test whether the difference is statistically significant using the log-rank test
+survdiff(leuk.surv ~ leuk$ag)
+sdif <- survdiff(leuk.surv ~ leuk$ag)$chisq
+lr.p <- pchisq(sdif, df = 1, lower.tail = FALSE)
+
+# Make a plot if the survival distributions for the two groups
+mycols <- c("blue", "purple")
+plot(leuk.fit, col = mycols, main = paste("log-rank p=", round(lr.p, 3)))
+legend("topright", legend = levels(leuk$ag), fill = mycols)
+
+```

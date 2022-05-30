@@ -1,0 +1,28 @@
+---
+title: "04-Power-analysis"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+
+### Quick tasks
+
+1. Consider again the leukemia data, for which a Cox model was fitted to understand how `ag` and `log(wbc)` affect prognosis. Compute the sample size required to find the same effect size for `ag` as in this data, using a significance level of $\alpha=0.005$.
+
+```{r}
+leuk.cox <- coxph(Surv(time) ~ ag + log(wbc), data = leuk)
+# Check the coefficients
+leuk.cox$coefficients
+# We would like to extract the first element of this vector
+b1 <- leuk.cox$coefficients[1]
+p.event <- 1 # all have an event
+p1 <- mean(leuk$ag == "present")
+get.ssize.surv(beta = 0.8, alpha = 0.005, p1 = p1, b1 = b1, pevents = p.event)
+```
+
+
+
+

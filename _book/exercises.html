@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Exercises | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Exercises | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Exercises | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="survival-analysis.html"/>
+<link rel="next" href="appendix.html"/>
+<script src="libs/header-attrs-2.11.3/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exercises" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Exercises</h1>
+<div id="chapter-1" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Chapter 1</h2>
+<div id="exercise-1" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Exercise 1</h3>
+<p>Load the dataset mtcars in the R memory using the command (datamtcars)</p>
+<p>1.1 How many variables and observations are contained in the dataset? Print the 5 first rows of the dataset</p>
+<p>1.2 Plot the histograms of the continuous numerical variables of the dataset (type <code>?mtcars</code> to obtain the description of the dataset).</p>
+<p>1.3 We can clearly distinguish 3 right skewed distribution. Which are they?</p>
+<p>1.4 The variables <code>vs</code> and <code>am</code> both split the data in 2 categories plot the boxplots of the variable <code>qsec</code> for each group define by <code>vs</code> and <code>am</code>:</p>
+<p>1.5 Plot boxplots using the command <code>boxplot(qsec ~ vs:am)</code>. What is the difference with the plots obtained previously?</p>
+<p>1.6 compute the mean and standard variation for each continuous variable of the dataset for the 2 different engine types.</p>
+</div>
+<div id="exercise-2" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Exercise 2:</h3>
+<p>We continue with the same dataset:</p>
+<p>2.1 compute the correlation matrix associated for the three different correlations for all variables except the <code>vs</code> and <code>am</code> variables.</p>
+<p>2.2 Display the results using heatmaps.</p>
+</div>
+<div id="exercise-3" class="section level3" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Exercise 3(*)</h3>
+<p>3.1 Perform a pca analysis and plot the resulting scree plot.</p>
+<p>3.2 display the eigenvalues of the oca analysis. How many principal components would you keep?</p>
+<p>3.3 Plot the correlation circle for the first two principal components. What is your interpretation of the first principal component?</p>
+<p>3.4 Display the contribution of each variable on the principal components</p>
+</div>
+</div>
+<div id="chapter-2" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Chapter 2</h2>
+<div id="exercise-1-1" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Exercise 1</h3>
+<p>Load the <code>ToothGrowth</code> dataset using the command line <code>data(ToothGrowth)</code>. This dataset is the result of an experiment on Guinea Pigs. It looks at the length of odontoblast cells after animals received a dose of vitamin C by one of two delivery methods. Namely, Orange juice (noted OJ) and ascorbic acid noted VC.</p>
+<p>Source: Crampton, E. W. (1947). The growth of the odontoblast of the incisor teeth as a criterion of vitamin C intake of the guinea pig. The Journal of Nutrition, 33(5), 491–504. doi: 10.1093/jn/33.5.491.</p>
+<p>1.1 Plot the histogram of the length of the odontoblast in the entire dataset.</p>
+<p>1.2 Plot the boxplot of the length of the ordotonblast for each method of delivery of the Vitamin C. Compute the quartiles for both distributions.</p>
+<p>1.3 Compute the mean absolute deviation in each group</p>
+<p>1.4 Perform a Student’t test to compare the mean of the length of the cells in both groups</p>
+<p>1.5 Extract the value of the t statistics, the standard error and the degree of freedom from the test statistics. Display the results in the sentence:</p>
+<p>The t statistics has a value of <code>r</code>, the estimated degrees of freedom of the Student’s t distribution are <code>r</code>. The final p.value of the test is <code>r</code>.</p>
+<p>1.6 Plot the distribution of the Student’s t distribution under the null hypothesis</p>
+<p>1.7 What are the values of the quantiles corresponding to boundaries between significane and non-significance?</p>
+<p>1.8 what would be the number of Guinea Pigs per group required in order to have a power of 80% to detect a significant difference between both groups? And for a power of 90%?</p>
+<p>1.9 Perform a Wilcoxon-Mann-Whitney test to compare the distribution of the length of the cells between both delivery methods</p>
+</div>
+<div id="exercise2" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Exercise2</h3>
+<p>2.1 Create a plot that represent the power as a function of the sample for an experiment with an estimated difference in mean of 2, a standard deviation of 1.2, and a significance level of 0.05 of a two sided Student’s t-test.</p>
+<p>2.2 Create the same plot for a standard deviation of 2.4.</p>
+<p>2.2 Create the same plot for a significance threshold of 0.1.</p>
+</div>
+</div>
+<div id="chapter-3" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Chapter 3</h2>
+<div id="exercise-1-2" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Exercise 1</h3>
+<p>1.1 We go back to the <code>ToothGrowth</code> dataset. We saw that there is a significant difference in the average length of the odontoblast between the two delivery methods of vitamin C. We are now interested in the relationshipt between the dose of vitamin C and the length of odontoblast. Perform a linear regression model to test for association between these 2 variables.</p>
+<p>1.2 Extract the estimates and corresponding statistics and p-values frol the regression</p>
+<p>1.3 Create Plots in order to check the assumptions of the model</p>
+<p>1.3 We can see that the residuals does not really follow a gaussian distribution. Use a log transformation on the length variable and compare the results</p>
+<p>1.4 The transformation slightly improved the results. From the previous exercises we have observed an association between the delivery method and the length of the cells. Ass the delivery method in the linear regression:</p>
+<p>1.5 It could be relevant to add a possible interaction between the dose given and the delivery method. Add an interaction effect in the model:</p>
+<p>1.6 What do you conclude from this analysis?</p>
+</div>
+<div id="exercise-2-1" class="section level3" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Exercise 2</h3>
+<p>2.1. Return to the budworms example. Using the model fitted including the main effects of <code>sex</code> and <code>ldose</code> as well as their interaction, extract the fitted probabilities. Make a graph of observed and expected probabilities, and include a legend. Make sure to distinguish the groups, for example by using different plotting symbols for <code>sex</code> and different colours depending on the dose. Note that the observed probabilities are given by <code>numdead/20</code>.</p>
+</div>
+<div id="exercise-3-1" class="section level3" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Exercise 3</h3>
+<p>Analyse now the <code>birthwt</code> data from the package <code>MASS</code>, to investigate factors that may affect the chance of low birth weight.</p>
+<p>3.1 Fit a logistic regression model to the variable representing low weight, using <code>smoke</code> as covariate in the model. Note that the response variable now is binary, not counts. Examine the model fit to check if it represents a good approximation of the data.</p>
+<p>3.2 Extract fitted probabilities and plot those together with the observed data. Note that the latter is now simply a binary variable.</p>
+<p>3.3 Fit now a logistic regression model to the variable representing low weight, using all covariates in the model. Examine the model fit to check if it represents a good approximation of the data. Extract fitted probabilities and plot those together with the observed data. Note that the latter is now simply a binary variable.</p>
+<p>3.4 We think that the model can be improved further, but it is not immediately clear which variables should be included, and in which order. For this, we can use the function <code>step</code>, which performs stepwise regression. This involves comparing model fits by using the Akaike Information Criterion (AIC). A statistical test helps deciding whether the AIC value indicates a statistically significant improvement between model fits. Try to improve the basic model which includes <code>smoke</code> and <code>lwt</code>, by adding variables <code>age</code>, <code>ptl</code>, <code>ht</code> and <code>ftv</code> one at a time. Check the help file for <code>step</code>, and call the function using as <code>object</code> the fitted model with <code>smoke</code> and <code>lwt</code>, and as <code>scope</code> the formula for the model including these two, plus the extra covariates.</p>
+</div>
+</div>
+<div id="chapter-4" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Chapter 4</h2>
+<div id="exercise-1-3" class="section level3" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Exercise 1</h3>
+<p>A study has looked at the relationship between aspirin use and heart attacks via a randomized clinical trial. The aim is to test whether aspirin taken regularly reduces mortality from cardiovascular disease. Study participants did not know if they used aspirin or a placebo. The table below summarizes some of their findings, according to fatal miocardial infarcts (FMI) and non-fatal ones (NFMI).</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>FMI</th>
+<th>NFMI</th>
+<th>No attack</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Placebo</td>
+<td>18</td>
+<td>171</td>
+<td>10845</td>
+</tr>
+<tr class="even">
+<td>Aspirin</td>
+<td>5</td>
+<td>99</td>
+<td>10933</td>
+</tr>
+</tbody>
+</table>
+<p>Source: example 2.2.4 (pp. 16-17) of Agresti, A. (1990) Categorical data analsis. Wiley, New York.</p>
+<p>1.1. Compute the proportions of heart attack depending on the drug used. Hint: After entering the data, add up the columns corresponding to heart attack and use <code>prop.table</code>. Save the result as an object. Write a small bit of text where you indicate the proportions found.</p>
+<p>The study found that there were <code>r</code> of those using aspirin, and <code>r</code> of those using placebo.</p>
+<p>1.2 Compute the relative risk of heart attacks in the placebo group, compared with the aspirin group.</p>
+<p>1.3 Compute the sample odds ratio of having a heart attack in the placebo group.</p>
+<p>1.4 Write a short piece of text where the computed relative risk and odds ratio are included, with inline code.</p>
+<p>1.5 Test the hypothesis that the use of aspirin, compared to placebo, has no effect on the chance of a heart attack, against the hypothesis that aspirin modifies the chance, without making an assumption about in which direction the modification may occur.</p>
+<p>1.6 Extract the odds ratio estimates from 1.3 and 1.6, and include them as inline code in the text below.</p>
+<p>The odds ratio estimated by us from the table was <code>r</code>, and the one estimated by Fisher<code>s exact test was</code>r`.</p>
+</div>
+<div id="exercise-2-2" class="section level3" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Exercise 2</h3>
+<p>A study looked at the association between job satisfaction and income, gathering the data in the table below.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Very dissatisf.</th>
+<th>Little dissatisf.</th>
+<th>Moderately satisf.</th>
+<th>Very satisf.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;6,000</code></td>
+<td>20</td>
+<td>24</td>
+<td>80</td>
+<td>82</td>
+</tr>
+<tr class="even">
+<td><code>6,000-15,000</code></td>
+<td>22</td>
+<td>38</td>
+<td>104</td>
+<td>125</td>
+</tr>
+<tr class="odd">
+<td><code>15,000-25,000</code></td>
+<td>13</td>
+<td>28</td>
+<td>81</td>
+<td>113</td>
+</tr>
+<tr class="even">
+<td><code>&gt;25,000</code></td>
+<td>7</td>
+<td>18</td>
+<td>54</td>
+<td>92</td>
+</tr>
+</tbody>
+</table>
+<p>Source: example 2.3.2 (pp. 20-21) of Agresti, A. (1990) Categorical data analsis. Wiley, New York.</p>
+<p>2.1 Enter the data into R by making a matrix. Assign meaningful row and columns names. Print out the matrix to check that it has been entered correctly.</p>
+<p>2.2 Add the counts from the dissatisfaction columns up, keeping the split between income levels. Do the same for the satisfaction columns. Make a new table (or a matrix) with these two new columns.</p>
+<p>2.3 Use the chi-square test to compare the spread of people across income classes between satisfied and dissatisfied groups. Print out the test result and save the p-value in an object.</p>
+<p>2.4 Complete the text below with the values of this example using inline code.</p>
+<p>This study recorded job satisfaction from <code>r</code> people across <code>r</code> income classes. A chi-square test for the count distribution across income classes yielded a p-value of <code>r</code>.</p>
+<p>2.5 Compute the total sample size that would be required, in order to find the observed effect size as significant with a significance level <span class="math inline">\(\alpha=0.05\)</span> and power 0.8. Note that the number of degrees of freedom is equal to the number of rows in the table, minus 1.</p>
+<p>2.6 Compute log-odds ratios for each income class, compared with the lowest income class.</p>
+<p>2.7 Complete the following text with inline code.</p>
+<p>This study found that odds of being dissatisfied, compared with being satisfied, is for the income class <code>&gt;25,000</code> <code>r</code> that for the income class of <code>&lt;6,000</code>.</p>
+</div>
+<div id="exercise-3-2" class="section level3" number="6.4.3">
+<h3><span class="header-section-number">6.4.3</span> Exercise 3</h3>
+<p>The table below gives the grade into which left and right eye of the same person were classified. Use an appropriate test to check if there is evidence that eye grades of one side are typically better than the other side, against the null hypothesis that the better grade is observed at random for the left and for the right eye.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Left eye graded best</th>
+<th>Left eye graded worst</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Right eye graded best</td>
+<td>3532</td>
+<td>700</td>
+</tr>
+<tr class="even">
+<td>Right eye graded worst</td>
+<td>597</td>
+<td>2648</td>
+</tr>
+</tbody>
+</table>
+<p>3.1 Enter the data as a matrix and define row and column names. Check that your definition is correct.</p>
+<p>3.2 Use an appropriate test to check if there is evidence that eye grades of one side are typically better than the other side, against the null hypothesis that the better grade is observed at random for the left and for the right eye.</p>
+</div>
+<div id="exercise-4" class="section level3" number="6.4.4">
+<h3><span class="header-section-number">6.4.4</span> Exercise 4</h3>
+<p>A study compared radiation therapy with surgery in treating cancer of the larynx. The data is given below.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Cancer controlled</th>
+<th>Cancer not controlled</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Surgery</td>
+<td>21</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Radiation therapy</td>
+<td>15</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>4.1 Enter the data as a matrix, and define row as well as column names.</p>
+<p>4.2 Use a test to check if there is evidence that the response (cancer controlled or not) is independent of therapy.</p>
+<p>4.3 Compute the power of the test given the current data to find a difference between the two observed proportions.</p>
+<p>4.4 Evaluate the power for larger sample sizes, keeping the relative sample size for the first and second groups the same. Make a graph of results, with the total expected sample size on the x-axis and the power on the y-axis.</p>
+</div>
+</div>
+<div id="chapter-5" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Chapter 5</h2>
+<div id="exercise-1-4" class="section level3" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Exercise 1</h3>
+<p>Consider again the leukemia data in dataset <code>leuk</code>. We will now compare survival probabilities between the groups given by <code>ag</code>, representing the test result for the presence of Auer rods and/or significant granulation of leukaemic cells.</p>
+<p>1.1 Plot the Kaplan-Meier survival curves separately per group defined by the AG test. Compute the log-rank test and add the test result to the graph’s title.</p>
+<p>1.2 By default the curves are plotted with the same colour. Add colours to the plot by using the slot <code>col</code> in the <code>plot</code> call. Note that curves are plotted using the order of the factor levels in the grouping variable, which is also the order used by <code>print</code> and <code>summary</code> - in this example D1 comes first, followed by D2. Add a legend to the plot indicating which group corresponds to which colour.</p>
+<p>1.3 Note that in this case no confidence interval was displayed. Indeed, only when there is a single curve are confidence intervals displayed by default. Display confidence intervals in the plot, using the option <code>conf.int = TRUE</code>.</p>
+<p>Colours defined for the groups we now used also for the confidence interval curves.</p>
+<p>1.4 Use the log-rank test to compare the survival probabilities of the two groups defined by <code>ag</code>. Save the p-value corresponding to the test as an object.</p>
+<p>1.5 Plot the Kaplan-Meier curves separately per group, and add the p-value to the plot title. Use different colours to display the curves of different groups.</p>
+<p>1.6 Now fit a Cox regression model to the <code>Surv</code> response using <code>log(wbc)</code> as covariate, and another using both <code>log(wbc)</code> and <code>ag</code> as covariates. Save the fitted models as objects.</p>
+<p>1.7 The model is fitted using methods similar to those used for generalized linear models. In particular, we can here also use ANOVA to compare models that are nested. Use <code>anova</code> to compare these two model fits. Can you conclude that the model with both <code>log(wbc)</code> and <code>ag</code> as covariates yields a better fit than the model with only <code>log(wbc)</code>?</p>
+<p>1.8 Let us compare survival probabilities estimated by Kaplan-Meier with those estimated by the Cox model. Make the graph of the Kaplan-Meier curves separately per <code>ag</code> group, as well as of the Cox model’s baseline hazards estimated separately, without correcting for <code>log(wbc)</code>. How do the survival probabilities estimated by Kaplan-Meier compare with those estimated by Cox regression?</p>
+<p>1.9 Now repeat this plot, using the Cox model with separate baseline hazards depending on the group defined by <code>ag</code> as before, and correcting for the effect of <code>log(wbc)</code>. How do these results compare with those from the previous exercise?</p>
+</div>
+<div id="exercise-2-3" class="section level3" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> Exercise 2</h3>
+<p>Read in the migraine data again. Check that the Kaplan-Meier curve produced by using the <code>survfit</code> object with just an intercept is the same as the one produced by plotting the <code>Surv</code> object directly.</p>
+</div>
+<div id="exercise-3-3" class="section level3" number="6.5.3">
+<h3><span class="header-section-number">6.5.3</span> Exercise 3</h3>
+<p>Researchers want to start a study to find if progression is related to a chromosomal aberration sometimes found in cancer patients. Here we mean by <em>progression</em> the combination of time from end-of-treatment to relapse, as well as the event, which can be relapse or end-of-study, the latter representing censoring. In addition, individuals are recorded as having the aberration or not. From a previous study, progression data and information about the chromosomal aberration are available. Now they want to know how many patients are needed in their new study, designed to test if this chromosomal aberration affects progression or not.</p>
+<p>In addition to the chromosomal aberration, other covariates will be taken into account when studying progression, such as the study. For this reason, the researchers decided that they will use a Cox proportional-hazards model to analyse the data and test for the effect of the chromosomal aberration on progression to relapse.</p>
+<p>3.1. Read the data in from file <code>data_progression_2groups.txt</code>.</p>
+<p>3.2. Now explore the data. Check which variables it contains, compute the number of events equal to <code>yes</code>, and the proportion of them.</p>
+<p>3.3. Create a numeric variable representing the event (=1 if an event ocurred, =0 otherwise). The number of days of progression-free survival is given in the variable <code>pfs</code>. Create a <code>Surv</code> object and make a Kaplan-Meier curve of the data.</p>
+<p>3.4. Check how many cases there are in each group, and make separate Kaplan-Meier plots for the groups.</p>
+<p>3.5 Perform a log-rank test to compare the progression data between the groups.</p>
+<p>3.6 Now fit a Cox proportional-hazards model to estimate the difference in log-hazards between the two groups. Check if there is evidence that the proportional hazards assumption holds.</p>
+<p>3.7 Now use these results to determine how many samples would be required, in order to have the power of 0.80 to find an effect of the same size of the current effect, with a significance level of 0.01. Do not forget to load the function to estimate the sample size using the available parameters.</p>
+<p>3.8 Now use these results to determine how many samples would be required, in order to have the power of 0.80 to find an effect of half the size of the current effect, with a significance level of 0.01.</p>
+<p>3.9 Make a graph of the sample size necessary to find an effect size of values between the current log-hazard ratio and half of its size, using all other parameters the same as before.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="survival-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

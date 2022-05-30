@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Survival analysis | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Survival analysis | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Survival analysis | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistical-tests---part-2.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/header-attrs-2.11.3/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests---part-1.html"><a href="statistical-tests---part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests---part-2.html"><a href="statistical-tests---part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="survival-analysis" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Survival analysis</h1>
+<div id="survival-data---introduction" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Survival data - Introduction</h2>
+<div id="motivation-12" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Motivation</h3>
+<p>A migraine study wants to evaluate the time to recovery given a new drug (D2), compared to a commonly used drug (D1). Patients with migraine are invited to take part in the study, where they are randomized into two groups, each given one of the drugs. In each group, participants must take the drug they are given shortly after a new migraine episode starts. They record the time of taking the drug, and the time the migraine has stopped.
+In the course of the study, some patients could not record the time of recovery as they fell asleep before it happened. In such cases, all patients recorded that they had recovered by the time they woke up.</p>
+<p>The response in this case involves the event observed, recovered or not after a single dose of the assigned drug, as well as the time to event. The explanatory variable is the drug received. Of course, it is possible to analyse the association between each of the two variables with the drug used separately from each other, but doing this ignores important issues. Firstly, the event observed (recovered or not) may be related to the time to event. Secondly, there is interest in drawing conclusions for the combination of event as well as time-to-event variable, instead of for them separately. So, there is interest in considering the two variables as a single response. Indeed, a model that takes both event as well as time-to-event into account at the same time has more power to find effects than one that analyses the two variables separately. In addition, it yields conclusions about effects on both variables at the same time.</p>
+<p>Another important aspect is that, for some participants, the precise time at which recovery happened was not recorded, but it is known to have been after a certain time point. This means that the time-to-event is not precisely known, but known to be at least a certain value, for these participants. Such observations are said to be <em>censored</em>.</p>
+<p>We will now see how to analyse such a response variable, formed by a combination of an event variable with the time-to-event, where sometimes the time-to-event is not precisely known.</p>
+</div>
+<div id="working-example-8" class="section level3" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Working example</h3>
+<p>Consider the migraine study with the two drugs. The time-to-event is in this case the time (in minutes) between taking the assigned drug and the event. The event can be <code>recovery</code> (coded as 1) or <code>fail</code> (coded as 0), where the latter corresponds cases where the participant falls asleep without having recovered beforehand. Note that the time-to-event in case of a <code>fail</code> event is recorded as the time between taking the drug and the last moment the participant is known to not having recovered, which is when the participant fell asleep. As such, the time-to-event is at least as long as the time recorded, since migraine recovery may have recovered at any time while the participant slept.</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="survival-analysis.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39562</span>) <span class="co"># (493756)</span></span>
+<span id="cb270-2"><a href="survival-analysis.html#cb270-2" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb270-3"><a href="survival-analysis.html#cb270-3" aria-hidden="true" tabindex="-1"></a>fdrug <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> ss<span class="sc">/</span><span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>))</span>
+<span id="cb270-4"><a href="survival-analysis.html#cb270-4" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">7</span>), <span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">75</span>))</span>
+<span id="cb270-5"><a href="survival-analysis.html#cb270-5" aria-hidden="true" tabindex="-1"></a>tte <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(ss, <span class="at">shape =</span> <span class="dv">30</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">+</span>event<span class="sc">/</span><span class="dv">4</span>))</span>
+<span id="cb270-6"><a href="survival-analysis.html#cb270-6" aria-hidden="true" tabindex="-1"></a>migraine <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(event, <span class="at">time =</span> tte, <span class="at">drug =</span> fdrug)</span>
+<span id="cb270-7"><a href="survival-analysis.html#cb270-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(migraine, <span class="at">file =</span> <span class="st">&quot;migraine_data.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>The observed data for a subset of 10 participants is as follows:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="survival-analysis.html#cb271-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">5</span>), ])</span>
+<span id="cb271-2"><a href="survival-analysis.html#cb271-2" aria-hidden="true" tabindex="-1"></a>mydata</span></code></pre></div>
+<pre><code>##     event time drug
+## 1       0   41   D1
+## 2       0   29   D1
+## 3       1   20   D1
+## 4       1   23   D1
+## 5       1   16   D1
+## 201     0   29   D2
+## 202     0   25   D2
+## 203     1   26   D2
+## 204     1   34   D2
+## 205     1   21   D2</code></pre>
+<p>The data can be visualized in the following way:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="survival-analysis.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mydata &lt;- rbind(migraine[1:5, ], migraine[(ss/2+1):(ss/2+5), ])</span></span>
+<span id="cb273-2"><a href="survival-analysis.html#cb273-2" aria-hidden="true" tabindex="-1"></a>myxlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mydata<span class="sc">$</span>time))</span>
+<span id="cb273-3"><a href="survival-analysis.html#cb273-3" aria-hidden="true" tabindex="-1"></a>mypch <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span>, <span class="fu">nrow</span>(mydata))</span>
+<span id="cb273-4"><a href="survival-analysis.html#cb273-4" aria-hidden="true" tabindex="-1"></a>mypch[ mydata<span class="sc">$</span>event <span class="sc">==</span> <span class="dv">0</span> ] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb273-5"><a href="survival-analysis.html#cb273-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">xlim =</span> myxlim, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">nrow</span>(mydata)<span class="sc">+</span><span class="dv">1</span>), <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb273-6"><a href="survival-analysis.html#cb273-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Data for 10 participants&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;time to event (minutes)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;participant&quot;</span>)</span>
+<span id="cb273-7"><a href="survival-analysis.html#cb273-7" aria-hidden="true" tabindex="-1"></a>mcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(mydata)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb273-8"><a href="survival-analysis.html#cb273-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)) <span class="fu">segments</span>(<span class="dv">0</span>, xi, mydata<span class="sc">$</span>time[xi], xi,  <span class="at">col =</span> mcol[xi], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb273-9"><a href="survival-analysis.html#cb273-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)) <span class="fu">points</span>(mydata<span class="sc">$</span>time[xi], xi, <span class="at">col =</span> mcol[xi], <span class="at">pch =</span> mypch[ xi ])</span>
+<span id="cb273-10"><a href="survival-analysis.html#cb273-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>), <span class="at">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb273-11"><a href="survival-analysis.html#cb273-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>) )</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
+<p>In the graph, the time point 0 represents the moment the participant took the drug for that migraine event, and the horizontal line indicates the period during which the participant’s migraine is known to have persisted. The right-hand point where the line ends includes a symbol representing the event observed: <code>x</code> indicates a recovery event, and <code>o</code> indicates a <code>fail</code> event.</p>
+</div>
+<div id="kaplan-meier-curve" class="section level3" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Kaplan-Meier curve</h3>
+<p>One of the most commonly used methods to analyse survival data is the Kaplan-Meier curve. It combines information from an event variable with the time-to-event to yield a probability of survival per time point. Originally called the product limit estimator, it is a result of ideas proposed independently by E. Kaplan and P. Meier for publication by the Journal of the American Statistical Association, which by suggestion of the journal’s editor was combined into a single article published in 1958.</p>
+<p>Here we will present an intuitive view of how the Kaplan-Meier curve is computed, and how it can be interpreted. More formal introductions are widely available, for example from chapter 12 of Peter Dalgaard’s book.</p>
+<p>The Kaplan-Meier curve essentially yields an estimate of the probability of survival beyond each time point. By “survival” here we mean a time-to-event longer than the time point considered. A graph is produced using the estimated probabilities for multiple time points.</p>
+<p>Such a probability of survival computed for each time point essentially is the proportion of individuals at risk of having an event just before the time point subtracted from the number of events at the time point, relative to all individuals. Note that the proportion of individuals at risk changes only when an event is observed, and the total number of individuals typically stays fixed. So, the Kaplan-Meier probability of survival estimates only changes at the time points where events are observed.</p>
+<p>Censored observations (in the sense defined above) belong to the group of all individuals at risk during the entire duration of the study, since we essentially do not know anything about their time-to-event, except that it was larger than a certain time.</p>
+<p>Computing the Kaplan-Meier curve does not require any assumptions about the data distribution (event or time-to-event), apart from the facts that event is a grouping variable (as it defines one of a set of known events, per individual) and time-to-event is a non-negative variable (as it represents time). This means it is a non-parametric method, and it makes it widely applicable.</p>
+</div>
+<div id="working-example-cont-1" class="section level3" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> Working example (cont)</h3>
+<p>We can illustrate this with the subset of the migraine study, where we first consider participants from a single group, thus making use of the same drug:</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="survival-analysis.html#cb274-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ] <span class="co">#</span></span>
+<span id="cb274-2"><a href="survival-analysis.html#cb274-2" aria-hidden="true" tabindex="-1"></a>mydata1 <span class="ot">&lt;-</span> mydata[, <span class="sc">-</span><span class="dv">3</span>]</span>
+<span id="cb274-3"><a href="survival-analysis.html#cb274-3" aria-hidden="true" tabindex="-1"></a>mydata1</span></code></pre></div>
+<pre><code>##    event time
+## 1      0   41
+## 2      0   29
+## 3      1   20
+## 4      1   23
+## 5      1   16
+## 6      1   15
+## 7      0   23
+## 8      0   31
+## 9      1   22
+## 10     1   28</code></pre>
+<p>We can easily see how to obtain the estimated probability that the recovery takes longer than a given time, per time point. For any time point prior to the first event occurring, the probability of recovery taking longer than that time point is the number of participants at risk at that time point divided by the total of participants, so it equals 1. Subsequently, for each time point shortly before an event (recovery) is observed, the number of participants at risk decreases by the number of events, which equals 1. We illustrate this by displaying the computed survival probabilities below for the subset of the <code>migraine</code> data:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="survival-analysis.html#cb276-1" aria-hidden="true" tabindex="-1"></a>mydatas <span class="ot">&lt;-</span> mydata1[<span class="fu">order</span>(mydata1<span class="sc">$</span>time), ]</span>
+<span id="cb276-2"><a href="survival-analysis.html#cb276-2" aria-hidden="true" tabindex="-1"></a>nrisk <span class="ot">&lt;-</span> <span class="fu">nrow</span>(mydatas) <span class="sc">-</span> <span class="fu">cumsum</span>(mydatas<span class="sc">$</span>event)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)]</span>
+<span id="cb276-3"><a href="survival-analysis.html#cb276-3" aria-hidden="true" tabindex="-1"></a>prob.surv <span class="ot">&lt;-</span> nrisk<span class="sc">/</span><span class="fu">rep</span>(<span class="fu">nrow</span>(mydatas), <span class="fu">length</span>(nrisk))</span>
+<span id="cb276-4"><a href="survival-analysis.html#cb276-4" aria-hidden="true" tabindex="-1"></a>prob.surv</span></code></pre></div>
+<pre><code>## [1] 0.9 0.8 0.6 0.5 0.4 0.4 0.4 0.4</code></pre>
+<p>The first two time points correspond to 1 event, but on the third time point 2 events are observed, explaining the larger drop.</p>
+<p>Note that, for the time points corresponding to censored time-to-event observations, the probability did not change, as no event was observed. For those, no computation is needed.</p>
+<p>Kaplan-Meier curves yield estimates for the survival probabilities. Confidence intervals are often obtained via what is called Greenwood’s formula. As the Kaplan-Meier curve, these are nonparametric estimates since they do not rely on any assumption about the data distribution.</p>
+<p>Note that estimates of both the Kaplan-Meier curve as well as of the confidence intervals on the right-hand side of the plot typically are associated with high variability. Therefore, care must be taken when interpreting results for the part of the curve with few individuals at risk. More details about this can be found in chapter 12 of Peter Dalgaard’s book.</p>
+</div>
+<div id="survival-data-analysis-in-r" class="section level3" number="5.1.5">
+<h3><span class="header-section-number">5.1.5</span> Survival data analysis in R</h3>
+<p>In R, classic survival data analysis methods are available via the package <code>survival</code>. Let us start by loading it.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="survival-analysis.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div>
+<p>A survival data analysis starts by the creation of the response object, which combines the event variable with the time-to-event. In the migraine study example, these are variables <code>event</code> and <code>time</code>. The response object is created by the function <code>Surv()</code>:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="survival-analysis.html#cb279-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata1<span class="sc">$</span>time, <span class="at">event =</span> mydata1<span class="sc">$</span>event)</span></code></pre></div>
+<p>With the response object created, it is straightforward to plot the Kaplan-Meier curve yielded by this object:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="survival-analysis.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(migr.surv, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
+<p>The computation of the Kaplan-Meier curve is actually done using the function <code>survfit</code>. It requires as input a formula object, with the <code>Surv</code> object as response and for example a grouping variable as covariate. In this case we will consider no grouping, so we use <code>1</code> to represent a model with just the intercept:</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="survival-analysis.html#cb281-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>( migr.surv <span class="sc">~</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>The summary of <code>survfit</code> yields the computed survival probabilities. In particular, we can now check that the computed probabilites we obtained above are correct:</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="survival-analysis.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( svfit )</span></code></pre></div>
+<pre><code>## Call: survfit(formula = migr.surv ~ 1)
+## 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    15     10       1    0.900  0.0949        0.732        1.000
+##    16      9       1    0.800  0.1265        0.587        1.000
+##    20      8       1    0.700  0.1449        0.467        1.000
+##    22      7       1    0.600  0.1549        0.362        0.995
+##    23      6       1    0.500  0.1581        0.269        0.929
+##    28      4       1    0.375  0.1606        0.162        0.868</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/01-Survival-analysis-in-R.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/01-Survival-analysis-in-R.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="survival-data-for-groups-the-log-rank-test" class="section level3" number="5.1.6">
+<h3><span class="header-section-number">5.1.6</span> Survival data for groups: the log-rank test</h3>
+<p>Typically there is interest in studying the association between a survival response and a covariate, say a grouping variable. This was the case in the <code>migraine</code> working example, where each group made use of a different drug to treat migraine. There is then interest in comparing the survival functions of the two groups.</p>
+<p>We can compute the Kaplan-Meier estimators per group, but how do we compare the two obtained curves? This can be done using the log-rank test.</p>
+<p>Let us assume that the covariate splits individuals in the study into two groups, and that Kaplan-Meier estimates of the survival distributions were computed per group. The log-rank test helps us test the null hypothesis that two survival distributions are statistically the same, against the alternative hypothesis that they are different. The concept of “statistically the same” seems rather vague. What we mean by it is: under the null hypothesis, differences between the two estimated survival distributions arise at random. This can be seen as comparing the number of observed events/no events per interval (defined by the time between two consecutive events) between the two groups, in what essentially is a 2x2 table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Group 2, no event</th>
+<th>Group 2, event</th>
+<th>Total</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Group 1, no event</strong></td>
+<td>y11</td>
+<td>y12</td>
+<td>y1.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Group 1, event</strong></td>
+<td>y21</td>
+<td>y22</td>
+<td>y2.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>y.1</td>
+<td>y.2</td>
+<td>N</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>For any given interval, this comparison can be done by means of a Fisher’s exact test (which we saw in chapter 4). The log-rank test results if, per interval, the observed statistic is compared to the expected, across all intervals. The distribution of the resulting test statistic can be approximated by the chi-square with 1 degree of freedom, the same that we used for 2x2 tables when the individual frequencies were large enough.</p>
+<p>Note that the log-rank test assumes that the censoring is unrelated to the response variables, so both to event as well as to time-to-event. In fact, many of the survival data analysis methods make this assumption. It is therefore crucial to verify that this assumption holds in any data being analysed. This cannot be done by a statistical test, but you could for example</p>
+<p>In R, this can be done by using the <code>survfit</code> function. The argument is a formula object, defining the comparison to be performed.</p>
+</div>
+<div id="working-example-cont-2" class="section level3" number="5.1.7">
+<h3><span class="header-section-number">5.1.7</span> Working example (cont)</h3>
+<p>Let us compare the obtained survival curves between groups using drugs D1 and D2 in a small subset of the migraine example. First select the subset:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="survival-analysis.html#cb284-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">10</span>), ])</span></code></pre></div>
+<p>Then create the response, the <code>Surv</code> object:</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="survival-analysis.html#cb285-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata<span class="sc">$</span>time, <span class="at">event =</span> mydata<span class="sc">$</span>event)</span></code></pre></div>
+<p>Now use <code>survfit</code> to compute the Kaplan-Meier per group. This function uses as input a formula, defining the <code>Surv</code> response and the grouping variable <code>drug</code> indicating the drug used per individual:</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="survival-analysis.html#cb286-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(migraine<span class="sc">$</span>time, migraine<span class="sc">$</span>event) <span class="sc">~</span> migraine<span class="sc">$</span>drug)</span></code></pre></div>
+<p>The object yielded by <code>survfit</code> is of class <code>survfit</code>. We can print out a summary of the object:</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="survival-analysis.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(svfit)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(migraine$time, migraine$event) ~ migraine$drug)
+## 
+##                    n events median 0.95LCL 0.95UCL
+## migraine$drug=D1 200    149     25      24      26
+## migraine$drug=D2 200    146     25      24      26</code></pre>
+<p>and prind the Kaplan-Meier survival probabilities estimated for the two groups:</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="survival-analysis.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(svfit)</span></code></pre></div>
+<pre><code>## Call: survfit(formula = Surv(migraine$time, migraine$event) ~ migraine$drug)
+## 
+##                 migraine$drug=D1 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    15    199       2    0.990 0.00707        0.976        1.000
+##    16    197       1    0.985 0.00864        0.968        1.000
+##    17    196       2    0.975 0.01109        0.953        0.997
+##    18    194       6    0.945 0.01620        0.914        0.977
+##    19    188       7    0.910 0.02033        0.871        0.950
+##    20    181      12    0.849 0.02536        0.801        0.900
+##    21    169       7    0.814 0.02758        0.762        0.870
+##    22    162      17    0.729 0.03152        0.669        0.793
+##    23    144      11    0.673 0.03328        0.611        0.741
+##    24    130      22    0.559 0.03542        0.494        0.633
+##    25    106      13    0.491 0.03582        0.425        0.566
+##    26     92      15    0.411 0.03543        0.347        0.486
+##    27     75       5    0.383 0.03512        0.320        0.459
+##    28     68       8    0.338 0.03442        0.277        0.413
+##    29     58       9    0.286 0.03322        0.227        0.359
+##    30     46       2    0.273 0.03292        0.216        0.346
+##    31     43       2    0.261 0.03259        0.204        0.333
+##    32     35       1    0.253 0.03250        0.197        0.325
+##    34     23       3    0.220 0.03338        0.163        0.296
+##    35     18       2    0.196 0.03386        0.139        0.275
+##    36     14       1    0.182 0.03420        0.126        0.263
+##    38      9       1    0.161 0.03586        0.104        0.250
+## 
+##                 migraine$drug=D2 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##    14    200       1    0.995 0.00499        0.985        1.000
+##    15    199       2    0.985 0.00860        0.968        1.000
+##    16    197       8    0.945 0.01612        0.914        0.977
+##    17    189       3    0.930 0.01804        0.895        0.966
+##    18    186       6    0.900 0.02121        0.859        0.943
+##    19    178       6    0.870 0.02384        0.824        0.918
+##    20    171       9    0.824 0.02703        0.773        0.879
+##    21    162      15    0.748 0.03088        0.689        0.811
+##    22    147      11    0.692 0.03286        0.630        0.759
+##    23    136      13    0.626 0.03445        0.562        0.697
+##    24    120      15    0.547 0.03557        0.482        0.622
+##    25    104      10    0.495 0.03584        0.429        0.570
+##    26     89      15    0.411 0.03568        0.347        0.488
+##    27     69       9    0.358 0.03523        0.295        0.434
+##    28     59       9    0.303 0.03423        0.243        0.378
+##    29     46       7    0.257 0.03316        0.200        0.331
+##    30     34       2    0.242 0.03289        0.185        0.316
+##    32     23       3    0.210 0.03326        0.154        0.287
+##    34     15       2    0.182 0.03423        0.126        0.263</code></pre>
+<p>Making a graph of the Kaplan-Meier curves is also straightforward:</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="survival-analysis.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(svfit)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
+<p>The log-rank test is computed by using the function <code>survdiff</code> on the comparison to be made, represented by the formula involving the <code>Surv</code> object as response, and the grouping variable on the right-hand side:</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="survival-analysis.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(migr.surv <span class="sc">~</span> mydata<span class="sc">$</span>drug)</span></code></pre></div>
+<pre><code>## Call:
+## survdiff(formula = migr.surv ~ mydata$drug)
+## 
+##                 N Observed Expected (O-E)^2/E (O-E)^2/V
+## mydata$drug=D1 10        6      5.6    0.0292    0.0572
+## mydata$drug=D2 10        6      6.4    0.0255    0.0572
+## 
+##  Chisq= 0.1  on 1 degrees of freedom, p= 0.8</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/02-log-rank-test.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/02-log-rank-test.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="survival-data---regression-models" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Survival data - regression models</h2>
+<div id="motivation-13" class="section level3" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Motivation</h3>
+<p>We have seen that we can estimate survival probability curves by using the Kaplan-Meier method, and that we can test if they are intrinsically the same using the log-rank test. This test is used for comparing the survival distribution curves between two groups. However, the effect of variables with more groups, or of continuous variables, and that of many variables at the same time, cannot be (directly) tested by means of the log-rank test.</p>
+<p>What we want to do is to use a framework like that of regression models, to be able to study the effect on the survival response of multiple variables, and of multiple types of variables, at the same time. Typically regression models only consider one response at the time. So what needs to be done to consider these two variables, in a way so that survival probabilities can be estimated?</p>
+<p>The first step is to understand what we want to model. Say that, instead of the survival response, we observe a rate <span class="math inline">\(\lambda_i\)</span> at which patients die, for samples indexed by <span class="math inline">\(i=1,\dots,n\)</span>. We will model this using regression as a linear function of a covariate <span class="math inline">\(X_i\)</span>. So we could write</p>
+<p><span class="math display">\[
+\lambda_i = \alpha + \beta X_i,\ i=1,\dots,n.
+\]</span>
+Since <span class="math inline">\(\lambda_i\)</span> is a rate, it is always non-negative. The model above could, however, yield estimates that are negative. To avoid this, we use a logarithmic link, as in:</p>
+<p><span class="math display">\[
+\log(\lambda_i) = \alpha + \beta X_i,\ i=1,\dots,n,
+\]</span>
+or, equivalently,
+<span class="math display">\[
+\lambda_i = \exp(\alpha + \beta X_i),\ i=1,\dots,n.
+\]</span>
+This model arises naturally if patients die at an exponential rate, where the exponential is a probability distribution. Other distributions can be used instead of the exponential, but the basic idea remains to explain the rate at which events are observed by a log-linear function of the covariates. This part of the model represents the contribution of covariates.</p>
+<p>A general formulation for modelling survival data is as follows: the hazard <span class="math inline">\(h(t)\)</span> of events at any time <span class="math inline">\(t\)</span> is a product of a baseline hazard <span class="math inline">\(h_0(t)\)</span>, common to all observations and varying with <span class="math inline">\(t\)</span>, multiplied by a part that depends only on the covariates and is fixed in time. That is:</p>
+<p><span class="math display">\[
+h_i(t) = h_0(t) \exp(\alpha+\beta X_i), \ i=1,\dots,n,
+\]</span>
+where the hazard <span class="math inline">\(h_i(t)\)</span> represents the probability of an event being observed at <span class="math inline">\(t\)</span> for observation <span class="math inline">\(i\)</span>, given that <span class="math inline">\(i\)</span> has not had an event up until <span class="math inline">\(t\)</span>. In this formulation, the baseline hazard function describes how events are generated over time, considering all observations. Then the effect of a covariate just represents a multiplicative effect on the baseline hazard for the entire study period.</p>
+<p>Such a formulation is based on a few asumptions:</p>
+<ul>
+<li><p>the covariate effect is fixed in time;</p></li>
+<li><p>there is a common baseline hazard yielding events for all observations, which is independent of the covariates;</p></li>
+</ul>
+<p>The latter implies that</p>
+<p><span class="math display">\[
+h_i(t)/h_j(t) = \frac{h_0(t) \exp(\alpha+\beta X_i)}{h_0(t) \exp(\alpha+\beta X_j)} = 
+\exp(\beta (X_i-X_j)),
+\]</span>
+which means that the hazard ratio for two observations at the same time point <span class="math inline">\(t\)</span> does not depend on <span class="math inline">\(t\)</span>, only depending on their covariates. This means that these observations have proportional hazards.</p>
+<p>Most regression models for survival data make use of this assumption, modelling the baseline hazard as the only function of time, multiplied by a log-linear function of the covariates. Classes of models arise depending on how the baseline hazard <span class="math inline">\(h_0(t)\)</span> is modelled.</p>
+<p>Parametric models for the baseline hazard include the exponential, as used above, the gamma, the log-normal and the Weibull. These can be fitted with the R function <code>survreg</code>. While they may be of interest, in practice non-parametric hazard functions are more commonly used, as they are more flexible. For this reason, we will here focus on survival regression models with non-parametric hazards.</p>
+</div>
+<div id="cox-proportional-hazards-model" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Cox proportional-hazards model</h3>
+<p>Perhaps the best known approach for estimating a non-parametric baseline hazard function in the context of a proportional-hazards model is the one proposed by D. R. Cox in 1972. The focus of fitting shifts from estimating the baseline hazard to estimating the proportional factors, the coefficients of the covariates in the model.</p>
+<p>Two important assumptions of the proportional hazards model remain: the effect of covariates does not vary with time, and the proportionality of hazards.</p>
+</div>
+<div id="working-example-9" class="section level3" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> Working example</h3>
+<p>To illustrate methods we will use the dataset <code>Melanoma</code>. Check what it contains by reading its help file, and examining the structure of the data.</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="survival-analysis.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
+<span id="cb294-2"><a href="survival-analysis.html#cb294-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb294-3"><a href="survival-analysis.html#cb294-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb294-4"><a href="survival-analysis.html#cb294-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
+##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
+##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
+##  $ sex      : int  1 1 1 0 1 1 1 0 1 0 ...
+##  $ age      : int  76 56 41 71 52 28 77 60 49 68 ...
+##  $ year     : int  1972 1968 1977 1968 1965 1971 1972 1974 1968 1971 ...
+##  $ thickness: num  6.76 0.65 1.34 2.9 12.08 ...
+##  $ ulcer    : int  1 0 0 0 1 1 1 1 1 1 ...</code></pre>
+<p>In this example, <code>time</code> is the survival time in days, and <code>status</code>
+is an indicator of the patient’s status by the end
+of the study:</p>
+<ul>
+<li><code>status</code> = 1: “dead from malignant melanoma”;</li>
+<li><code>status</code> = 2: “alive on January 1, 1978”;</li>
+<li><code>status</code> = 3: dead from other causes"</li>
+</ul>
+<p>We will first create a <code>Surv</code> object having only the event <code>dead from melanoma</code>, and both alive as well as dead due to other causes together as censoring. For this, we use:</p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="survival-analysis.html#cb296-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>So, in this case the endpoint variable used in <code>Surv</code> is a logical vector, equal to <code>TRUE</code> if <code>status</code> = 1, and <code>FALSE</code> otherwise.</p>
+<p>Now we want to know if <code>sex</code> affects the survival probability of melanoma. To do this, we compute the Cox regression using the <code>Surv</code> object defined above, and <code>sex</code> as a covariate:</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="survival-analysis.html#cb297-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb297-2"><a href="survival-analysis.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
+## 
+##   n= 205, number of events= 57 
+## 
+##       coef exp(coef) se(coef)     z Pr(&gt;|z|)  
+## sex 0.6622    1.9390   0.2651 2.498   0.0125 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##     exp(coef) exp(-coef) lower .95 upper .95
+## sex     1.939     0.5157     1.153      3.26
+## 
+## Concordance= 0.59  (se = 0.034 )
+## Likelihood ratio test= 6.15  on 1 df,   p=0.01
+## Wald test            = 6.24  on 1 df,   p=0.01
+## Score (logrank) test = 6.47  on 1 df,   p=0.01</code></pre>
+<p>Interpreting the summary output is similar to that of a fitted regression model: you have a table of coefficients with estimates, standard errors and a p-value for the test that the coefficient is equal to zero (or not). The end of the summary lists various tests that evaluate the goodness-of-fit of the model, so indicate whether or not the model represents well the data.</p>
+<p>The choice of group of interest will define the sign of the coefficient of <code>sex</code> in the Cox model fit. In this example, the event of interest is death and the group corresponding to <code>sex</code>=0 (females) is taken by the intercept, representing the baseline. Then the coefficient estimated for <code>sex</code> corresponds to the difference in log-hazard for individuals with <code>sex</code>=1 (males) compared to those with <code>sex</code>=0. In this particular case, the computed coefficient is positive, indicating that male patients have a worse prognosis (higher progression probability to death, taking both time and event into account) than females. So, in this example, <em>survival probability</em> actually means <em>progression to death</em>, as the event of interest is death.</p>
+<p>Note also that, if the group coding is inverted, with the second group now being assigned to the intercept, then the estimated coefficient of the grouping variable is the same as the one with the original coding, multiplied by -1.</p>
+<p>The summary of the fitted model has one additional part, compared to other regression models: a table of coefficients and confidence intervals on the exponential scale. This is given to make it easier to interpret the coefficients on the scale of the survival probability.</p>
+</div>
+<div id="group-specific-baseline-hazards" class="section level3" number="5.2.4">
+<h3><span class="header-section-number">5.2.4</span> Group-specific baseline hazards</h3>
+<p>The Cox model is easily extended to allow different baseline hazards for different groups. For example, in the <code>leuk</code> data there could be interest in allowing for different event rates in time, depending on the <code>ag</code> group of the patient - patients termed <code>AG</code> positive display Auer rods and/or significant granulation of their leukemic cells, which may affect the overall event rate. Different hazards according to <code>ag</code> group can be fitted by including the argument <code>strata</code> as <code>ag</code> in the model, as in:</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="survival-analysis.html#cb299-1" aria-hidden="true" tabindex="-1"></a>leuk.coxs <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> <span class="fu">strata</span>(ag) <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span>
+<span id="cb299-2"><a href="survival-analysis.html#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(leuk.coxs)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time) ~ strata(ag) + log(wbc), data = leuk)
+## 
+##   n= 33, number of events= 33 
+## 
+##            coef exp(coef) se(coef)     z Pr(&gt;|z|)   
+## log(wbc) 0.3906    1.4778   0.1426 2.738  0.00618 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##          exp(coef) exp(-coef) lower .95 upper .95
+## log(wbc)     1.478     0.6767     1.117     1.955
+## 
+## Concordance= 0.688  (se = 0.067 )
+## Likelihood ratio test= 7.78  on 1 df,   p=0.005
+## Wald test            = 7.5  on 1 df,   p=0.006
+## Score (logrank) test = 7.92  on 1 df,   p=0.005</code></pre>
+<p>Plots of the estimated survival distributions can be produced by using as input <code>survfit</code> applied to the fitted Cox model:</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="survival-analysis.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb301-2"><a href="survival-analysis.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG as covariate&quot;</span>)</span>
+<span id="cb301-3"><a href="survival-analysis.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-173-1.png" width="960" /></p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="survival-analysis.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>, <span class="at">log=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-174-1.png" width="672" />
+So, from the first model we obtained a single survival distribution, plotted making use of the reference or average value of each covariate. The stratified Cox regression plot yielded two survival distributions, one per stratum (AG group).</p>
+</div>
+<div id="the-proportional-hazards-assumption" class="section level3" number="5.2.5">
+<h3><span class="header-section-number">5.2.5</span> The proportional hazards assumption</h3>
+<p>By fitting a separate baseline hazard per group, we can compare the group-specific baseline hazards. This helps with checking the proportional-hazards assumption. Above we have made a graph of the separate hazards, on the scale of the survival probability. We can remake this plot on the scale of the log-probability. If the proportional hazards assumption holds, this should yield relatively parallel proportional hazards.</p>
+<p>In the <code>leuk</code> example, this can be done as follows:</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="survival-analysis.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/03-survival-analysis-regression-models.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/03-survival-analysis-regression-models.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="others" class="section level3" number="5.2.6">
+<h3><span class="header-section-number">5.2.6</span> Others</h3>
+<p>types of censoring</p>
+<p>competing risks</p>
+</div>
+</div>
+<div id="survival-data---power-analysis" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Survival data - power analysis</h2>
+<div id="motivation-14" class="section level3" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Motivation</h3>
+<p>Researchers want to start a study to find if progression is related to a chromosomal aberration sometimes found in cancer patients. Here we mean by <em>progression</em> the combination of time from end-of-treatment to relapse, as well as the event, which can be relapse or end-of-study, the latter representing censoring. In addition, individuals are recorded as having the aberration or not. From a previous study, progression data and information about the chromosomal aberration are available. Now they want to know how many patients are needed in their new study, designed to test if this chromosomal aberration affects progression or not.</p>
+<p>In addition to the chromosomal aberration, other covariates will be taken into account when studying progression, such as age and BMI. For this reason, the researchers decided that they will use a Cox proportional-hazards model to analyse the data and test for the effect of the chromosomal aberration on progression to relapse. The aim of the study is to test whether or not prognosis is the same in the two groups, against the alternative hypothesis that prognosis is different between the two groups.</p>
+<p>Since both pilot data are available and the analysis model has been chosen, a power analysis and/or sample size determination is possible.</p>
+</div>
+<div id="power-and-sample-size-for-cox-regression" class="section level3" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Power and sample size for Cox regression</h3>
+<p>As for other types of power analysis and minimum sample size calculations, we can use a formula that relates power, significance level and some statistics from the pilot study to perform calculations. The formula is:</p>
+<p><span class="math display">\[
+N = \frac{[z(1-\alpha/2) + z(\mbox{power})]^2}{p(1-p)\beta_1^2 P\{\mbox{event}\} }
+\]</span></p>
+<p>where</p>
+<ul>
+<li><p><span class="math inline">\(\alpha\)</span> is the desired significance level;</p></li>
+<li><p>the power is equal to <span class="math inline">\(1-\beta\)</span>, where <span class="math inline">\(\beta\)</span> is the type-II error;</p></li>
+<li><p><span class="math inline">\(z(\alpha)\)</span> is the quantile function corresponding to the standard normal distribution, yielding the value <span class="math inline">\(x\)</span> that leaves <span class="math inline">\(\alpha\)</span> probability that a value is observed smaller than, or equal to, <span class="math inline">\(x\)</span>, as implemented by <code>qnorm</code>;</p></li>
+<li><p><span class="math inline">\(p\)</span> represents the proportion of cases with the chromosomal aberration in the pilot study or, if known, in this population of patients;</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> represents the log-hazard ratio for the chromosomal aberration effect estimated from a Cox proportional-hazards model for the pilot data;</p></li>
+<li><p><span class="math inline">\(P\{\mbox{event}\}\)</span> represents the probability of events in the patient population, in this case estimated by the proportion of relapses (the event of interest);</p></li>
+<li><p><span class="math inline">\(N\)</span> is the sample size.</p></li>
+</ul>
+<p>As before, we can input values for some of these values, and evaluate the remaining ones.</p>
+<p>The above formula is built assuming that the test is double-sided, i.e. that the null hypothesis that prognosis does not differ between the two groups is tested against the alternative that the prognosis is different between the two groups. If the alternative is that prognosis is <em>better</em> in one group than the other, then the formula to be used is mostly the same, except that <span class="math inline">\(1-\alpha/2\)</span> is replaced by <span class="math inline">\(1-\alpha\)</span>.</p>
+<p>Note that the way the groups are defined (which group corresponds to the intercept) does not matter in this context. This is because the coefficient of the grouping variable <span class="math inline">\(\beta_1\)</span> is squared in the model, so its sign does not affect the results.</p>
+<p>You do not have to learn this formula by heart. But we will practice using it, so that you better understand what the components mean, and how they can be used when designing experiments.</p>
+</div>
+<div id="working-example-10" class="section level3" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Working example</h3>
+<p>Let us consider again the Melanoma data. For these data, the event of interest is <code>status</code>=1, and all other events are considered together as censoring. We define below the <code>Surv</code> object and fit the Cox model, as before:</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="survival-analysis.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb304-2"><a href="survival-analysis.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb304-3"><a href="survival-analysis.html#cb304-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
+##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
+##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
+##  $ sex      : int  1 1 1 0 1 1 1 0 1 0 ...
+##  $ age      : int  76 56 41 71 52 28 77 60 49 68 ...
+##  $ year     : int  1972 1968 1977 1968 1965 1971 1972 1974 1968 1971 ...
+##  $ thickness: num  6.76 0.65 1.34 2.9 12.08 ...
+##  $ ulcer    : int  1 0 0 0 1 1 1 1 1 1 ...</code></pre>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="survival-analysis.html#cb306-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb306-2"><a href="survival-analysis.html#cb306-2" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb306-3"><a href="survival-analysis.html#cb306-3" aria-hidden="true" tabindex="-1"></a>mel.cox</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
+## 
+##       coef exp(coef) se(coef)     z      p
+## sex 0.6622    1.9390   0.2651 2.498 0.0125
+## 
+## Likelihood ratio test=6.15  on 1 df, p=0.01314
+## n= 205, number of events= 57</code></pre>
+<p>The coefficient for <code>sex</code>, corresponding to the log-hazard ratio, is statistically significant from 0 at the significance level of <span class="math inline">\(\alpha=0.05\)</span>, but not if we use <span class="math inline">\(\alpha=0.005\)</span>. Let us evaluate what the sample size should be to detect a similar effect size on the log-hazard ratio, if <span class="math inline">\(\alpha=0.005\)</span> was to be used.</p>
+</div>
+<div id="minimum-sample-size" class="section level3" number="5.3.4">
+<h3><span class="header-section-number">5.3.4</span> Minimum sample size</h3>
+<p>Below we write a function to compute the sample size, given the desired power to find a log-hazard ratio from a Cox proportional-hazards model fit. This is written with a binary grouping in mind.</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="survival-analysis.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get.ssize.surv</span></span>
+<span id="cb308-2"><a href="survival-analysis.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb308-3"><a href="survival-analysis.html#cb308-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute the sample size required to find a log-hazard ratio </span></span>
+<span id="cb308-4"><a href="survival-analysis.html#cb308-4" aria-hidden="true" tabindex="-1"></a><span class="co">#using Cox regression, </span></span>
+<span id="cb308-5"><a href="survival-analysis.html#cb308-5" aria-hidden="true" tabindex="-1"></a><span class="co"># where the ratio is computed between two groups</span></span>
+<span id="cb308-6"><a href="survival-analysis.html#cb308-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb308-7"><a href="survival-analysis.html#cb308-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs</span></span>
+<span id="cb308-8"><a href="survival-analysis.html#cb308-8" aria-hidden="true" tabindex="-1"></a><span class="co"># beta: power, so 1-prob. type-II error </span></span>
+<span id="cb308-9"><a href="survival-analysis.html#cb308-9" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha: desired significance level </span></span>
+<span id="cb308-10"><a href="survival-analysis.html#cb308-10" aria-hidden="true" tabindex="-1"></a><span class="co"># p1: proportion of individuals in group 1 - it does not matter which group </span></span>
+<span id="cb308-11"><a href="survival-analysis.html#cb308-11" aria-hidden="true" tabindex="-1"></a><span class="co">#is taken as group 1, </span></span>
+<span id="cb308-12"><a href="survival-analysis.html#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     since this enters the formula via p1(1-p1)</span></span>
+<span id="cb308-13"><a href="survival-analysis.html#cb308-13" aria-hidden="true" tabindex="-1"></a><span class="co"># b1: log hazard ratio between the two groups </span></span>
+<span id="cb308-14"><a href="survival-analysis.html#cb308-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   It corresponds to the beta coefficient in the cox ph regression</span></span>
+<span id="cb308-15"><a href="survival-analysis.html#cb308-15" aria-hidden="true" tabindex="-1"></a><span class="co"># pevents: prop events</span></span>
+<span id="cb308-16"><a href="survival-analysis.html#cb308-16" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb308-17"><a href="survival-analysis.html#cb308-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb308-18"><a href="survival-analysis.html#cb308-18" aria-hidden="true" tabindex="-1"></a><span class="co"># the sample size required</span></span>
+<span id="cb308-19"><a href="survival-analysis.html#cb308-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb308-20"><a href="survival-analysis.html#cb308-20" aria-hidden="true" tabindex="-1"></a>get.ssize.surv <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, <span class="at">alpha=</span><span class="fl">0.05</span>, <span class="at">p1=</span><span class="fl">0.5</span>, <span class="at">b1=</span><span class="fl">0.5</span>, <span class="at">pevents=</span><span class="dv">1</span>)</span>
+<span id="cb308-21"><a href="survival-analysis.html#cb308-21" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb308-22"><a href="survival-analysis.html#cb308-22" aria-hidden="true" tabindex="-1"></a>  num <span class="ot">&lt;-</span> ( <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,<span class="at">lower.tail=</span><span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">qnorm</span>(beta, <span class="at">lower.tail=</span><span class="cn">FALSE</span>) ) <span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb308-23"><a href="survival-analysis.html#cb308-23" aria-hidden="true" tabindex="-1"></a>  den <span class="ot">&lt;-</span> p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">*</span>( b1<span class="sc">^</span><span class="dv">2</span> )<span class="sc">*</span>pevents</span>
+<span id="cb308-24"><a href="survival-analysis.html#cb308-24" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> num<span class="sc">/</span>den</span>
+<span id="cb308-25"><a href="survival-analysis.html#cb308-25" aria-hidden="true" tabindex="-1"></a>  n</span>
+<span id="cb308-26"><a href="survival-analysis.html#cb308-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This function takes as arguments:</p>
+<ul>
+<li><p><code>beta</code>: power, so 1-probability of the type-II error. This must be a value between 0 and 1;</p></li>
+<li><p><code>alpha</code>: the desired significance level. This must be a value between 0 and 1;</p></li>
+<li><p><code>p1</code>: proportion of individuals in group 1 - it does not matter which group is taken as group 1,
+since this enters the formula via p1(1-p1). This must be a value between 0 and 1;</p></li>
+<li><p><code>b1</code>: log hazard ratio between the two groups. It corresponds to the beta coefficient computed by the Cox proportional-hazards regression.</p></li>
+<li><p><code>pevents</code>: proportion of events in the data at hand.</p></li>
+</ul>
+</div>
+<div id="working-example-cont-3" class="section level3" number="5.3.5">
+<h3><span class="header-section-number">5.3.5</span> Working example (cont)</h3>
+<p>Let us extract the quantities needed to perform a power calculation. The proportion of events is the proportion of individuals with <code>status</code>=1 in the data:</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="survival-analysis.html#cb309-1" aria-hidden="true" tabindex="-1"></a>p.event <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>The log-hazard ratio estimated by the Cox model is stored in the slot <code>coefficients</code> which, in this case, has a single entry:</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="survival-analysis.html#cb310-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> mel.cox<span class="sc">$</span>coefficients</span></code></pre></div>
+<p>We also need to compute the proportion of individuals in group 1 (which is arbitrarily chosen). The grouping variable <code>sex</code> has values:</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="survival-analysis.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
+<pre><code>## 
+##   0   1 
+## 126  79</code></pre>
+<p>so its mean is equal to the proportion of individuals in group 1:</p>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="survival-analysis.html#cb313-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
+<p>Now we can run compute the sample size required, for power = 0.8, say, to detect an effect with a significance level of 0.005.</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="survival-analysis.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get.ssize.surv</span>(<span class="at">beta =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.005</span>, <span class="at">p1 =</span> p1, <span class="at">b1 =</span> b1, <span class="at">pevents =</span> p.event)</span></code></pre></div>
+<pre><code>##      sex 
+## 461.0044</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="_book/04-power-analysis.tasks.nocode.html">the task(s)</a>, and check your solution(s) <a href="_book/04-power-analysis.tasks.code.html">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="reference" class="section level3" number="5.3.6">
+<h3><span class="header-section-number">5.3.6</span> Reference</h3>
+<p>Hsieh, F. Y., and P. W. Lavori. 2000. Sample-size calculations for the Cox proportional hazards regression modelwith nonbinary covariates.Controlled Clinical Trials21: 552–560. DOI: 10.1016/s0197-2456(00)00104-5</p>
+</div>
+<div id="notes-2" class="section level3" number="5.3.7">
+<h3><span class="header-section-number">5.3.7</span> Notes</h3>
+<p>Formulae for power analysis and minimum sample size determination based upon the log-rank test also exist. However, these are applicable to the very specific case where a two-group comparison is made, and no covariates are used. For this reason, we have decided to present here the solution for the Cox proportional-hazard case only. We should note that the log-rank calculations are of course useful when proportional-hazards cannot be guaranteed, in which case analyses must rely on nonparametric tests such as the log-rank.</p>
+<p>Formulae for this sort of problem are also available for more complex designs, such as those from clinical trials. Many of those, as well as the one for the log-rank test, have been implemented in R via the package <code>powerSurvEpi</code>. Their help file is available via the link below:</p>
+<p><a href="https://cran.r-project.org/web/packages/powerSurvEpi/powerSurvEpi.pdf" class="uri">https://cran.r-project.org/web/packages/powerSurvEpi/powerSurvEpi.pdf</a></p>
+<p>In addition, Stata has many of such formulae implemented. You may wish to check those, or the references in their documentation:</p>
+<p><a href="https://www.stata.com/manuals/pss-2powercox.pdf#pss-2powercoxhsiehlavori2000" class="uri">https://www.stata.com/manuals/pss-2powercox.pdf#pss-2powercoxhsiehlavori2000</a></p>
+<p>If using Stata, please make sure you save the scripts used to running analyses!</p>
+</div>
+</div>
+<div id="survival-analysis---notes" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Survival analysis - Notes</h2>
+<p>We have just seen an introduction to survival data analysis. It is good to be aware of the things that, in the interest of time, we did not see during this introduction.</p>
+<div id="other-types-of-censoring" class="section level3" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Other types of censoring</h3>
+</div>
+<div id="right--left--and-interval-censoring" class="section level3" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Right-, left- and interval censoring</h3>
+<p>In our examples here we have had censored observations. These were observations from which we knew the starting points, but not the time to event - only that the event did not happen until a certain time point. Recall the graoh:</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="survival-analysis.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39562</span>) <span class="co"># (493756)</span></span>
+<span id="cb316-2"><a href="survival-analysis.html#cb316-2" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb316-3"><a href="survival-analysis.html#cb316-3" aria-hidden="true" tabindex="-1"></a>fdrug <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> ss<span class="sc">/</span><span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>))</span>
+<span id="cb316-4"><a href="survival-analysis.html#cb316-4" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">7</span>), <span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">75</span>))</span>
+<span id="cb316-5"><a href="survival-analysis.html#cb316-5" aria-hidden="true" tabindex="-1"></a>tte <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(ss, <span class="at">shape =</span> <span class="dv">30</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">+</span>event<span class="sc">/</span><span class="dv">4</span>))</span>
+<span id="cb316-6"><a href="survival-analysis.html#cb316-6" aria-hidden="true" tabindex="-1"></a>migraine <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(event, <span class="at">time =</span> tte, <span class="at">drug =</span> fdrug)</span>
+<span id="cb316-7"><a href="survival-analysis.html#cb316-7" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">5</span>), ])</span>
+<span id="cb316-8"><a href="survival-analysis.html#cb316-8" aria-hidden="true" tabindex="-1"></a>myxlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mydata<span class="sc">$</span>time))</span>
+<span id="cb316-9"><a href="survival-analysis.html#cb316-9" aria-hidden="true" tabindex="-1"></a>mypch <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span>, <span class="fu">nrow</span>(mydata))</span>
+<span id="cb316-10"><a href="survival-analysis.html#cb316-10" aria-hidden="true" tabindex="-1"></a>mypch[ mydata<span class="sc">$</span>event <span class="sc">==</span> <span class="dv">0</span> ] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb316-11"><a href="survival-analysis.html#cb316-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">xlim =</span> myxlim, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">nrow</span>(mydata)<span class="sc">+</span><span class="dv">1</span>), <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb316-12"><a href="survival-analysis.html#cb316-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Data for 10 participants&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;time to event (minutes)&quot;</span>, </span>
+<span id="cb316-13"><a href="survival-analysis.html#cb316-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;participant&quot;</span>)</span>
+<span id="cb316-14"><a href="survival-analysis.html#cb316-14" aria-hidden="true" tabindex="-1"></a>mcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(mydata)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb316-15"><a href="survival-analysis.html#cb316-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){ </span>
+<span id="cb316-16"><a href="survival-analysis.html#cb316-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">segments</span>(<span class="dv">0</span>, xi, mydata<span class="sc">$</span>time[xi], xi,  <span class="at">col =</span> mcol[xi], </span>
+<span id="cb316-17"><a href="survival-analysis.html#cb316-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">lwd =</span> <span class="dv">2</span>)}</span>
+<span id="cb316-18"><a href="survival-analysis.html#cb316-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){</span>
+<span id="cb316-19"><a href="survival-analysis.html#cb316-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(mydata<span class="sc">$</span>time[xi], xi, <span class="at">col =</span> mcol[xi], <span class="at">pch =</span> mypch[ xi ])</span>
+<span id="cb316-20"><a href="survival-analysis.html#cb316-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb316-21"><a href="survival-analysis.html#cb316-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>), <span class="at">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb316-22"><a href="survival-analysis.html#cb316-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>) )</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-185-1.png" width="672" /></p>
+<p>This type of censoring is referred to as <em>right-censoring</em>, because in the graph the right-hand side of the follow-up is incomplete.</p>
+<p>In other cases, the starting time is unknown. This can be the case when the patient enters the study some time after disease onset, and the exact date of disease onset is unknown. This type of censoring is referred to as <em>left-censoring</em>, because in the graph the left-hand side of the follow-up would be incomplete.
+Of course, there are studies where both types of censoring occur.</p>
+<p>In R, <code>Surv</code> can be defined for left-, right- and interval censoring. Typically Cox regression can be used to analyse data with these different censoring types, so long as the censoring is independent of the event probabilities.
+However, the Kaplan-Meier method cannot be used directly with left-censored data.</p>
+</div>
+<div id="type-i-and-type-ii-censoring" class="section level3" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Type I and type II censoring</h3>
+<p>Most progression studies record time to event, and censoring then occurs when either the study is completed before an individual has had an event, or else the individual has been lost to follow-up due to a reason unrelated to the event. In such cases, this is referred to as <em>type I</em> censoring. Kaplan-Meier and Cox regression can be used to analyse such data, as we have seen.</p>
+<p>In some cases, a trial is stopped after a certain number of events is reached. As individuals who did not experience an event before the end of the trial are censored, these may correspond to those with longer time-to-event observations. So, the censoring process and the event probability are not independent. This is referred to as <em>type II</em> censoring. To analyse data from such studies other models are required than the ones seen here.</p>
+</div>
+<div id="competing-risks" class="section level3" number="5.4.4">
+<h3><span class="header-section-number">5.4.4</span> Competing risks</h3>
+<p>Let us look again at the Melanoma data:</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="survival-analysis.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
+<span id="cb317-2"><a href="survival-analysis.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb317-3"><a href="survival-analysis.html#cb317-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb317-4"><a href="survival-analysis.html#cb317-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
+##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
+##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
+##  $ sex      : int  1 1 1 0 1 1 1 0 1 0 ...
+##  $ age      : int  76 56 41 71 52 28 77 60 49 68 ...
+##  $ year     : int  1972 1968 1977 1968 1965 1971 1972 1974 1968 1971 ...
+##  $ thickness: num  6.76 0.65 1.34 2.9 12.08 ...
+##  $ ulcer    : int  1 0 0 0 1 1 1 1 1 1 ...</code></pre>
+<p>In this example, <code>time</code> is the survival time in days, and <code>status</code>
+is an indicator of the patient’s status by the end
+of the study:</p>
+<ul>
+<li><code>status</code> = 1: “dead from malignant melanoma”;</li>
+<li><code>status</code> = 2: “alive on January 1, 1978”;</li>
+<li><code>status</code> = 3: dead from other causes"</li>
+</ul>
+<p>We previously created a <code>Surv</code> object having only the event <code>dead from melanoma</code>, and both alive as well as dead due to other causes together as censoring. For this, we used:</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="survival-analysis.html#cb319-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb319-2"><a href="survival-analysis.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(survm <span class="sc">~</span> Melanoma<span class="sc">$</span>sex))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="survival-analysis.html#cb320-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb320-2"><a href="survival-analysis.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
+## 
+##   n= 205, number of events= 57 
+## 
+##       coef exp(coef) se(coef)     z Pr(&gt;|z|)  
+## sex 0.6622    1.9390   0.2651 2.498   0.0125 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##     exp(coef) exp(-coef) lower .95 upper .95
+## sex     1.939     0.5157     1.153      3.26
+## 
+## Concordance= 0.59  (se = 0.034 )
+## Likelihood ratio test= 6.15  on 1 df,   p=0.01
+## Wald test            = 6.24  on 1 df,   p=0.01
+## Score (logrank) test = 6.47  on 1 df,   p=0.01</code></pre>
+<p>So, in this case the endpoint variable used in <code>Surv</code> is a logical vector, equal to <code>TRUE</code> if <code>status</code> = 1, and <code>FALSE</code> otherwise. However, by considering censoring together with death due to other causes, the probability of survival is biased.</p>
+<p>Specifically, the assumption that observations are censored independently of the event probability is violated. This is because individuals who are censored are still at risk, whilst those who died due to other causes are not. As a result, the probability of an event becomes inflated. That is the case with both Kaplan-Meier as well as standard Cox regression</p>
+<p>To analyse survival data that includes competing risks, typically people use the Fine and Gray model. There is a large body of research done in this area, so more information can be obtained from various good sources. Here I suggest the following article if you wish to read more about the problem and some solutions:</p>
+<p><a href="https://academic.oup.com/ndt/article/28/11/2670/1823847" class="uri">https://academic.oup.com/ndt/article/28/11/2670/1823847</a></p>
+<p>The Fine and Gray model is available in R via the CRAN package <code>cmprsk</code>:</p>
+<p><a href="https://cran.r-project.org/web/packages/cmprsk/cmprsk.pdf" class="uri">https://cran.r-project.org/web/packages/cmprsk/cmprsk.pdf</a></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistical-tests---part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

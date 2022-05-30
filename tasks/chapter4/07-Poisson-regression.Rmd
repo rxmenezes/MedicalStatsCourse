@@ -1,0 +1,35 @@
+---
+title: "07-poisson-regression"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Using regression models, recompute the relative risk and odds ratio of having colon cancer, amongst individuals with high BMI relative to individuals with normal or low BMI. Note: before you have computed relative risk and odds ratio using the counts table. For this task, you need the data consisting of the variables recording one value per individual, which can be found in file `data_colon_RR_OR.txt`. Add the computed values to the text below. Also test the null hypothesis that the relative risk is equal to 1, as well as the null hypothesis that the odds ratio is equal to 1, in both cases using a confidence level of 99%. Compare the relative risk and odds ratio estimates you found with those computed using the tables in previous exercises. What do you conclude about the risks and the odds of colon cancer, amongst individuals with high BMI compared with those with normal or low BMI?
+
+
+```{r}
+
+data.colon <- read.delim("data_colon_RR_OR.txt")
+```
+
+```{r}
+lgfit <- glm(colon.cancer ~ bmi, family = binomial)
+log.or <- summary(lgfit)$coef[2, 1]
+or <- exp(log.or)
+confint(lgfit, 2, level = 0.99)
+```
+
+
+```{r}
+pfit <- glm(colon.cancer ~ bmi, family = poisson)
+log.rr <- summary(pfit)$coef[2, 1]
+confint(pfit, 2, level = 0.99)
+rr <- exp(log.rr)
+```
+
+Using data from the colon cancer study, we found that the relative risk of developing colon cancer, amongst individuals with high BMI compared to those with normal or low BMI, was `r round(rr, 2)`. For the same data, the odds ratio of colon cancer, amongst individuals with high BMI compared to those with normal or low BMI, was `r round(or, 2)`.

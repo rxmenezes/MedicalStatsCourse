@@ -1,0 +1,51 @@
+---
+title: "02-Testing independence in 2x2 tables"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+1. Use both the Fisher's exact test as well as the chi-square test to decide if there is evidence of association between learning speed and sex in the `quine` data. Extract the p-value of each test, and add the p-value to the barplot of the data.
+
+```{r}
+fisher.test(quine$Lrn, quine$Sex)
+myf.test <- fisher.test(quine$Lrn, quine$Sex)
+mych.test <- chisq.test(quine$Lrn, quine$Sex)
+```
+
+
+```{r}
+plot(quine$Lrn ~ quine$Sex, main = paste("Chi-square p=", round(mych.test$p.value, 2), 
+                                         "Fisher ex p=", round(myf.test$p.value, 2)))
+
+```
+
+
+2. Now consider two other datasets involving variables `X` and `Y`, with the cross-tabulations of the variables given below - first for study 1 1:
+
+
+```{r}
+table(x1, y1)
+```
+
+Now for study 2:
+
+```{r}
+table(x2, y2)
+```
+
+Try to use both the chi-square test and Fisher's exact test to investigate whether or not the data supports the null hypothesis of independence between `X` and `Y`.
+
+```{r}
+myt1 <- table(x1, y1)
+chisq.test(myt1)
+fisher.test(myt1)
+
+myt2 <- table(x2, y2)
+chisq.test(myt2)
+fisher.test(myt2)
+```rameter was added to the code chunk to prevent printing of the R code that generated the plot.

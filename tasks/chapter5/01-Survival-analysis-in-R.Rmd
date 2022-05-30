@@ -1,0 +1,38 @@
+---
+title: "01-Survival-analysis-in-R"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+
+### Quick tasks
+
+1. The dataset `leuk` from the library `MASS` contains time to death for 33 leukemia patients. Consider the event of interest to be death. To explore overall survival times (time to death) after leukemia diagnosis, plot the Kaplan-Meier curve of the data. 
+
+```{r}
+library(MASS)
+names(leuk)
+# Note: all patients had the event (death), so there is no censoring
+# In such cases, the survival object can be created in two ways: either make a vector
+# with one entry per patient, and all entries equal to 1 (indicating an event),
+# or else use as input for `Surv()` only the time variable. Then by default the
+# function will assume that all patients had an event (see `help(Surv)` for more details)
+
+leuk.surv <- Surv(leuk$time, rep(1, nrow(leuk)))
+# Alternative
+leuk.surv <- Surv(leuk$time)
+
+plot(leuk.surv)
+```
+
+2. Plot the Kaplan-Meier curve for the entire `migraine` data.
+
+
+```{r}
+migr.surv <- Surv(time = migraine$time, event = migraine$event)
+
+plot(migr.surv)
+```

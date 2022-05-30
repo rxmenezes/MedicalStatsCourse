@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Statistical tests - Part 2 | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Statistical tests - Part 2 | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Statistical tests - Part 2 | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-06-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="common-regression-models.html"/>
+<link rel="next" href="survival-analysis.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="statistical-tests---part-2" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Statistical tests - Part 2</h1>
+<div id="comparing-more-than-two-groups" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Comparing more than two groups</h2>
+<div id="motivation-6" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Motivation</h3>
+<p>Consider the <code>quine</code> data on absenteeism from school in an Australian region. Per child involved in the study, the data includes the number of days absent from school in that year, as well as the age group (in 4 categories). One question is: does the number of absent days change depending on the school year?</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="statistical-tests-part-2.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb153-2"><a href="statistical-tests-part-2.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(quine)</span>
+<span id="cb153-3"><a href="statistical-tests-part-2.html#cb153-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(quine)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    146 obs. of  5 variables:
+##  $ Eth : Factor w/ 2 levels &quot;A&quot;,&quot;N&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Sex : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ Age : Factor w/ 4 levels &quot;F0&quot;,&quot;F1&quot;,&quot;F2&quot;,..: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ Lrn : Factor w/ 2 levels &quot;AL&quot;,&quot;SL&quot;: 2 2 2 1 1 1 1 1 2 2 ...
+##  $ Days: int  2 11 14 5 5 13 20 22 6 6 ...</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="statistical-tests-part-2.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine how many observations you have per age group</span></span>
+<span id="cb155-2"><a href="statistical-tests-part-2.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(quine<span class="sc">$</span>Age)</span></code></pre></div>
+<pre><code>## 
+## F0 F1 F2 F3 
+## 27 46 40 33</code></pre>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="statistical-tests-part-2.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now display the data for `Days` per age group</span></span>
+<span id="cb157-2"><a href="statistical-tests-part-2.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb157-3"><a href="statistical-tests-part-2.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(quine<span class="sc">$</span>Age)) <span class="fu">hist</span>(quine<span class="sc">$</span>Days[quine<span class="sc">$</span>Age <span class="sc">==</span> <span class="fu">levels</span>(quine<span class="sc">$</span>Age)[ xi]], </span>
+<span id="cb157-4"><a href="statistical-tests-part-2.html#cb157-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Age &quot;</span>, <span class="fu">levels</span>(quine<span class="sc">$</span>Age)[ xi]))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<p>You could try to solve this by applying a Student’s-t test, or a Wilcoxon test, to compare each pair of <code>Age</code> levels. This would involve 6 tests.</p>
+<p>In such situations, it would be better to compare the means of the groups under study in one go. What we wish to know is: is there at least one age group that does not have the same mean number of absent days as the others?</p>
+<p>To do this, we need to better understand what we understand by “having the same mean”.</p>
+</div>
+<div id="working-examples" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Working examples</h3>
+<p>Consider the following data: a continuous variable is observed for cases within groups <code>X, Y, Z</code>. The variable follows a normal distribution with a mean depending on the group: 1, 2 and 3 for groups <code>X, Y, Z</code> respectively. Say that we have 100 observations for each group, and that the empirical densities of the values per group aree:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="statistical-tests-part-2.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">53412</span>)</span>
+<span id="cb158-2"><a href="statistical-tests-part-2.html#cb158-2" aria-hidden="true" tabindex="-1"></a>ssize <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb158-3"><a href="statistical-tests-part-2.html#cb158-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb158-4"><a href="statistical-tests-part-2.html#cb158-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb158-5"><a href="statistical-tests-part-2.html#cb158-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb158-6"><a href="statistical-tests-part-2.html#cb158-6" aria-hidden="true" tabindex="-1"></a>mylims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(x, y, z))</span>
+<span id="cb158-7"><a href="statistical-tests-part-2.html#cb158-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(x), <span class="at">xlim =</span> mylims, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb158-8"><a href="statistical-tests-part-2.html#cb158-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(y), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb158-9"><a href="statistical-tests-part-2.html#cb158-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(z), <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb158-10"><a href="statistical-tests-part-2.html#cb158-10" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">1.1</span>, <span class="dv">0</span>, <span class="fl">1.1</span>, <span class="dv">4</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb158-11"><a href="statistical-tests-part-2.html#cb158-11" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">2.8</span>, <span class="dv">0</span>, <span class="fl">2.8</span>, <span class="dv">4</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="statistical-tests-part-2.html#cb159-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y, z)</span></code></pre></div>
+<p>We can clearly separate observations arising from these 3 groups. Indeed, for example if we knew that a value of 1.1 was observed for one of these variables, we would guess that it corresponded to a case in group <code>X</code>. Similarly, if we knew that a value of 2.8 had been observed, we would safely guess it to correspond to a case in group <code>Z</code>.</p>
+<p>Now let us simulate the data again for the same setup:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="statistical-tests-part-2.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">36912</span>)</span>
+<span id="cb160-2"><a href="statistical-tests-part-2.html#cb160-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb160-3"><a href="statistical-tests-part-2.html#cb160-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb160-4"><a href="statistical-tests-part-2.html#cb160-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ssize, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb160-5"><a href="statistical-tests-part-2.html#cb160-5" aria-hidden="true" tabindex="-1"></a>mylims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(x, y, z))</span>
+<span id="cb160-6"><a href="statistical-tests-part-2.html#cb160-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(x), <span class="at">xlim =</span> mylims, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb160-7"><a href="statistical-tests-part-2.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(y), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb160-8"><a href="statistical-tests-part-2.html#cb160-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(z), <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb160-9"><a href="statistical-tests-part-2.html#cb160-9" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">1.1</span>, <span class="dv">0</span>, <span class="fl">1.1</span>, <span class="dv">4</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb160-10"><a href="statistical-tests-part-2.html#cb160-10" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">2.8</span>, <span class="dv">0</span>, <span class="fl">2.8</span>, <span class="dv">4</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="statistical-tests-part-2.html#cb161-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y, z)</span></code></pre></div>
+<p>In this case, it is difficult to distinguish data from these 3 groups. Indeed, we could now not guess to which group a value of 1.1 would correspond: it can be easily generated by cases in either <code>X</code> or <code>Y</code>, and even by some in <code>Z</code>. The same is true for 2.8. Note that the group means are the same as before: 1, 2 and 3. However, now the variance within each group is much larger than for the first data.</p>
+<p>What this means is that: observations from these 3 groups are different from each other if they can be distinguished from each other, and that can only be done if the variance <em>between</em> groups is larger than the variance <em>within</em> groups.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="statistical-tests-part-2.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb162-2"><a href="statistical-tests-part-2.html#cb162-2" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data1</span>
+<span id="cb162-3"><a href="statistical-tests-part-2.html#cb162-3" aria-hidden="true" tabindex="-1"></a>mylims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(mydata<span class="sc">$</span>x, mydata<span class="sc">$</span>y, mydata<span class="sc">$</span>z))</span>
+<span id="cb162-4"><a href="statistical-tests-part-2.html#cb162-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>x), <span class="at">xlim =</span> mylims, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb162-5"><a href="statistical-tests-part-2.html#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>y), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb162-6"><a href="statistical-tests-part-2.html#cb162-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>z), <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb162-7"><a href="statistical-tests-part-2.html#cb162-7" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">0.75</span>, <span class="fl">0.1</span>, <span class="fl">1.28</span>, <span class="fl">0.1</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb162-8"><a href="statistical-tests-part-2.html#cb162-8" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">1.75</span>, <span class="fl">0.1</span>, <span class="fl">2.28</span>, <span class="fl">0.1</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb162-9"><a href="statistical-tests-part-2.html#cb162-9" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="fl">2.75</span>, <span class="fl">0.1</span>, <span class="fl">3.28</span>, <span class="fl">0.1</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb162-10"><a href="statistical-tests-part-2.html#cb162-10" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">1</span>, <span class="fl">0.3</span>, <span class="dv">2</span>, <span class="fl">0.3</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb162-11"><a href="statistical-tests-part-2.html#cb162-11" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">2</span>, <span class="fl">0.4</span>, <span class="dv">3</span>, <span class="fl">0.4</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb162-12"><a href="statistical-tests-part-2.html#cb162-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-13"><a href="statistical-tests-part-2.html#cb162-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-14"><a href="statistical-tests-part-2.html#cb162-14" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data2</span>
+<span id="cb162-15"><a href="statistical-tests-part-2.html#cb162-15" aria-hidden="true" tabindex="-1"></a>mylims <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(mydata<span class="sc">$</span>x, mydata<span class="sc">$</span>y, mydata<span class="sc">$</span>z))</span>
+<span id="cb162-16"><a href="statistical-tests-part-2.html#cb162-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>x), <span class="at">xlim =</span> mylims, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>))</span>
+<span id="cb162-17"><a href="statistical-tests-part-2.html#cb162-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>y), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb162-18"><a href="statistical-tests-part-2.html#cb162-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(mydata<span class="sc">$</span>z), <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb162-19"><a href="statistical-tests-part-2.html#cb162-19" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="fl">0.007</span>, <span class="dv">15</span>, <span class="fl">0.007</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb162-20"><a href="statistical-tests-part-2.html#cb162-20" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="fl">0.011</span>, <span class="fl">13.5</span>, <span class="fl">0.011</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb162-21"><a href="statistical-tests-part-2.html#cb162-21" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="sc">-</span><span class="fl">6.6</span>, <span class="fl">0.015</span>, <span class="fl">12.8</span>, <span class="fl">0.015</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb162-22"><a href="statistical-tests-part-2.html#cb162-22" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">1</span>, <span class="fl">0.00</span>, <span class="dv">3</span>, <span class="fl">0.0</span>, <span class="at">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb162-23"><a href="statistical-tests-part-2.html#cb162-23" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">2</span>, <span class="sc">-</span><span class="fl">0.003</span>, <span class="dv">2</span>, <span class="fl">0.003</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-93-1.png" width="960" /></p>
+<p>Thus, in order to know if observations corresponding to the different groups can be distinguished or not, we need to consider how large the variance <em>between</em> groups (in green) is, relative to the variances within groups (in their respective colours). This is what the F test does, via the statistic F = variance between groups / variance within groups. If the variance between groups is large compared to the variance within groups, as with the first dataset, observations can be distinguished between groups. Otherwise, observations from different groups overlap, as in the second dataset. The F test is applied assuming that the groups cannot be distinguished, meaning that the variances within and between groups are similar. When observations from the different groups cannot be distinguished, the value of the F-test statistic is around 1. When observations can be distinguished between groups, the value of the F-test statistic will be relatively large, in particular larger than 1. How large it needs to be depends on the number of samples and the number of groups being compared, determining the degrees of freedom used in the F-test statistic.</p>
+<p>The F test is the one used in ANOVA (which stands for ANalysis Of VAriance - now you know why!).</p>
+<p>Let us apply this to the first dataset we generated. To do this, we need to fit a linear regression to the data with the observed variable as response and the group as explanatory factor. Then we compute the ANOVA table of the resulting fit:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="statistical-tests-part-2.html#cb163-1" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>), <span class="at">each =</span> ssize))</span>
+<span id="cb163-2"><a href="statistical-tests-part-2.html#cb163-2" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data1</span>
+<span id="cb163-3"><a href="statistical-tests-part-2.html#cb163-3" aria-hidden="true" tabindex="-1"></a>myvar <span class="ot">&lt;-</span> <span class="fu">c</span>(mydata<span class="sc">$</span>x, mydata<span class="sc">$</span>y, mydata<span class="sc">$</span>z)</span>
+<span id="cb163-4"><a href="statistical-tests-part-2.html#cb163-4" aria-hidden="true" tabindex="-1"></a>myfit <span class="ot">&lt;-</span> <span class="fu">lm</span>(myvar <span class="sc">~</span> group)</span>
+<span id="cb163-5"><a href="statistical-tests-part-2.html#cb163-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(myfit)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: myvar
+##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## group      2 62.145 31.0725  3524.3 &lt; 2.2e-16 ***
+## Residuals 87  0.767  0.0088                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Examine the ANOVA table. The column “Mean Sq” actually displays the estimated variances. The first row corresponds to <code>group</code> so it is the variance between groups <code>X, Y, Z</code>. The second row corresponds to <code>Residuals</code>, and this is the variance within groups - or the residual variance not explained by <code>group</code>. By dividing the variance between groups by the one within, the F-test statistic is obtained (note that the values printed are rounded off). As we expected, the F-test statistic is very large and its corresponding p-value is very small, in this case.</p>
+<p>Now for the second dataset:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="statistical-tests-part-2.html#cb165-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data2</span>
+<span id="cb165-2"><a href="statistical-tests-part-2.html#cb165-2" aria-hidden="true" tabindex="-1"></a>myvar <span class="ot">&lt;-</span> <span class="fu">c</span>(mydata<span class="sc">$</span>x, mydata<span class="sc">$</span>y, mydata<span class="sc">$</span>z)</span>
+<span id="cb165-3"><a href="statistical-tests-part-2.html#cb165-3" aria-hidden="true" tabindex="-1"></a>myfit <span class="ot">&lt;-</span> <span class="fu">lm</span>(myvar <span class="sc">~</span> group)</span>
+<span id="cb165-4"><a href="statistical-tests-part-2.html#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(myfit)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: myvar
+##           Df  Sum Sq Mean Sq F value Pr(&gt;F)
+## group      2   61.75  30.875   1.176 0.3134
+## Residuals 87 2284.17  26.255</code></pre>
+<p>The F test within the ANOVA table relies on the data arising from a normal distribution. If that is not the case, the alternative is to use the Kruskal-Wallis test, which can be thought of as the nonparametric version of the F test - much in the same way as the Wilcoxon test is the nonparametric version of the Student’s-t test. Two alternative syntaxes for the Kruskal-Wallis test are:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="statistical-tests-part-2.html#cb167-1" aria-hidden="true" tabindex="-1"></a>kt <span class="ot">&lt;-</span> <span class="fu">kruskal.test</span>(myvar, group)</span>
+<span id="cb167-2"><a href="statistical-tests-part-2.html#cb167-2" aria-hidden="true" tabindex="-1"></a>kt</span></code></pre></div>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  myvar and group
+## Kruskal-Wallis chi-squared = 2.0227, df = 2, p-value = 0.3637</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="statistical-tests-part-2.html#cb169-1" aria-hidden="true" tabindex="-1"></a>kt2 <span class="ot">&lt;-</span> <span class="fu">kruskal.test</span>(myvar <span class="sc">~</span> group)</span>
+<span id="cb169-2"><a href="statistical-tests-part-2.html#cb169-2" aria-hidden="true" tabindex="-1"></a>kt2</span></code></pre></div>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  myvar by group
+## Kruskal-Wallis chi-squared = 2.0227, df = 2, p-value = 0.3637</code></pre>
+<p>The Kruskal-Wallis test is based on ranks of the data. In this case, it is more powerful to find differences between groups than the F test from ANOVA.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/01-Comparing-more-than-2-groups.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/01-Comparing-more-than-2-groups.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="testing-independence-in-2x2-tables" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Testing independence in 2x2 tables</h2>
+<div id="motivation-7" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Motivation</h3>
+<p>Consider again the <code>quine</code> data on absenteeism from school in an Australian region. Per child involved in the study, the data includes the number of students with average or slow learning speed <code>Lrn</code>, as well as <code>Sex</code>. One question is: do students of a given sex learn faster than students of the other sex? In other words: is there evidence for association between learning speed and sex? This problem is different from the of comparing two groups with a Student’s-t test, because here both variables (<code>Lrn</code> and <code>Sex</code>) are grouping variables, whilst for the Student’s-t test one variable is continuous and the other is a grouping variable.</p>
+<p>We can examine the data to check for evidence of this association. This can be done by computing the number of cases within each class of learning speed <code>Lrn</code> and, of those, how many are of each <code>Sex</code>. We can also display the results as a barplot.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="statistical-tests-part-2.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb171-2"><a href="statistical-tests-part-2.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(quine)</span>
+<span id="cb171-3"><a href="statistical-tests-part-2.html#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(quine)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    146 obs. of  5 variables:
+##  $ Eth : Factor w/ 2 levels &quot;A&quot;,&quot;N&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Sex : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ Age : Factor w/ 4 levels &quot;F0&quot;,&quot;F1&quot;,&quot;F2&quot;,..: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ Lrn : Factor w/ 2 levels &quot;AL&quot;,&quot;SL&quot;: 2 2 2 1 1 1 1 1 2 2 ...
+##  $ Days: int  2 11 14 5 5 13 20 22 6 6 ...</code></pre>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="statistical-tests-part-2.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine how many observations you have per age group</span></span>
+<span id="cb173-2"><a href="statistical-tests-part-2.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(quine<span class="sc">$</span>Lrn, quine<span class="sc">$</span>Sex)</span></code></pre></div>
+<pre><code>##     
+##       F  M
+##   AL 40 43
+##   SL 40 23</code></pre>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="statistical-tests-part-2.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now display the data in this table as a barplot</span></span>
+<span id="cb175-2"><a href="statistical-tests-part-2.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quine<span class="sc">$</span>Lrn <span class="sc">~</span> quine<span class="sc">$</span>Sex)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<p>How do we decide, on the basis of the number of cases for each learning speed and sex, whether or not the two display association?</p>
+</div>
+<div id="working-examples-1" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Working examples</h3>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="statistical-tests-part-2.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">55498</span>)</span>
+<span id="cb176-2"><a href="statistical-tests-part-2.html#cb176-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb176-3"><a href="statistical-tests-part-2.html#cb176-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb176-4"><a href="statistical-tests-part-2.html#cb176-4" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb176-5"><a href="statistical-tests-part-2.html#cb176-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-6"><a href="statistical-tests-part-2.html#cb176-6" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> x1</span>
+<span id="cb176-7"><a href="statistical-tests-part-2.html#cb176-7" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> <span class="fl">0.8</span><span class="sc">*</span>x2, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Let us consider studies involving per case the observation of two variables, <code>X</code> and <code>Y</code>, each one having values <span class="math inline">\(0, 1\)</span>. A table of the observed results is, in study 1:</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="statistical-tests-part-2.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x1, y1)</span></code></pre></div>
+<pre><code>##    y1
+## x1   0  1
+##   0 53 11
+##   1 27  9</code></pre>
+<p>and in study 2:</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="statistical-tests-part-2.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x2, y2)</span></code></pre></div>
+<pre><code>##    y2
+## x2   0  1
+##   0 64  0
+##   1  7 29</code></pre>
+<p>Looking at the tables it is difficult to decide whether or not the variables <code>X</code> and <code>Y</code> are independent or not. In fact, what sort of table would we expect to obtain, if <code>X</code> and <code>Y</code> were independent?</p>
+</div>
+<div id="general-setup" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> General setup</h3>
+<p>Consider the generic problem where two grouping variables <code>X, Y</code> are observed, each with groups labelled by either 0 or 1. If <code>X</code> and <code>Y</code> are independent, we would expect that the number of cases with <code>X=0</code> to be the same, regardless of the value of <code>Y</code>. The estimated probability of a case having <code>X=0</code> is just the proportion of cases with <code>X=0</code> in the study - say <code>px0</code>. As a consequence, the probability of a case having <code>X=1</code> is <code>1-px0</code>. The same holds for the number of cases with <code>Y=0</code>. We will represent by <code>py0</code> the probability that <code>Y=0</code>, so <code>1-py0</code> represents the probability that of a case having <code>Y=1</code>. If a total of <code>N</code> cases are observed, then the expected number of cases having <code>X=0</code> is <code>Npx0</code>, and the expected number of cases having <code>Y=1</code> is <code>N(1-py0)</code>.</p>
+<p>If <code>X</code> and <code>Y</code> are independent, it follows the number of cases with both <code>X=0</code> and <code>Y=0</code> is expected to be <code>N px0 py0</code>, obtained from the product of the separate probabilities of each value of <code>X</code> and <code>Y</code>, in the study.
+For an overview, here is the table of expected frequencies in terms of these probabilities is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>N px0 py0</code></td>
+<td><code>N px0 (1-py0)</code></td>
+<td><code>N px0</code></td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>N (1-px0) py0</code></td>
+<td><code>N (1-px0) (1-py0)</code></td>
+<td><code>N(1-px0)</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><code>N py0</code></td>
+<td><code>N (1-py0)</code></td>
+<td><code>N</code></td>
+</tr>
+</tbody>
+</table>
+<p>So, if <code>X</code> and <code>Y</code> are independent, we know what to expect. Tests for independence of <code>X</code> and <code>Y</code> compare observed tables with this expected table. The expected table is constructed given the total counts for <code>X</code> and <code>Y</code> per possible value, so the row and column totals. These are called the <em>marginal frequencies</em> of <code>X</code> and <code>Y</code>. So tests for independence consider the row and column totals as fixed.</p>
+<p>Note that, given the row and column totals, we need only fix one of the entries in the table, and all others are subsequently determined.</p>
+</div>
+<div id="working-examples-cont" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Working examples (cont)</h3>
+<p>For the first example, the row totals are 64 and 36 for <code>X=0</code> and <code>X=1</code> respectively, whilst the column totals are 80 and 20 for <code>Y=0</code> and <code>Y=1</code> respectively. This means that the empirical probabilities <code>px0, py0</code> are respectively 0.64 and 0.8.</p>
+<p>If <code>X</code> and <code>Y</code> are independent, the expected table of frequencies given these marginal frequencies is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>N</code> 0.64 * 0.8</td>
+<td><code>N</code> 0.64 * 0.2</td>
+<td><code>N</code> 0.64</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>N</code> 0.36 * 0.8</td>
+<td><code>N</code> 0.36 * 0.2</td>
+<td><code>N</code> 0.36</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><code>N</code> 0.8</td>
+<td><code>N</code> 0.2</td>
+<td><code>N</code></td>
+</tr>
+</tbody>
+</table>
+<p>where <code>N</code> in this case equals 100.</p>
+<p>The table formed by the observed marginal frequencies, but not taking into account the actual observations, is</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>x0y0</code></td>
+<td><code>x0y1</code></td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>x1y0</code></td>
+<td><code>x1y1</code></td>
+<td>36</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>80</td>
+<td>20</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>where <code>x0y0</code> and <code>x0y1</code> represent the counts on the row corresponding to <code>X=0</code>, for <code>Y=0</code> and <code>Y=1</code> respectively. Similarly, <code>x1y0</code> and <code>x1y1</code> represent the counts on the row corresponding to <code>X=1</code>, for <code>Y=0</code> and <code>Y=1</code> respectively.</p>
+<p>So, it is possible to observe any table of this form, so long as the counts <code>x0 y0</code>, <code>x0 y1</code>, <code>x1 y0</code> and <code>x1 y1</code> are such that the marginal frequencies are observed as given.</p>
+<p>As we pointed out, we need only choose a value for one of the entries, and that determines all the other entries in the table. For example, say we set <code>x0 y0</code> =1. Then the table becomes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td>1</td>
+<td>64 -1</td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td>80 -1</td>
+<td>36 - 80 +1</td>
+<td>36</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>80</td>
+<td>20</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>Check that the same happens, regardless of the entry chosen. Fix a value for <code>x1 y0</code> and replace it in the table, and check which values you get for the remaining entries.</p>
+</div>
+<div id="the-chi-square-test" class="section level3" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> The chi-square test</h3>
+<p>One commonly used test for independence in 2x2 tables is the chi-square test. It involves comparing the observed counts in the table with what would be expected, if <code>X</code> and <code>Y</code> were independent. Given the marginal frequencies, one one entry in the table is needed to determine the entire table.</p>
+<p>The test compares the observed (<span class="math inline">\(O\)</span>) and expected (<span class="math inline">\(E\)</span>) counts of one entry (say <code>x0 y0</code>) by means of the test statistic:</p>
+<p><span class="math display">\[
+\chi = \frac{(O-E)^2}{E^2}
+\]</span></p>
+<p>The null and alternative hypotheses are</p>
+<p><span class="math inline">\(H_0\)</span>: <code>X</code> and <code>Y</code> are independent <em>vs.</em> <span class="math inline">\(H_a\)</span>: <code>X</code> and <code>Y</code> are not independent</p>
+<p>Under the null hypothesis, <span class="math inline">\(\chi\)</span> follows <em>asymptotically</em> a chi-square distribution with 1 degree of freedom - this because, given the marginal frequencies, the table is determined once one entry is fixed.</p>
+<p>The term <em>asymptotically</em> means that the distribution of <span class="math inline">\(\chi\)</span> can be approximated by the chi-square with 1 d.f., under <span class="math inline">\(H_0\)</span>, if the sample size is large enough. The concept of ‘large enough’ may differ depending on the researcher. Many researchers see this as requiring at least 5 observations in all entries of the table. For others, this means that all expected frequencies must be at least 5. The function <code>chisq.test</code> in R will give you a warning if the table used does not warrant the use of the chi-square test. If indeed the frequencies are too small to guarantee that the distribution of <span class="math inline">\(chi\)</span> can be approximated by the chi-square, Fisher’s exact test can be used (see below).</p>
+</div>
+<div id="working-examples-cont-1" class="section level3" number="4.2.6">
+<h3><span class="header-section-number">4.2.6</span> Working examples (cont)</h3>
+<p>We now apply the test to the working examples we had. For the first table we have:</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="statistical-tests-part-2.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x1, x2)</span></code></pre></div>
+<pre><code>##    x2
+## x1   0  1
+##   0 64  0
+##   1  0 36</code></pre>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="statistical-tests-part-2.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(x1, y1))</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  table(x1, y1)
+## X-squared = 0.45844, df = 1, p-value = 0.4984</code></pre>
+<p>Now for the second table:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="statistical-tests-part-2.html#cb185-1" aria-hidden="true" tabindex="-1"></a>myt <span class="ot">&lt;-</span> <span class="fu">table</span>(x2, y2)</span>
+<span id="cb185-2"><a href="statistical-tests-part-2.html#cb185-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(myt)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  myt
+## X-squared = 68.754, df = 1, p-value &lt; 2.2e-16</code></pre>
+<p>Note that the test result can be saved and separate slots of the test can be extracted. Here we extract the test statistic, the degrees of freedom and the p-value:</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="statistical-tests-part-2.html#cb187-1" aria-hidden="true" tabindex="-1"></a>my.chtest <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(myt)</span>
+<span id="cb187-2"><a href="statistical-tests-part-2.html#cb187-2" aria-hidden="true" tabindex="-1"></a>my.chtest<span class="sc">$</span>statistic</span></code></pre></div>
+<pre><code>## X-squared 
+##  68.75379</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="statistical-tests-part-2.html#cb189-1" aria-hidden="true" tabindex="-1"></a>my.chtest<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 1.11556e-16</code></pre>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="statistical-tests-part-2.html#cb191-1" aria-hidden="true" tabindex="-1"></a>my.chtest<span class="sc">$</span>parameter <span class="co"># this is the slot containing the p-value -- see ?chisq.test</span></span></code></pre></div>
+<pre><code>## df 
+##  1</code></pre>
+</div>
+<div id="fishers-exact-test" class="section level3" number="4.2.7">
+<h3><span class="header-section-number">4.2.7</span> Fisher’s exact test</h3>
+<p>The Fisher’s exact test is another test that can be used to check whether or not two binary variables <code>X</code> and <code>Y</code> are independent. It calculates the probability of each possible 2x2 table of being observed, given the marginal frequencies. Then it adds up the probability of all tables at least as extreme as the one observed to yield a p-value. As it does not require approximations to compute the p-value, it is referred to as the ‘exact’ test, in contrast to the chi-square test with an approximated chi-square distribution. Yielding an exact p-value, it can be applied to all datasets.</p>
+</div>
+<div id="working-examples-cont-2" class="section level3" number="4.2.8">
+<h3><span class="header-section-number">4.2.8</span> Working examples (cont)</h3>
+<p>We will apply it now to the two tables of the examples. For the first example:</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="statistical-tests-part-2.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(<span class="fu">table</span>(x1, y1))</span></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(x1, y1)
+## p-value = 0.4361
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  0.5169743 4.8487080
+## sample estimates:
+## odds ratio 
+##   1.598236</code></pre>
+<p>Now for the second example:</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="statistical-tests-part-2.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(<span class="fu">table</span>(x2, y2))</span></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(x2, y2)
+## p-value &lt; 2.2e-16
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  48.98022      Inf
+## sample estimates:
+## odds ratio 
+##        Inf</code></pre>
+<p>As for the chi-square test result, slots of the test can be extracted. For example, we extract the p-value:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="statistical-tests-part-2.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(<span class="fu">table</span>(x2, y2))<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 6.726116e-19</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/02-Testing-independence-in-2x2-tables.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/02-Testing-independence-in-2x2-tables.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="testing-independence-in-nx2-tables" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Testing independence in nx2 tables</h2>
+<div id="motivation-8" class="section level3" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Motivation</h3>
+<p>Consider now the relationship between learning speed <code>Lrn</code> and age <code>Age</code> in the <code>quine</code> data, from the package <code>MASS</code>:</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="statistical-tests-part-2.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb199-2"><a href="statistical-tests-part-2.html#cb199-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(quine<span class="sc">$</span>Age, quine<span class="sc">$</span>Lrn)</span></code></pre></div>
+<pre><code>##     
+##      AL SL
+##   F0 19  8
+##   F1 15 31
+##   F2 16 24
+##   F3 33  0</code></pre>
+<p>As before, we would like to know if data for the two variables involved, <code>Age</code> and <code>Lrn</code>, suggests that they are independent or not. This table has now more than 2 rows, so Fisher’s exact test is not trivial to apply. However, the chi-square test can be used.</p>
+</div>
+<div id="working-examples-2" class="section level3" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Working examples</h3>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="statistical-tests-part-2.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">55498</span>)</span>
+<span id="cb201-2"><a href="statistical-tests-part-2.html#cb201-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb201-3"><a href="statistical-tests-part-2.html#cb201-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb201-4"><a href="statistical-tests-part-2.html#cb201-4" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb201-5"><a href="statistical-tests-part-2.html#cb201-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb201-6"><a href="statistical-tests-part-2.html#cb201-6" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> x1</span>
+<span id="cb201-7"><a href="statistical-tests-part-2.html#cb201-7" aria-hidden="true" tabindex="-1"></a>lp <span class="ot">&lt;-</span> <span class="fl">0.3</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>x2<span class="sc">/</span><span class="dv">10</span></span>
+<span id="cb201-8"><a href="statistical-tests-part-2.html#cb201-8" aria-hidden="true" tabindex="-1"></a>myprob <span class="ot">&lt;-</span> <span class="fu">exp</span>(lp)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(lp))</span>
+<span id="cb201-9"><a href="statistical-tests-part-2.html#cb201-9" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">prob =</span> myprob, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Let us consider studies involving per case the observation of two variables, <code>X</code> and <code>Y</code>, each one having values <span class="math inline">\(0, 1\)</span>. A table of the observed results is, in study 1:</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="statistical-tests-part-2.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x1, y1)</span></code></pre></div>
+<pre><code>##    y1
+## x1   0  1
+##   0 38  7
+##   1 33 10
+##   2  9  3</code></pre>
+<p>and in study 2:</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="statistical-tests-part-2.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x2, y2)</span></code></pre></div>
+<pre><code>##    y2
+## x2   0  1
+##   0 21 24
+##   1  6 37
+##   2  5  7</code></pre>
+<p>Looking at the tables it is difficult to decide whether or not the variables <code>X</code> and <code>Y</code> are independent or not. In fact, what sort of table would we expect to obtain, if <code>X</code> and <code>Y</code> were independent?</p>
+</div>
+<div id="general-setup-1" class="section level3" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> General setup</h3>
+<p>We will extend the setup previously used for 2x2 tables to the case where the table has more than 2 rows.
+As before, we assume that we are studying two grouping variables <code>X</code> and <code>Y</code>, where <code>X</code> may assume <code>n</code> values and <code>Y</code> may assume 2.</p>
+<p>Say that <code>X</code> may assume 3 values, namely 0, 1 and 2. Then, analogously to the 2x2 table, the nx2 table in terms of empirical probabilities is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>N px0 py0</code></td>
+<td><code>N px0 (1-py0)</code></td>
+<td><code>N px0</code></td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>N px1 py0</code></td>
+<td><code>N px1 (1-py0)</code></td>
+<td><code>N px1</code></td>
+</tr>
+<tr class="odd">
+<td><strong>X=2</strong></td>
+<td><code>N (1-px0-px1) py0</code></td>
+<td><code>N (1-px0-px1) (1-py0)</code></td>
+<td><code>N(1-px0-px1)</code></td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><code>N py0</code></td>
+<td><code>N (1-py0)</code></td>
+<td><code>N</code></td>
+</tr>
+</tbody>
+</table>
+<p>Tests for independence of <code>X</code> and <code>Y</code> compare observed tables with this expected table. The expected table is constructed given the total counts for <code>X</code> and <code>Y</code> per possible value, the marginal frequencies of <code>X</code> and <code>Y</code>. So tests for independence consider the row and column totals as fixed.</p>
+<p>Note that, given the row and column totals, we need only fix one of the entries in the table, and all others are subsequently determined.</p>
+</div>
+<div id="chi-square-test-for-nx2-tables" class="section level3" number="4.3.4">
+<h3><span class="header-section-number">4.3.4</span> Chi-square test for nx2 tables</h3>
+<p>The extension of the chi-square test to nx2 tables is straightforward. We will briefly give the details here.</p>
+<p>As before, the marginal frequencies of the observed table are considered as fixed. Using the same reasoning as for 2x2 tables, the probability of each entry in the table is equal to the product of the marginal probabilities.</p>
+<p>For each row, since the marginal frequency (total row count) is given, it suffices to fix one of the entries, and the other one is determined. In addition, once one but the last row has one entry fixed, the last row is determined based on the total column counts. This means that, for the first n-1 rows, it suffices to fix one entry to determine the row, and this determines the last row. For this reason, the chi-square test for a nx2 table has n-1 degrees of freedom.</p>
+</div>
+<div id="working-examples-cont-3" class="section level3" number="4.3.5">
+<h3><span class="header-section-number">4.3.5</span> Working examples (cont)</h3>
+<p>Analogously to the development for 2x2 tables, if <code>X</code> and <code>Y</code> are independent in this 3x2 table example, the expected table of frequencies given these marginal frequencies is, for study 1:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>N</code> 0.45 * 0.8</td>
+<td><code>N</code> 0.45 * 0.2</td>
+<td><code>N</code> 0.45</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>N</code> 0.43 * 0.2</td>
+<td><code>N</code> 0.43 * 0.2</td>
+<td><code>N</code> 0.43</td>
+</tr>
+<tr class="odd">
+<td><strong>X=2</strong></td>
+<td><code>N</code> 0.12 * 0.8</td>
+<td><code>N</code> 0.12 * 0.2</td>
+<td><code>N</code> 0.88</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><code>N</code> 0.8</td>
+<td><code>N</code> 0.2</td>
+<td><code>N</code></td>
+</tr>
+</tbody>
+</table>
+<p>where <code>N</code> in this case equals 100.</p>
+<p>The table formed by the observed marginal frequencies, but not taking into account the actual observations, is</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td><code>x0y0</code></td>
+<td><code>x0y1</code></td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td><code>x1y0</code></td>
+<td><code>x1y1</code></td>
+<td>43</td>
+</tr>
+<tr class="odd">
+<td><strong>X=2</strong></td>
+<td><code>x2y0</code></td>
+<td><code>x2y1</code></td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td>80</td>
+<td>20</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>where <code>x0y0</code> and <code>x0y1</code> represent the counts on the row corresponding to <code>X=0</code>, for <code>Y=0</code> and <code>Y=1</code> respectively. Similarly, <code>x1y0</code> and <code>x1y1</code> represent the counts on the row corresponding to <code>X=1</code>, for <code>Y=0</code> and <code>Y=1</code> respectively. Finally, <code>x2y0</code> and <code>x2y1</code> represent the counts on the row corresponding to <code>X=2</code>, for <code>Y=0</code> and <code>Y=1</code> respectively.</p>
+<p>So, it is possible to observe any table of this form, so long as the counts <code>x0y0</code>, <code>x0y1</code>, <code>x1y0</code>, <code>x1y1</code>, <code>x2y0</code> and <code>x2y1</code>, are such that the marginal frequencies are observed as given.</p>
+<p>As we pointed out, we need only choose a value for one of the entries per row, and that determines the other entry in the row - except for the last row, which is determined if the first n-1 are filled in. For example, say we set all entries on the first column, for all but the last row, equal to 1. Then the table becomes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=0</th>
+<th>Y=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=0</strong></td>
+<td>1</td>
+<td>45 -1</td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td><strong>X=1</strong></td>
+<td>1</td>
+<td>43 -1</td>
+<td>43</td>
+</tr>
+<tr class="odd">
+<td><strong>X=2</strong></td>
+<td>80 -2</td>
+<td>12 - 80 +2</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td>80</td>
+<td>20</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>You may wish to check for yourself that the same happens, regardless of the entries chosen to be fixed.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/03-Testing-independence-in-nx2-tables.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/03-Testing-independence-in-nx2-tables.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="testing-symmetry-in-2x2-tables" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Testing symmetry in 2x2 tables</h2>
+<div id="motivation-9" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Motivation</h3>
+<p>Patients suspected of having lung cancer get a scan to check if the scan includes anomalies. The scan is analysed by a radiologist, but this may take a few days.</p>
+<p>A computer program has been developed to analyse the images and detect anomalies. This is quicker than the radiologist, as the computer can be left continuously running. Researchers want to know if the computer program detects more anomalies than the radiologist or not. How can we decide on this?</p>
+<p>Note: any anomaly detected is a positive result so, for the purpose of this example, there are no anomalies not worth being detected (false positives).</p>
+</div>
+<div id="working-example-7" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Working example</h3>
+<p>The data consists of two variables: the result of the radiologist <code>res.radio</code> and the result of the computer program <code>res.comp</code>. Each variable has one entry per scan, indicating by the value <code>1</code> if an anomaly was found in the scan, and by the value <code>0</code> otherwise.</p>
+<p>To assess how often the two tests give similar results and how often they do not, we make a table of these variables:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="statistical-tests-part-2.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(res.radio, res.comp)</span></code></pre></div>
+<pre><code>##             res.comp
+## res.radio    no anomaly anomaly
+##   no anomaly         45      12
+##   anomaly             7      36</code></pre>
+<p>Now we need to decide if the difference observed is large enough to suggest one test detects more anomalies than the other.</p>
+</div>
+<div id="general-setup-2" class="section level3" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> General setup</h3>
+<p>In general, two variables <code>X</code> and <code>Y</code> are observed, each corresponding to one test test: <em>pass</em> or <em>fail</em>. A typical table observed is</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th>Y=fail</th>
+<th>Y=pass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>X=fail</strong></td>
+<td><code>a</code></td>
+<td><code>b</code></td>
+</tr>
+<tr class="even">
+<td><strong>X=pass</strong></td>
+<td><code>c</code></td>
+<td><code>d</code></td>
+</tr>
+</tbody>
+</table>
+<p>The counts <code>a</code> and <code>d</code> correspond to cases where both tests yield the same result: in <code>a</code> cases both tests indicate a fail, and in <code>d</code> cases both tests indicate a pass. So, to decide on whether one of the two tests is better than the other, only counts <code>b</code> and <code>c</code> are informative.</p>
+<p>If the tests disagree in a random manner, without a trend towards one yield a pass more often than the other, we expect to see similar values for <code>b</code> and <code>c</code>, relative to all results that disagree <code>b+c</code>. If test <code>X</code> more often yields a pass than test <code>Y</code>, we would expect to see <code>c</code> relatively larger than <code>b</code>, compared with <code>b+c</code>.</p>
+<p>The statistical test to answer this question is McNemar’s test. It is implemented in R via the <code>mcnemar.test</code> function. The test computes the probability of observing one of the discordant counts (<code>b</code>, say), or a more extreme value, out of a total <code>b+c</code> counts, at random. For that, typically an approximation of the true binomial distribution to the chi-square (with 1 degree of freedom) is used. In this course, we will use this function for our illustrations.</p>
+</div>
+<div id="working-example-cont" class="section level3" number="4.4.4">
+<h3><span class="header-section-number">4.4.4</span> Working example (cont)</h3>
+<p>In the study with the scans evaluated by a radiologist and a computer program, we had:</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="statistical-tests-part-2.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(res.radio, res.comp)</span></code></pre></div>
+<pre><code>##             res.comp
+## res.radio    no anomaly anomaly
+##   no anomaly         45      12
+##   anomaly             7      36</code></pre>
+<p>Now applying McNemar’s test to the data:</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="statistical-tests-part-2.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcnemar.test</span>(<span class="fu">table</span>(res.radio, res.comp))</span></code></pre></div>
+<pre><code>## 
+##  McNemar&#39;s Chi-squared test with continuity correction
+## 
+## data:  table(res.radio, res.comp)
+## McNemar&#39;s chi-squared = 0.84211, df = 1, p-value = 0.3588</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/04-Testing-symmetry-in-2x2-tables.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/04-Testing-symmetry-in-2x2-tables.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="notes" class="section level3" number="4.4.5">
+<h3><span class="header-section-number">4.4.5</span> Notes</h3>
+<p>An exact version of the test makes use of the binomial distribution directly. An implementation of this version is also available in R, for example via the <code>exact2x2</code> package from Michael Fay, which can be found via the link below:</p>
+<p><a href="https://cran.r-project.org/web/packages/exact2x2" class="uri">https://cran.r-project.org/web/packages/exact2x2</a></p>
+</div>
+</div>
+<div id="relative-risk-and-odds-ratio" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Relative risk and odds ratio</h2>
+<div id="motivation-10" class="section level3" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Motivation</h3>
+<p>Researchers want to better understand the relationship between smoking and stroke. For this, they have collected data of people who have suffered a stroke in the last 5 years, and from people with similar demographic variables who have never had a stroke. They have then asked these people whether or not they smoked cigarettes regularly, or had done in the past for at least a year, in the 5 years prior to the stroke - these people were considered smokers. All others were considered non-smokers.</p>
+<p>This study thus involves cases and controls, and the latter are chosen so as to have a similar profile as that of cases, but there is no 1-1 matching between cases and controls - so no pairs (case, control). The data consists of two variables: <code>smoke</code> indicating whether an individual is categorized as a smoker (<code>yes</code>) or not (<code>no</code>); and <code>stroke</code> indicating whether an individual has had a stroke (<code>1</code>) or not (<code>0</code>).</p>
+<p>The observed data can be summarized by tabulating <code>smoke</code> and <code>stroke</code>:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="statistical-tests-part-2.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(smoke, stroke)</span></code></pre></div>
+<pre><code>##      stroke
+## smoke   0   1
+##   no  107  43
+##   yes  26  74</code></pre>
+<p>Some of the questions researchers want to address are:</p>
+<ul>
+<li>is the risk of having a stroke different between smokers and non-smokers?</li>
+<li>are the odds of having a stroke larger for smokers, compared with non-smokers?</li>
+</ul>
+<p>The first question relates to the risk of having a stroke given that someone is a smoker, relative to the risk of having a stroke given that the person is not a smoker. This is what we call a <em>relative risk</em>. In this context, <em>risk</em> has the meaning of probability.</p>
+<p>The second question relates to odds, the relation between the number of people who get a stroke and the number of people who do not, given their smoking status. The comparison between the two odds is made via the <em>odds ratio</em>.</p>
+<p>We will see these concepts in more detail in the following sections.</p>
+</div>
+<div id="relative-risk" class="section level3" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> Relative risk</h3>
+<p>Consider a generic table observed as</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th><code>Y</code>=0</th>
+<th><code>Y</code>=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cases</strong></td>
+<td>a</td>
+<td>b</td>
+<td>a+b</td>
+</tr>
+<tr class="even">
+<td><strong>Controls</strong></td>
+<td>c</td>
+<td>d</td>
+<td>c+d</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>a+c</td>
+<td>b+d</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<p>where the patient status (<code>case</code> or <code>control</code>) is the variable of interest, and <code>Y</code> represents the explanatory grouping variable. There is interest in studying the association between the patient status and the explanatory variable.</p>
+<p>The risk of being a case, given that <code>Y</code>=0, is calculated by a/(a+c). Similarly, the risk of being a case, given that <code>Y</code>=1, is calculated by b/(b+d). So, the relative risk is the ratio between these two risks, or (a/b)*(b+d)/(a+c).</p>
+<p>If the risk in both groups is similar, the relative risk is approximately 1. Values lower than 1 indicate that the risk amongst observations with <code>Y</code>=1 is smaller than the risk amongst observations with <code>Y</code>=0. Reciprocally, values larger than 1 indicate that the risk amongst observations with <code>Y</code>=1 is larger than the risk amongst observations with <code>Y</code>=0.</p>
+<p>For the example of stroke and smoking above, we have cases on row 2 and controls on row 1. In this case, the table is</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th><code>Y</code>=0</th>
+<th><code>Y</code>=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Controls</strong></td>
+<td>107</td>
+<td>26</td>
+<td>133</td>
+</tr>
+<tr class="even">
+<td><strong>Cases</strong></td>
+<td>43</td>
+<td>74</td>
+<td>117</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>150</td>
+<td>100</td>
+<td>250</td>
+</tr>
+</tbody>
+</table>
+<p>Then the risk of stroke amongst non-smokers is 43 divided by 150, which gives</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="statistical-tests-part-2.html#cb214-1" aria-hidden="true" tabindex="-1"></a>myt <span class="ot">&lt;-</span> <span class="fu">table</span>(stroke, smoke)</span>
+<span id="cb214-2"><a href="statistical-tests-part-2.html#cb214-2" aria-hidden="true" tabindex="-1"></a>r.stroke.smoke0 <span class="ot">&lt;-</span> myt[<span class="dv">2</span>, <span class="dv">1</span>]<span class="sc">/</span><span class="fu">colSums</span>(myt)[<span class="dv">1</span>]</span>
+<span id="cb214-3"><a href="statistical-tests-part-2.html#cb214-3" aria-hidden="true" tabindex="-1"></a>r.stroke.smoke0</span></code></pre></div>
+<pre><code>##        no 
+## 0.2866667</code></pre>
+<p>Similarly, the risk of stroke amongst smokers is 74 divided by 100, which gives</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="statistical-tests-part-2.html#cb216-1" aria-hidden="true" tabindex="-1"></a>r.stroke.smoke1 <span class="ot">&lt;-</span> myt[<span class="dv">2</span>, <span class="dv">2</span>]<span class="sc">/</span><span class="fu">colSums</span>(myt)[<span class="dv">2</span>]</span>
+<span id="cb216-2"><a href="statistical-tests-part-2.html#cb216-2" aria-hidden="true" tabindex="-1"></a>r.stroke.smoke1</span></code></pre></div>
+<pre><code>##  yes 
+## 0.74</code></pre>
+<p>The relative risk of having a stroke in smokers compared to non-smokers is then 0.74 divided by 0.29, yielding</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="statistical-tests-part-2.html#cb218-1" aria-hidden="true" tabindex="-1"></a>rr <span class="ot">&lt;-</span> r.stroke.smoke1<span class="sc">/</span>r.stroke.smoke0</span>
+<span id="cb218-2"><a href="statistical-tests-part-2.html#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(rr, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##    yes 
+## 2.5814</code></pre>
+<p>So, the chance of someone having a stroke is 2.58 larger amongst smokers than amongst non-smokers.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/05-relative-risk.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/05-relative-risk.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="odds-ratio" class="section level3" number="4.5.3">
+<h3><span class="header-section-number">4.5.3</span> Odds ratio</h3>
+<p>Consider again the generic table observed as</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frequencies</th>
+<th><code>Y</code>=0</th>
+<th><code>Y</code>=1</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cases</strong></td>
+<td>a</td>
+<td>b</td>
+<td>a+b</td>
+</tr>
+<tr class="even">
+<td><strong>Controls</strong></td>
+<td>c</td>
+<td>d</td>
+<td>c+d</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>a+c</td>
+<td>b+d</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<p>The odds of being a case amongst individuals with <code>Y</code>=1 is b/d, whilst the odds of being a case amongst individuals with <code>Y</code>=0 is a/c. Then the odds ratio of being a case, of individuals with <code>Y</code>=1 compared to that of individuals with <code>Y</code>=0, is the ratio (b/d)/(a/c), qhich is the same as (bc)/(ad).</p>
+<p>If the odds in both groups are similar, the odds ratio is approximately 1. Values lower than 1 indicate that the odds amongst observations with <code>Y</code>=1 are smaller than the odds amongst observations with <code>Y</code>=0. Reciprocally, values larger than 1 indicate that the odds amongst observations with <code>Y</code>=1 are larger than the odds amongst observations with <code>Y</code>=0.</p>
+<p>For the example of stroke and smoking above, we have the odds of having a stroke amongst non-smokers being 43 divided by 107. Similarly, the odds of having a stroke amongst smokers is 74 divided by 26. This leads to the following odds: 0.4 amongst non-smokers and 2.85 amongst smokers. Then the odds ratio of having a stroke, between smokers and non-smokers, is 2.85 divided by 0.4, which gives 7.08.</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="statistical-tests-part-2.html#cb220-1" aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> (myt[<span class="dv">2</span>, <span class="dv">2</span>] <span class="sc">*</span> myt[<span class="dv">1</span>, <span class="dv">1</span>]) <span class="sc">/</span> (myt[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">*</span> myt[<span class="dv">2</span>, <span class="dv">1</span>])</span></code></pre></div>
+<p>Note again that, in this case, cases are on row 2 and controls on row 1.</p>
+<p>So, the odds of someone having a stroke is 7.08 larger amongst smokers than amongst non-smokers.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/06-odds-ratio.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/06-odds-ratio.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="relative-risk-vs.-odds-ratio" class="section level3" number="4.5.4">
+<h3><span class="header-section-number">4.5.4</span> Relative risk <em>vs.</em> odds ratio</h3>
+<p>In principle, both relative risk and odds ratio are statistics that can be computed, given any 2x2 tables. However, their usefulness, and interpretation, depends on the experimental design used.</p>
+<p>The relative risk is evaluated assuming that the relative frequencies a/(a+c) and b/(b+d) are good approximations for the probabilities of being a case, given <code>Y</code>=0 and <code>Y</code>=1, respectively. Since calculations are conditional on the marginal frequencies a+c and b+d, these must represent well the frequencies of <code>Y</code>=0 and <code>Y</code>=1 in the general population, in the sense that (b+d)/(a+c+b+d) is a good estimate of the proportion of individuals with <code>Y</code>=1 in the population under study.</p>
+<p>In contrast, the odds ratio does not make use directly of the observed relative frequencies. So it needs not rely on representative (relative) marginal frequencies.</p>
+<p>Typically relative marginal frequencies can only be expected in the context of prospective studies. Retrospective studies, especially case-control sudies, do not satisfy this assumption. For this reason, odds ratios are often used in the context of case-control studies, whilst relative risks can only be reliably interpreted in prospective (cohort) studies.</p>
+<p>In some cases, the computed relative risk and odds ratio yield similar values. For example, if the marginal frequency a+c is approximately equal to c, and the marginal frequency b+d is approximately equal to d, then it is easy to see that the two statistics will yield similar results. One situation where both <span class="math inline">\(a+c\approx c\)</span> and <span class="math inline">\(b+d\approx d\)</span> occur is when the response involves rare cases, so that both a and c are small, and the marginal frequencies of both <code>Y</code>=0 as well as <code>Y</code>=1 are large enough.</p>
+</div>
+<div id="logistic-regression-models-cont" class="section level3" number="4.5.5">
+<h3><span class="header-section-number">4.5.5</span> Logistic regression models (cont)</h3>
+<p>The concepts of relative risk and odds ratio have been introduced above, and we computed them on the basis of 2x2 tables. This helps with understanding what they mean. However, 2x2 tables can only represent the relationship between a response (having a stroke or not) and one explanatory (grouping) variable (smoking habit). Most studies involve more variables, and thus more general methods to compute them are needed.</p>
+<p>To compute the odds ratio, a logistic regression can be used, allowing for the inclusion of more explanatory variables. In addition, by making use of estimates arising from a regression model, it is straightforward to construct a confidence interval for, and perform a hypothesis test on, computed odds ratios.</p>
+<p>Here we will check that this is the case. Indeed, if we fit a logistic regression to the stroke and smoking habit example, we get:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="statistical-tests-part-2.html#cb221-1" aria-hidden="true" tabindex="-1"></a>lgfit <span class="ot">&lt;-</span> <span class="fu">glm</span>(stroke <span class="sc">~</span> smoke, <span class="at">family =</span> binomial)</span>
+<span id="cb221-2"><a href="statistical-tests-part-2.html#cb221-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgfit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = stroke ~ smoke, family = binomial)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.641  -0.822  -0.822   0.776   1.581  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -0.9116     0.1806  -5.049 4.44e-07 ***
+## smokeyes      1.9576     0.2908   6.731 1.68e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 345.55  on 249  degrees of freedom
+## Residual deviance: 294.35  on 248  degrees of freedom
+## AIC: 298.35
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="statistical-tests-part-2.html#cb223-1" aria-hidden="true" tabindex="-1"></a>sfit <span class="ot">&lt;-</span> <span class="fu">summary</span>(lgfit)<span class="sc">$</span>coef</span></code></pre></div>
+<p>The coefficient of the <code>smoke</code> variable (corresponding to <code>smoke=yes</code>) in the model is 1.96. It turns out that this is the same as the logarithm of the odds ratio:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="statistical-tests-part-2.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Include computation of or using smoke, stroke</span></span>
+<span id="cb224-2"><a href="statistical-tests-part-2.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(or)</span></code></pre></div>
+<pre><code>## [1] 1.957597</code></pre>
+<p>Alternatively, we compute <code>exp(beta)</code>, where <code>beta</code> is the coefficient of <code>smoke=yes</code> estimated by the logistic model. This gives 7.08, which is the same as the odds ratio 7.08 computed from the table.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="statistical-tests-part-2.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(sfit[<span class="dv">2</span>, <span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] 7.08229</code></pre>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="statistical-tests-part-2.html#cb228-1" aria-hidden="true" tabindex="-1"></a>or</span></code></pre></div>
+<pre><code>## [1] 7.08229</code></pre>
+<p>So, the log-odds ratio corresponds to the coefficient of a binary variable from a logistic regression. If more explanatory variables are included in the logistic regression, the computed log-odds ratio yields a measurement that is corrected for the effects of the remaining variables.</p>
+<p>As we already know, a confidence interval for a coefficient of the fitted regression can be computed. We can use the function <code>confint</code> on the model fit object to do that:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="statistical-tests-part-2.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lgfit, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##    2.5 %   97.5 % 
+## 1.399669 2.542158</code></pre>
+<p>This is the 95% confidence interval for the logarithm of the odds ratio. Typically there is interest in testing whether the odds ratio is equal to 1 (in which case the odds are the same in both groups). On this scale, this test is equivalent to testing whether the log-odds ratio is equal to 0. The above confidence interval does not include 0, indicating that the null hypothesis that the odds ratio is equal to 1 can be rejected, with a significance level of 0.05 (because it is a 95% confidence interval).</p>
+<p>An approximate confidence interval for the odds ratio is then</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="statistical-tests-part-2.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(lgfit, <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##     2.5 %    97.5 % 
+##  4.053859 12.707069</code></pre>
+</div>
+<div id="poisson-regression-models" class="section level3" number="4.5.6">
+<h3><span class="header-section-number">4.5.6</span> Poisson regression models</h3>
+<p>While odds ratio can be computed by fitting a logistic regression, relative risk can be computed by fitting a Poisson regression.</p>
+<p>For some background: the logistic regression assumes that the response observations can be modelled by a binomial distribution, whilst the Poisson regression assumes that the response observations can be modelled by a Poisson distribution. The binomial distribution models counts for a given total, whilst the Poisson distribution models counts without conditioning on a total. So, while both regression models are suitable for a response variable that represents counts, in the logistic regression computations are conditional on the total number of cases and controls observed, which is not the case with the Poisson regression.</p>
+<p>We now fit a Poisson regression to the stroke and smoking habits table:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="statistical-tests-part-2.html#cb236-1" aria-hidden="true" tabindex="-1"></a>lgfit <span class="ot">&lt;-</span> <span class="fu">glm</span>(stroke <span class="sc">~</span> smoke, <span class="at">family =</span> poisson)</span>
+<span id="cb236-2"><a href="statistical-tests-part-2.html#cb236-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgfit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = stroke ~ smoke, family = poisson)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2166  -0.7572  -0.7572   0.2867   1.0355  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -1.2494     0.1525  -8.193 2.54e-16 ***
+## smokeyes      0.9483     0.1917   4.946 7.59e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 177.67  on 249  degrees of freedom
+## Residual deviance: 152.01  on 248  degrees of freedom
+## AIC: 390.01
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="statistical-tests-part-2.html#cb238-1" aria-hidden="true" tabindex="-1"></a>sfit <span class="ot">&lt;-</span> <span class="fu">summary</span>(lgfit)<span class="sc">$</span>coef</span></code></pre></div>
+<p>The coefficient of the <code>smoke</code> variable (corresponding to <code>smoke=yes</code>) in the fitted Poisson regression is 0.95. It turns out that this is the same as the logarithm of the relative risk:</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="statistical-tests-part-2.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(rr)</span></code></pre></div>
+<pre><code>##       yes 
+## 0.9483301</code></pre>
+<p>Alternatively, we can compute the relative risk via <code>exp(beta)</code>, where <code>beta</code> is the estimated coefficient of <code>smoke=yes</code> in the Poisson regression. This yields 2.58, the same as the computed relative risk from the table 2.58.</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="statistical-tests-part-2.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(sfit[<span class="dv">2</span>, <span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] 2.581395</code></pre>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="statistical-tests-part-2.html#cb243-1" aria-hidden="true" tabindex="-1"></a>rr</span></code></pre></div>
+<pre><code>##      yes 
+## 2.581395</code></pre>
+<p>Similarly to what was done for the odds ratio, we can now build a confidence interval for the coefficient of the fitted regression. We use the function <code>confint</code> on the model fit object to do that:</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="statistical-tests-part-2.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lgfit, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##     2.5 %    97.5 % 
+## 0.5776317 1.3315650</code></pre>
+<p>This is the 95% confidence interval for the logarithm of the relative risk. Typically there is interest in testing whether the relative risk is equal to 1 (in which case the risk the same in both groups). On this scale, this test is equivalent to testing whether the log-relative risk is equal to 0. The above confidence interval does not include 0, indicating that the null hypothesis that the relative risk is equal to 1 can be rejected, with a significance level of 0.05 (because it is a 95% confidence interval).</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/07-Poisson-regression.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/07-Poisson-regression.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="power-for-analysis-of-count-tables" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Power for analysis of count tables</h2>
+<div id="motivation-11" class="section level3" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> Motivation</h3>
+<p>We want to know how many samples are needed if we were to repeat the study of learning speed and association with sex, using as pilot the data the <code>quine</code> data. Let us first review the data and make the table we will use for analyses:</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="statistical-tests-part-2.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb248-2"><a href="statistical-tests-part-2.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine how many observations you have per age group</span></span>
+<span id="cb248-3"><a href="statistical-tests-part-2.html#cb248-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(quine<span class="sc">$</span>Lrn, quine<span class="sc">$</span>Sex)</span></code></pre></div>
+<pre><code>##     
+##       F  M
+##   AL 40 43
+##   SL 40 23</code></pre>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="statistical-tests-part-2.html#cb250-1" aria-hidden="true" tabindex="-1"></a>mytable <span class="ot">&lt;-</span> <span class="fu">table</span>(quine<span class="sc">$</span>Lrn, quine<span class="sc">$</span>Sex)</span></code></pre></div>
+<p>The aim is to test if there is a statistically significant difference between the proportions of females, between the groups defined by learning speed. We will test this by using either Fisher’s exact test or the chi-square test.
+Subsequently, we wish to know by how much the sample size would have to change, to modify the test’s conclusions.</p>
+</div>
+<div id="fishers-exact-test-1" class="section level3" number="4.6.2">
+<h3><span class="header-section-number">4.6.2</span> Fisher’s exact test</h3>
+<p>Fisher’s exact test for independence of the marginal counts in this table gives:</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="statistical-tests-part-2.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(mytable)</span></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  mytable
+## p-value = 0.09285
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  0.258569 1.099752
+## sample estimates:
+## odds ratio 
+##  0.5371981</code></pre>
+<p>So the test is not significant if we use <span class="math inline">\(\alpha=0.05\)</span>.
+Now we will evaluate the power of the test to find the difference between proportions to be significant, given the current table. For this, we make use of the function <code>power.fisher.test</code> from the package <code>statmod</code>, which is automatically installed when you install R. As there is no closed form for the distribution of the Fisher’s exact test statistic under the alternative, the power cannot be evaluated on the basis of a mathematical formula. Instead, the function simulates data according to given parameters, and yields the estimated power.</p>
+<p>As inputs, the function expects the proportions of females in the two groups (<code>p1</code> and <code>p2</code>), the sample sizes in the two groups (the row sums), the significance level (<span class="math inline">\(\alpha=0.05\)</span> is the default), the number of simulations and the alternative (one or two-sided). Below we use the function to compute the power for the table of learning speed and sex from the <code>quine</code> data:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="statistical-tests-part-2.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(statmod)</span>
+<span id="cb253-2"><a href="statistical-tests-part-2.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power.fisher.test</span>(<span class="at">p1  =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">83</span>, <span class="at">p2 =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">63</span>, <span class="at">n1 =</span> <span class="dv">83</span>, <span class="at">n2 =</span> <span class="dv">63</span>)</span></code></pre></div>
+<pre><code>## [1] 0.53</code></pre>
+<p>The estimated power is lower than 0.8, the level typically desired for studies. We could now increase the sample size and check if the desired power of 0.8 would be achieved. Note that we keep the proportions <code>p1</code> and <code>p2</code> the same, so that the effect size is the same as for the original data. We also keep the relative proportions in groups 1 and 2 the same, i.e., <code>n1</code>/<code>n2</code> is kept fixed. We can for example multiply both sample sizes by 2:</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="statistical-tests-part-2.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.fisher.test</span>(<span class="at">p1  =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">83</span>, <span class="at">p2 =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">63</span>, <span class="at">n1 =</span> <span class="dv">83</span><span class="sc">*</span><span class="dv">2</span>, <span class="at">n2 =</span> <span class="dv">63</span><span class="sc">*</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.74</code></pre>
+<p>This yields a number closer to 0.8. Let us now define a vector of values which we will multiply both sample sizes by, and compute the power for each value:</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="statistical-tests-part-2.html#cb257-1" aria-hidden="true" tabindex="-1"></a>sr <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="fl">2.5</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb257-2"><a href="statistical-tests-part-2.html#cb257-2" aria-hidden="true" tabindex="-1"></a>powerv <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb257-3"><a href="statistical-tests-part-2.html#cb257-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sr)) powerv <span class="ot">&lt;-</span> <span class="fu">c</span>(powerv, </span>
+<span id="cb257-4"><a href="statistical-tests-part-2.html#cb257-4" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">power.fisher.test</span>(<span class="at">p1  =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">83</span>, <span class="at">p2 =</span> <span class="dv">40</span><span class="sc">/</span><span class="dv">63</span>, </span>
+<span id="cb257-5"><a href="statistical-tests-part-2.html#cb257-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="at">n1 =</span> <span class="fu">floor</span>(<span class="dv">83</span><span class="sc">*</span>sr[xi]), <span class="at">n2 =</span> <span class="fu">floor</span>(<span class="dv">63</span><span class="sc">*</span>sr[xi])))</span></code></pre></div>
+<p>Now we make a graph of the estimated power, as a function of the multiplying factor:</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="statistical-tests-part-2.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sr, powerv, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Power Fisher exact test&quot;</span>, </span>
+<span id="cb258-2"><a href="statistical-tests-part-2.html#cb258-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;factor multiplying both marginal counts&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;estimated power&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
+<p>We used here a relatively small number of simulations, the default 100. This of course yields variability between estimates, meaning they are not always increasing.</p>
+<p>So, a power of at least 0.80 is achieved for the last few multiplying factors, corresponding to minimum sample sizes required of:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="statistical-tests-part-2.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(sr[ powerv <span class="sc">&gt;=</span> <span class="fl">0.8</span> ]<span class="sc">*</span><span class="dv">83</span>)</span></code></pre></div>
+<pre><code>## [1] 190.9</code></pre>
+<p>for group 1, and</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="statistical-tests-part-2.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(sr[ powerv <span class="sc">&gt;=</span> <span class="fl">0.8</span> ]<span class="sc">*</span><span class="dv">63</span>)</span></code></pre></div>
+<pre><code>## [1] 144.9</code></pre>
+<p>for group 2. This would yield a total sample size for a new study of:</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="statistical-tests-part-2.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(sr[ powerv <span class="sc">&gt;=</span> <span class="fl">0.8</span> ]<span class="sc">*</span><span class="dv">83</span>) <span class="sc">+</span> <span class="fu">min</span>(sr[ powerv <span class="sc">&gt;=</span> <span class="fl">0.8</span> ]<span class="sc">*</span><span class="dv">63</span>)</span></code></pre></div>
+<pre><code>## [1] 335.8</code></pre>
+<p>Note that Fisher’s exact test makes no distinction between rows and columns, in the sense that the test statistic is the same, if we invert rows and columns. So, conclusions here would have been the same if we had used as inputs the proportions of learning speeds per sex, and the column sums, instead.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/08-power-analysis-Fisher-test.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/08-power-analysis-Fisher-test.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="chi-square-test" class="section level3" number="4.6.3">
+<h3><span class="header-section-number">4.6.3</span> Chi-square test</h3>
+<p>The power for a chi-square test can be computed by using the function <code>pwr.chisq.test</code> of the package <code>pwr</code>. This function, as others from the same package, enables us to give all arguments but one, and the function will automatically determine the last argument using all the given ones. Here we will focus on determing the sample size, given the remaining arguments.</p>
+<p>We will use in for the same example as above, where we studied the association between learning speed and sex, using the <code>quine</code> data. Let us first use the chi-square test to test for the association between the two variables, and save the observed test statistic:</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="statistical-tests-part-2.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(mytable)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  mytable
+## X-squared = 2.7949, df = 1, p-value = 0.09456</code></pre>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="statistical-tests-part-2.html#cb267-1" aria-hidden="true" tabindex="-1"></a>chisq.stat <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(mytable)<span class="sc">$</span>stat</span></code></pre></div>
+<p>Based upon this test result, we conclude that there is no statistically significant association between learning speed and sex, with a significance level of 0.05. How large would the sample size need to be, in order to yield a statistically significant result?</p>
+<p>We already knew that a chi-square test statistic for a 2x2 table has, under the null hypothesis of no association between rows and columns, asymptotically a chi-square distribution with 1 d.f.. The power we may state as 0.8, and the significance level remains 0.05.</p>
+<p>We need also to state which effect size is required. This would be the effect size observed in the current data. It is equal to the square root of the observed test statistic, divided by the sample size of the current study. We have already computed the observed test statistic, and the sample size of the current study can be computed by <code>sum(mytable)</code>. Then we have:</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="statistical-tests-part-2.html#cb268-1" aria-hidden="true" tabindex="-1"></a>eff.size <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(chisq.stat<span class="sc">/</span><span class="fu">sum</span>(mytable))</span></code></pre></div>
+<p>Now load the package required and compute the minimum sample size:</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="statistical-tests-part-2.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb269-2"><a href="statistical-tests-part-2.html#cb269-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.chisq.test</span>(<span class="at">w =</span> eff.size, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">power =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<pre><code>## 
+##      Chi squared power calculation 
+## 
+##               w = 0.1383592
+##               N = 410.0061
+##              df = 1
+##       sig.level = 0.05
+##           power = 0.8
+## 
+## NOTE: N is the number of observations</code></pre>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/09-power-analysis-chi-square-test.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/09-power-analysis-chi-square-test.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+<div id="odds-ratio-1" class="section level3" number="4.6.4">
+<h3><span class="header-section-number">4.6.4</span> Odds ratio</h3>
+<p>The minimum sample size required to find a specific odds ratio as different from 1 is the same as the one required to find the log-odds ratio as different from 0. Thus, the power analysis required is the same as the one for a coefficient from the logistic regression.</p>
+</div>
+<div id="notes-1" class="section level3" number="4.6.5">
+<h3><span class="header-section-number">4.6.5</span> Notes</h3>
+<p>We have used a choice of functions available in R to explain the concept of minimum sample size, and illustrate how it varies according to various parameters, for the chi-square and Fisher’s exact tests. However, there are other choices of functions, which may be more convenient for a particular application.</p>
+<p>To estimate the minimum sample size required for McNemar’s test of symmetry, we suggest using the <code>exact2x2</code> package. We refer to the vignette of the McNemar’s test functions implemented in the package for more details:</p>
+<p><a href="https://cran.r-project.org/web/packages/exact2x2/vignettes/exactMcNemar.pdf" class="uri">https://cran.r-project.org/web/packages/exact2x2/vignettes/exactMcNemar.pdf</a></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="common-regression-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="survival-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

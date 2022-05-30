@@ -1,0 +1,43 @@
+---
+title: "08-power-analysis-poisson-regression"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+
+### Quick tasks
+
+Compute the power for a series of multiplying factors for the column sums of the learning speed and sex table of the `quine` data, considering now the problem of comparing proportions of average learners per group. Plot the estimated powers and determine the minimum sample size corresponding to 0.80 power.
+
+```{r}
+sr <- seq(from = 1, to = 2.5, by = 0.1)
+powerv <- NULL
+for(xi in 1:length(sr)) powerv <- c(powerv, 
+                                    power.fisher.test(p1  = 40/80, p2 = 23/66, 
+                                                      n1 = floor(80*sr[xi]), n2 = floor(66*sr[xi])))
+
+```
+
+The graph of the estimated power, as a function of the multiplying factor:
+
+```{r}
+plot(sr, powerv, pch = 20, col = "blue", main = "Power Fisher exact test", 
+     xlab = "factor multiplying both marginal counts", ylab = "estimated power")
+```
+
+So, a power of at least 0.80 is achieved for the last few multiplying factors, corresponding to minimum sample sizes required of:
+
+```{r}
+min(sr[ powerv >= 0.8 ]*80)
+```
+
+for group 1, and 
+
+```{r}
+min(sr[ powerv >= 0.8 ]*66)
+```
+
+for group 2.

@@ -1,0 +1,32 @@
+---
+title: "03-Mean-Variance"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Let us go back to the `decathlon2` dataset and compute the mean, and the standard deviation. 
+
+```{r}
+data.Decastar <- decathlon2[decathlon2$Competition == 'Decastar', c(1:10,12)]
+data.OlympicGames <- decathlon2[decathlon2$Competition == 'OlympicG', c(1:10,12)]
+mean.variables.Decastar <- apply(data.Decastar, 2, mean, na.rm=T)
+mean.variables.OlympicGames <- apply(data.OlympicGames, 2, mean, na.rm=T)
+sd.variables.Decastar <- apply(data.Decastar, 2, sd, na.rm=T)
+sd.variables.OlympicGames <- apply(data.OlympicGames, 2, sd, na.rm=T)
+```
+
+Now compute the median, and the median absolute deviation for each event and the total number of points for each competition.
+
+```{r}
+data.Decastar <- decathlon2[decathlon2$Competition == 'Decastar', c(1:10,12)]
+data.OlympicGames <- decathlon2[decathlon2$Competition == 'OlympicG', c(1:10,12)]
+median.variables.Decastar <- apply(data.Decastar, 2, median, na.rm=T)
+median.variables.OlympicGames <- apply(data.OlympicGames, 2, median, na.rm=T)
+mad.variables.Decastar <- apply(data.Decastar, 2, mad, na.rm=T)
+mad.variables.OlympicGames <- apply(data.OlympicGames, 2, mad, na.rm=T)
+```

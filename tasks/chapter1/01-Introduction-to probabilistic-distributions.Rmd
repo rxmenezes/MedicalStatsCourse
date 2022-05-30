@@ -1,0 +1,37 @@
+---
+title: "01-Introduction-to probabilistic-distributions"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+A student in statistics wants to make a small experiment. He throws 50 times a coin and counts the number of times he gets head. Compute the probability to obtain head 20, 25 and 35 times using the function `dbinom`. Plot the probability plot resulting from this experiment.
+
+```{r}
+dbinom(c(20,25,35), size = 50, prob =0.5)
+plot(c(0:50),dbinom(c(0:50), size = 50, prob =0.5), ylim=c(0,0.2),col="blue",ylab="p")
+```
+
+The student throws a coin 5 times and repeats this experiment 500 times. Simulate each experiment using the `rbinom` function and compute their mean. Plot the histogram of the 500 means obtained.
+
+```{r}
+means<-NULL
+for (k in 1:500){
+sample <- rbinom(5, size = 1, prob =0.5)
+means <- c(means, mean(sample))
+}
+hist(means,col="blue")
+```
+
+Not satisfied by his results, the student recruits 9 other students to do the same thing in order to throw the coin 50 time and repeat the experiment 500 times. Simulate and plot the results.
+
+```{r}
+means<-NULL
+for (k in 1:500){
+sample <- rbinom(50, size = 1, prob =0.5)
+means <- c(means, mean(sample))
+}
+hist(means,col="blue")
+```

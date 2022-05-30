@@ -1,0 +1,21 @@
+---
+title: "changes ch5"
+author: "Renee Menezes"
+date: "11/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+l 321, leuk example
+
+```{r}
+library(MASS)
+par(mfrow = c(1, 2))
+plot(survfit(mel.coxs), main = "AG as covariate")
+plot(survfit(leuk.coxs), main = "AG defining strata")
+
+
+```

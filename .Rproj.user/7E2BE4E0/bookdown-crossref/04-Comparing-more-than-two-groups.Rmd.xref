@@ -1,0 +1,39 @@
+h1:statistical-tests---part-2 Statistical tests - Part 2
+h2:comparing-more-than-two-groups Comparing more than two groups
+h3:motivation Motivation
+h3:working-examples Working examples
+h2:testing-independence-in-2x2-tables Testing independence in 2x2 tables
+h3:motivation-1 Motivation
+h3:working-examples-1 Working examples
+h3:general-setup General setup
+h3:working-examples-cont Working examples (cont)
+h3:the-chi-square-test The chi-square test
+h3:working-examples-cont-1 Working examples (cont)
+h3:fishers-exact-test Fisher’s exact test
+h3:working-examples-cont-2 Working examples (cont)
+h2:testing-independence-in-nx2-tables Testing independence in nx2 tables
+h3:motivation-2 Motivation
+h3:working-examples-2 Working examples
+h3:general-setup-1 General setup
+h3:chi-square-test-for-nx2-tables Chi-square test for nx2 tables
+h3:working-examples-cont-3 Working examples (cont)
+h2:testing-symmetry-in-2x2-tables Testing symmetry in 2x2 tables
+h3:motivation-3 Motivation
+h3:working-example Working example
+h3:general-setup-2 General setup
+h3:working-example-cont Working example (cont)
+h3:notes Notes
+h2:relative-risk-and-odds-ratio Relative risk and odds ratio
+h3:motivation-4 Motivation
+h3:relative-risk Relative risk
+h3:odds-ratio Odds ratio
+h3:relative-risk-vs.-odds-ratio Relative risk  odds ratio
+h3:logistic-regression-models-cont Logistic regression models (cont)
+h3:poisson-regression-models Poisson regression models
+h2:power-for-analysis-of-count-tables Power for analysis of count tables
+h3:motivation-5 Motivation
+h3:fishers-exact-test-1 Fisher’s exact test
+h3:chi-square-test Chi-square test
+h3:odds-ratio-1 Odds ratio
+h3:notes-1 Notes
+

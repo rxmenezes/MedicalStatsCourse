@@ -1,0 +1,17 @@
+---
+title: "09-Power-analysis-chi-square-test"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+
+### Quick tasks
+
+Using again the learning speed and sex example of the `quine` data, compute the sample size required to obtain a significant chi-square test if the significance level desired was 0.025, instead of 0.05, while keeping all other parameters the same.
+
+```{r}
+pwr.chisq.test(w = eff.size, df = 1, power = 0.8, sig.level = 0.025)
+```

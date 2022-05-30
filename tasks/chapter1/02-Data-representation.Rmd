@@ -1,0 +1,21 @@
+---
+title: "Data representation"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+Let us go back to the `decathlon2` dataset. Use both histograms and boxplots to represent the distribution of the variable `Points` overall and by competitions.
+
+```{r}
+hist(decathlon2$Points, prob = TRUE)
+par(mfrow=c(1,2))
+hist(decathlon2$Points[decathlon2$Competition == 'Decastar'], xlab= 'Total Points', main = 'Histogram Total points at Decastar')
+hist(decathlon2$Points[decathlon2$Competition == 'OlympicG'], xlab= 'Total Points', main = 'Histogram Total points at Olympic Games')
+boxplot(decathlon2$Points)
+boxplot(decathlon2$Points ~ decathlon2$Competition)
+```

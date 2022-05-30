@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Statistical tests - Part 1 | Medical Statistics</title>
+  <meta name="description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Statistical tests - Part 1 | Medical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Statistical tests - Part 1 | Medical Statistics" />
+  
+  <meta name="twitter:description" content="This course teaches the basics of R, an open-source and free environment for statistical analyses. In this course we also teach the basics transparent and reproducible research. For this, we teach RMarkdown, a tool to make dynamic reports in R." />
+  
+
+
+
+<meta name="date" content="2021-06-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-and-exploratory-data-analysis.html"/>
+<link rel="next" href="common-regression-models.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About this course</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#teachers"><i class="fa fa-check"></i>Teachers</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals-topics"><i class="fa fa-check"></i>Goals &amp; Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#programme"><i class="fa fa-check"></i>Programme</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1</b> Introduction and exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#introduction-to-probabilistic-distributions"><i class="fa fa-check"></i><b>1.1</b> Introduction to probabilistic distributions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation"><i class="fa fa-check"></i><b>1.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#discrete-random-variables"><i class="fa fa-check"></i><b>1.1.2</b> Discrete random variables</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#continuous-random-variable"><i class="fa fa-check"></i><b>1.1.3</b> Continuous random variable</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#data-representation"><i class="fa fa-check"></i><b>1.2</b> Data representation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivating-example"><i class="fa fa-check"></i><b>1.2.1</b> Motivating example</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example"><i class="fa fa-check"></i><b>1.2.2</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#mean-variance"><i class="fa fa-check"></i><b>1.3</b> Mean-Variance</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-1"><i class="fa fa-check"></i><b>1.3.1</b> Working example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#correlation-and-heatmap"><i class="fa fa-check"></i><b>1.4</b> Correlation and heatmap</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#motivation-1"><i class="fa fa-check"></i><b>1.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-and-exploratory-data-analysis.html"><a href="introduction-and-exploratory-data-analysis.html#working-example-2"><i class="fa fa-check"></i><b>1.4.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html"><i class="fa fa-check"></i><b>2</b> Statistical tests - Part 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#comparing-2-groups"><i class="fa fa-check"></i><b>2.1</b> Comparing 2 groups</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#motivation-2"><i class="fa fa-check"></i><b>2.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.1.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#working-example-3"><i class="fa fa-check"></i><b>2.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#power-of-a-statistical-test"><i class="fa fa-check"></i><b>2.2</b> Power of a statistical test</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#motivation-3"><i class="fa fa-check"></i><b>2.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="statistical-tests-part-1.html"><a href="statistical-tests-part-1.html#working-example-4"><i class="fa fa-check"></i><b>2.2.2</b> Working example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="common-regression-models.html"><a href="common-regression-models.html"><i class="fa fa-check"></i><b>3</b> Common regression models</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="common-regression-models.html"><a href="common-regression-models.html#linear-regression"><i class="fa fa-check"></i><b>3.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-4"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-5"><i class="fa fa-check"></i><b>3.1.2</b> Working Example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="common-regression-models.html"><a href="common-regression-models.html#logistic-regression"><i class="fa fa-check"></i><b>3.2</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="common-regression-models.html"><a href="common-regression-models.html#motivation-5"><i class="fa fa-check"></i><b>3.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.2.2" data-path="common-regression-models.html"><a href="common-regression-models.html#link-function"><i class="fa fa-check"></i><b>3.2.2</b> Link function</a></li>
+<li class="chapter" data-level="3.2.3" data-path="common-regression-models.html"><a href="common-regression-models.html#the-glm-function"><i class="fa fa-check"></i><b>3.2.3</b> The <code>glm</code> function</a></li>
+<li class="chapter" data-level="3.2.4" data-path="common-regression-models.html"><a href="common-regression-models.html#working-example-6"><i class="fa fa-check"></i><b>3.2.4</b> Working example</a></li>
+<li class="chapter" data-level="3.2.5" data-path="common-regression-models.html"><a href="common-regression-models.html#fitted-values"><i class="fa fa-check"></i><b>3.2.5</b> Fitted values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html"><i class="fa fa-check"></i><b>4</b> Statistical tests - Part 2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#comparing-more-than-two-groups"><i class="fa fa-check"></i><b>4.1</b> Comparing more than two groups</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-6"><i class="fa fa-check"></i><b>4.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.1.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples"><i class="fa fa-check"></i><b>4.1.2</b> Working examples</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-independence-in-2x2-tables"><i class="fa fa-check"></i><b>4.2</b> Testing independence in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-7"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-1"><i class="fa fa-check"></i><b>4.2.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.2.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup"><i class="fa fa-check"></i><b>4.2.3</b> General setup</a></li>
+<li class="chapter" data-level="4.2.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont"><i class="fa fa-check"></i><b>4.2.4</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#the-chi-square-test"><i class="fa fa-check"></i><b>4.2.5</b> The chi-square test</a></li>
+<li class="chapter" data-level="4.2.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-1"><i class="fa fa-check"></i><b>4.2.6</b> Working examples (cont)</a></li>
+<li class="chapter" data-level="4.2.7" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#fishers-exact-test"><i class="fa fa-check"></i><b>4.2.7</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.2.8" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-2"><i class="fa fa-check"></i><b>4.2.8</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-independence-in-nx2-tables"><i class="fa fa-check"></i><b>4.3</b> Testing independence in nx2 tables</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-8"><i class="fa fa-check"></i><b>4.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-2"><i class="fa fa-check"></i><b>4.3.2</b> Working examples</a></li>
+<li class="chapter" data-level="4.3.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup-1"><i class="fa fa-check"></i><b>4.3.3</b> General setup</a></li>
+<li class="chapter" data-level="4.3.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#chi-square-test-for-nx2-tables"><i class="fa fa-check"></i><b>4.3.4</b> Chi-square test for nx2 tables</a></li>
+<li class="chapter" data-level="4.3.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-examples-cont-3"><i class="fa fa-check"></i><b>4.3.5</b> Working examples (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#testing-symmetry-in-2x2-tables"><i class="fa fa-check"></i><b>4.4</b> Testing symmetry in 2x2 tables</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-9"><i class="fa fa-check"></i><b>4.4.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-example-7"><i class="fa fa-check"></i><b>4.4.2</b> Working example</a></li>
+<li class="chapter" data-level="4.4.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#general-setup-2"><i class="fa fa-check"></i><b>4.4.3</b> General setup</a></li>
+<li class="chapter" data-level="4.4.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#working-example-cont"><i class="fa fa-check"></i><b>4.4.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="4.4.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#notes"><i class="fa fa-check"></i><b>4.4.5</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk-and-odds-ratio"><i class="fa fa-check"></i><b>4.5</b> Relative risk and odds ratio</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-10"><i class="fa fa-check"></i><b>4.5.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.5.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk"><i class="fa fa-check"></i><b>4.5.2</b> Relative risk</a></li>
+<li class="chapter" data-level="4.5.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#odds-ratio"><i class="fa fa-check"></i><b>4.5.3</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.5.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#relative-risk-vs.-odds-ratio"><i class="fa fa-check"></i><b>4.5.4</b> Relative risk <em>vs.</em> odds ratio</a></li>
+<li class="chapter" data-level="4.5.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#logistic-regression-models-cont"><i class="fa fa-check"></i><b>4.5.5</b> Logistic regression models (cont)</a></li>
+<li class="chapter" data-level="4.5.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#poisson-regression-models"><i class="fa fa-check"></i><b>4.5.6</b> Poisson regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#power-for-analysis-of-count-tables"><i class="fa fa-check"></i><b>4.6</b> Power for analysis of count tables</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#motivation-11"><i class="fa fa-check"></i><b>4.6.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#fishers-exact-test-1"><i class="fa fa-check"></i><b>4.6.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="4.6.3" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#chi-square-test"><i class="fa fa-check"></i><b>4.6.3</b> Chi-square test</a></li>
+<li class="chapter" data-level="4.6.4" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#odds-ratio-1"><i class="fa fa-check"></i><b>4.6.4</b> Odds ratio</a></li>
+<li class="chapter" data-level="4.6.5" data-path="statistical-tests-part-2.html"><a href="statistical-tests-part-2.html#notes-1"><i class="fa fa-check"></i><b>4.6.5</b> Notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>5</b> Survival analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---introduction"><i class="fa fa-check"></i><b>5.1</b> Survival data - Introduction</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-12"><i class="fa fa-check"></i><b>5.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-8"><i class="fa fa-check"></i><b>5.1.2</b> Working example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="survival-analysis.html"><a href="survival-analysis.html#kaplan-meier-curve"><i class="fa fa-check"></i><b>5.1.3</b> Kaplan-Meier curve</a></li>
+<li class="chapter" data-level="5.1.4" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-1"><i class="fa fa-check"></i><b>5.1.4</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.1.5" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-analysis-in-r"><i class="fa fa-check"></i><b>5.1.5</b> Survival data analysis in R</a></li>
+<li class="chapter" data-level="5.1.6" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data-for-groups-the-log-rank-test"><i class="fa fa-check"></i><b>5.1.6</b> Survival data for groups: the log-rank test</a></li>
+<li class="chapter" data-level="5.1.7" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-2"><i class="fa fa-check"></i><b>5.1.7</b> Working example (cont)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---regression-models"><i class="fa fa-check"></i><b>5.2</b> Survival data - regression models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-13"><i class="fa fa-check"></i><b>5.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#cox-proportional-hazards-model"><i class="fa fa-check"></i><b>5.2.2</b> Cox proportional-hazards model</a></li>
+<li class="chapter" data-level="5.2.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-9"><i class="fa fa-check"></i><b>5.2.3</b> Working example</a></li>
+<li class="chapter" data-level="5.2.4" data-path="survival-analysis.html"><a href="survival-analysis.html#group-specific-baseline-hazards"><i class="fa fa-check"></i><b>5.2.4</b> Group-specific baseline hazards</a></li>
+<li class="chapter" data-level="5.2.5" data-path="survival-analysis.html"><a href="survival-analysis.html#the-proportional-hazards-assumption"><i class="fa fa-check"></i><b>5.2.5</b> The proportional hazards assumption</a></li>
+<li class="chapter" data-level="5.2.6" data-path="survival-analysis.html"><a href="survival-analysis.html#others"><i class="fa fa-check"></i><b>5.2.6</b> Others</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-data---power-analysis"><i class="fa fa-check"></i><b>5.3</b> Survival data - power analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="survival-analysis.html"><a href="survival-analysis.html#motivation-14"><i class="fa fa-check"></i><b>5.3.1</b> Motivation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="survival-analysis.html"><a href="survival-analysis.html#power-and-sample-size-for-cox-regression"><i class="fa fa-check"></i><b>5.3.2</b> Power and sample size for Cox regression</a></li>
+<li class="chapter" data-level="5.3.3" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-10"><i class="fa fa-check"></i><b>5.3.3</b> Working example</a></li>
+<li class="chapter" data-level="5.3.4" data-path="survival-analysis.html"><a href="survival-analysis.html#minimum-sample-size"><i class="fa fa-check"></i><b>5.3.4</b> Minimum sample size</a></li>
+<li class="chapter" data-level="5.3.5" data-path="survival-analysis.html"><a href="survival-analysis.html#working-example-cont-3"><i class="fa fa-check"></i><b>5.3.5</b> Working example (cont)</a></li>
+<li class="chapter" data-level="5.3.6" data-path="survival-analysis.html"><a href="survival-analysis.html#reference"><i class="fa fa-check"></i><b>5.3.6</b> Reference</a></li>
+<li class="chapter" data-level="5.3.7" data-path="survival-analysis.html"><a href="survival-analysis.html#notes-2"><i class="fa fa-check"></i><b>5.3.7</b> Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="survival-analysis.html"><a href="survival-analysis.html#survival-analysis---notes"><i class="fa fa-check"></i><b>5.4</b> Survival analysis - Notes</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="survival-analysis.html"><a href="survival-analysis.html#other-types-of-censoring"><i class="fa fa-check"></i><b>5.4.1</b> Other types of censoring</a></li>
+<li class="chapter" data-level="5.4.2" data-path="survival-analysis.html"><a href="survival-analysis.html#right--left--and-interval-censoring"><i class="fa fa-check"></i><b>5.4.2</b> Right-, left- and interval censoring</a></li>
+<li class="chapter" data-level="5.4.3" data-path="survival-analysis.html"><a href="survival-analysis.html#type-i-and-type-ii-censoring"><i class="fa fa-check"></i><b>5.4.3</b> Type I and type II censoring</a></li>
+<li class="chapter" data-level="5.4.4" data-path="survival-analysis.html"><a href="survival-analysis.html#competing-risks"><i class="fa fa-check"></i><b>5.4.4</b> Competing risks</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>6</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="exercises.html"><a href="exercises.html#chapter-1"><i class="fa fa-check"></i><b>6.1</b> Chapter 1</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="exercises.html"><a href="exercises.html#exercise-1"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="exercises.html"><a href="exercises.html#exercise-2"><i class="fa fa-check"></i><b>6.1.2</b> Exercise 2:</a></li>
+<li class="chapter" data-level="6.1.3" data-path="exercises.html"><a href="exercises.html#exercise-3"><i class="fa fa-check"></i><b>6.1.3</b> Exercise 3(*)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="exercises.html"><a href="exercises.html#chapter-2"><i class="fa fa-check"></i><b>6.2</b> Chapter 2</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="exercises.html"><a href="exercises.html#exercise-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="exercises.html"><a href="exercises.html#exercise2"><i class="fa fa-check"></i><b>6.2.2</b> Exercise2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="exercises.html"><a href="exercises.html#chapter-3"><i class="fa fa-check"></i><b>6.3</b> Chapter 3</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="exercises.html"><a href="exercises.html#exercise-1-2"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.3.2" data-path="exercises.html"><a href="exercises.html#exercise-2-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.3.3" data-path="exercises.html"><a href="exercises.html#exercise-3-1"><i class="fa fa-check"></i><b>6.3.3</b> Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="exercises.html"><a href="exercises.html#chapter-4"><i class="fa fa-check"></i><b>6.4</b> Chapter 4</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="exercises.html"><a href="exercises.html#exercise-1-3"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.4.2" data-path="exercises.html"><a href="exercises.html#exercise-2-2"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.4.3" data-path="exercises.html"><a href="exercises.html#exercise-3-2"><i class="fa fa-check"></i><b>6.4.3</b> Exercise 3</a></li>
+<li class="chapter" data-level="6.4.4" data-path="exercises.html"><a href="exercises.html#exercise-4"><i class="fa fa-check"></i><b>6.4.4</b> Exercise 4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="exercises.html"><a href="exercises.html#chapter-5"><i class="fa fa-check"></i><b>6.5</b> Chapter 5</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="exercises.html"><a href="exercises.html#exercise-1-4"><i class="fa fa-check"></i><b>6.5.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="6.5.2" data-path="exercises.html"><a href="exercises.html#exercise-2-3"><i class="fa fa-check"></i><b>6.5.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="6.5.3" data-path="exercises.html"><a href="exercises.html#exercise-3-3"><i class="fa fa-check"></i><b>6.5.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#pca-analysis"><i class="fa fa-check"></i><b>7.1</b> PCA Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#motivation-15"><i class="fa fa-check"></i><b>7.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#working-example-11"><i class="fa fa-check"></i><b>7.1.2</b> Working example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#quick-tasks"><i class="fa fa-check"></i><b>7.1.3</b> Quick tasks</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Medical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="statistical-tests---part-1" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Statistical tests - Part 1</h1>
+<div id="comparing-2-groups" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Comparing 2 groups</h2>
+<div id="motivation-2" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Motivation</h3>
+<p>We consider again the <code>decathlon2</code> dataset. After exploring the dataset and understanding its structure, we want to test the performances between the two different events, i.e. the Decastar and the OlympicGames.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="statistical-tests-part-1.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb90-2"><a href="statistical-tests-part-1.html#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="statistical-tests-part-1.html#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(decathlon2)</span></code></pre></div>
+<p>When comparing the distribution of a of values from a continuous variable of two groups we commonly compare the mean of the set of values obtained in both groups. Sample means could look different but are the samples really drawn from 2 different distributions?</p>
+</div>
+<div id="working-example-3" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Working Example</h3>
+<p>Let us consider a dataset containing two continuous variable that we will call <code>VariableX</code> and <code>VariableY</code> and a categorical variables indicating which groups samples are from.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="statistical-tests-part-1.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">352</span>)</span>
+<span id="cb91-2"><a href="statistical-tests-part-1.html#cb91-2" aria-hidden="true" tabindex="-1"></a>sample.size<span class="ot">&lt;-</span><span class="dv">30</span></span>
+<span id="cb91-3"><a href="statistical-tests-part-1.html#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="statistical-tests-part-1.html#cb91-4" aria-hidden="true" tabindex="-1"></a>variableX.groupA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample.size, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb91-5"><a href="statistical-tests-part-1.html#cb91-5" aria-hidden="true" tabindex="-1"></a>variableX.groupB <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample.size, <span class="at">mean =</span> <span class="fl">2.4</span>, <span class="at">sd =</span> <span class="fl">1.1</span>)</span>
+<span id="cb91-6"><a href="statistical-tests-part-1.html#cb91-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-7"><a href="statistical-tests-part-1.html#cb91-7" aria-hidden="true" tabindex="-1"></a>variableY.groupA <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(sample.size, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span>
+<span id="cb91-8"><a href="statistical-tests-part-1.html#cb91-8" aria-hidden="true" tabindex="-1"></a>variableY.groupB <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(sample.size, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="fl">1.1</span>)</span>
+<span id="cb91-9"><a href="statistical-tests-part-1.html#cb91-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-10"><a href="statistical-tests-part-1.html#cb91-10" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>), <span class="at">each =</span> sample.size)</span>
+<span id="cb91-11"><a href="statistical-tests-part-1.html#cb91-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-12"><a href="statistical-tests-part-1.html#cb91-12" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">VariableX =</span> <span class="fu">c</span>(variableX.groupA, variableX.groupB), <span class="at">VariableY =</span> <span class="fu">c</span>(variableY.groupA, variableY.groupB), <span class="at">group =</span> group, <span class="at">stringsAsFactors =</span> T)</span></code></pre></div>
+<p>We start by plotting the boxplots for each group of both variables.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="statistical-tests-part-1.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplots for variable X and Y</span></span>
+<span id="cb92-2"><a href="statistical-tests-part-1.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb92-3"><a href="statistical-tests-part-1.html#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dataset<span class="sc">$</span>VariableX <span class="sc">~</span> dataset<span class="sc">$</span>group, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb92-4"><a href="statistical-tests-part-1.html#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dataset<span class="sc">$</span>VariableY <span class="sc">~</span> dataset<span class="sc">$</span>group, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>We can identify by ‘eye’ differences between the distribution of both group but how can we quantify the differences if there is any? To do so we will use statistical tests.</p>
+<p>The most common test to compare two groups is the Student’s t test, this test as the same name as the Student’s t distribution as it utilizes the same distribution. Let’s assume that two sets of values are drawn from distributions with expectancies <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>, and variances <span class="math inline">\(\sigma_{1}^{2}\)</span> and <span class="math inline">\(\sigma_{2}^{2}\)</span>, respectively. The Student’s test statistic is computed as follows:</p>
+<p><span class="math inline">\(t = \frac{\overline{x_{1}}-\overline{x_{2}}}{SEDM}\)</span></p>
+<p>where the <em>standard error of difference of means</em> is:</p>
+<p><span class="math inline">\(SEDM = \sqrt{SEM_{1}^{2}+SEM_{2}^{2}}\)</span></p>
+<p>The square root of the sum of the squared standard errors to mean of each group. The standard error to the mean can itself be computed as the standard deviation divided by the square root of the number of samples.</p>
+<p><span class="math inline">\(SEM_{1} = \frac{\sigma_1}{\sqrt{n}}\)</span></p>
+<p>When using a statistical test two hypotheses are formulated, the null hypothesis <span class="math inline">\(H_0\)</span> and the alternative hypothesis <span class="math inline">\(H_a\)</span>, respectively. In the case of the Student’s t-test, the hypotheses are:</p>
+<p><span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_{1} = \mu_{2}\)</span> and <span class="math inline">\(H_a\)</span> : <span class="math inline">\(\mu_{1} \neq \mu_{2}\)</span></p>
+<p>Note that there can be 3 different alternative hypothesis depending on what we want to test. The test for alternative hypothesis presented above is called the <em>two sided</em> Student’s t test as we are testing for different means but we are not making any assumptions on which direction the differences is. Two other alternative can be tested. Namely, <span class="math inline">\(H_a\)</span> = <span class="math inline">\(\mu_{1} &lt; \mu_{2}\)</span>, and <span class="math inline">\(H_a\)</span> = <span class="math inline">\(\mu_{1} &gt; \mu_{2}\)</span>. Under the null hypothesis the variable t follows a Student’s distribution of degrees of freedom equal to <span class="math inline">\(n1 + n2 -2\)</span> if the variances <span class="math inline">\(\sigma_{1}^{2}\)</span> and <span class="math inline">\(\sigma_{2}^{2}\)</span> are equal. If this is not the case the statistics t can still be approximated as a Student’s t distribution with a number of degrees of freedom given by the Welch procedure that we won’t detail here.</p>
+<p>Let’s apply the Student’s t test to our dataset:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="statistical-tests-part-1.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co">#t-test for VariableX</span></span>
+<span id="cb93-2"><a href="statistical-tests-part-1.html#cb93-2" aria-hidden="true" tabindex="-1"></a>test.variableX <span class="ot">&lt;-</span> <span class="fu">t.test</span>(dataset<span class="sc">$</span>VariableX <span class="sc">~</span> dataset<span class="sc">$</span>group)</span>
+<span id="cb93-3"><a href="statistical-tests-part-1.html#cb93-3" aria-hidden="true" tabindex="-1"></a>test.variableX</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  dataset$VariableX by dataset$group
+## t = -2.2435, df = 57.612, p-value = 0.02872
+## alternative hypothesis: true difference in means between group A and group B is not equal to 0
+## 95 percent confidence interval:
+##  -1.20392326 -0.06848317
+## sample estimates:
+## mean in group A mean in group B 
+##        1.900228        2.536431</code></pre>
+<p>Let’s look at the results obtained. We can see that the estimated means are equal to 1.9002279 and 2.5364311 in group A and group B respectively. This lead to an estimated difference in mean of -0.6362032. The computed test statistic is equal to -2.2435031. The number of degrees of freedom estimated is equal to 57.6120941. We can then plot the density distribution of this Student’s t random variable.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="statistical-tests-part-1.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x, <span class="at">df =</span> test.variableX<span class="sc">$</span>parameter), <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="at">from =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">ylab =</span> <span class="st">&#39;density&#39;</span>)</span>
+<span id="cb95-2"><a href="statistical-tests-part-1.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">df =</span> test.variableX<span class="sc">$</span>parameter), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb95-3"><a href="statistical-tests-part-1.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> test.variableX<span class="sc">$</span>statistic, <span class="at">col=</span> <span class="st">&#39;green&#39;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p>As we can see the value of the statistics is outside the range delimited by the 2.5% quantile and the 97.5% quantile. Therefore it is unlikely that the statistics is drawn from such random variable. It allows us to reject the null hypothesis and accept the alternative hypothesis with less than 5% chance risk of making a mistake. The p-value obtained from the test is the probability that the statistics is drawn from the hypothetical Student’s t distribution under the null hypothesis from quantiles table for example.</p>
+<p>An important output information from the output is also the 95% confidence interval. This interval quantifies the uncertainty of the estimate of the mean difference. The 95% confidence interval is a range of values that you can be 95% certain contains the true mean difference between the two populations. As we can see 0 is not in this range allowing us to, once again, reject the null hypothesis of equality of the means. The confidence interval can be computed by using the SEDM and the mean difference obtained in the test. For a level of confidence <span class="math inline">\(\alpha\)</span> of a two sided Student test is give by the formula:</p>
+<p><span class="math inline">\(high Boundary = mean + t_{1-\frac{\alpha}{2}}*SEDM\)</span>
+<span class="math inline">\(low Boundary = mean - t_{1-\frac{\alpha}{2}}*SEDM\)</span></p>
+<p>We can see from this formula that two factors can influence the size of the confidence interval. Indeed, the SEDM is a function depending on the standard deviation and the number of samples in each group. On one hand, increasing the number of sample will improve the accuracy of the test and narrow the confidence interval. On the other hand, samples with large standard deviation will lead to larger confidence intervals. We can compute the confidence intervals of the test we made earlier:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="statistical-tests-part-1.html#cb96-1" aria-hidden="true" tabindex="-1"></a>low.boundary <span class="ot">&lt;-</span> test.variableX<span class="sc">$</span>estimate[<span class="dv">1</span>] <span class="sc">-</span> test.variableX<span class="sc">$</span>estimate[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>,<span class="at">df =</span> test.variableX<span class="sc">$</span>parameter)<span class="sc">*</span>test.variableX<span class="sc">$</span>stderr</span>
+<span id="cb96-2"><a href="statistical-tests-part-1.html#cb96-2" aria-hidden="true" tabindex="-1"></a>high.boundary <span class="ot">&lt;-</span> test.variableX<span class="sc">$</span>estimate[<span class="dv">1</span>] <span class="sc">-</span> test.variableX<span class="sc">$</span>estimate[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>,<span class="at">df =</span> test.variableX<span class="sc">$</span>parameter)<span class="sc">*</span>test.variableX<span class="sc">$</span>stderr</span>
+<span id="cb96-3"><a href="statistical-tests-part-1.html#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(low.boundary, high.boundary)</span></code></pre></div>
+<pre><code>## mean in group A mean in group A 
+##     -1.20392326     -0.06848317</code></pre>
+<p>The Student’s t test is a great tool to compare two distributions. However, it has its weaknesses. In case of skewed data, the standard deviation of both compared samples can be relatively different and impact the power of the test to detect relevant differences. In such cases, it is preferable to transform the data using for example a log transformation. For the Student’s t test it is requested that the distributions of the samples values are following a normal distribution or to have at least a sample size of 30 in each group (central limit theorem). If this is not the case, it is better to use a non parametric test called Mann-Whitney-Wilcoxon test (or Mann-Whitney U test or Wilcoxon sum rank test).</p>
+<p>The Mann-Whitney-Wilcoxon test is non parametric as it does not test a specific parameter to differentiate two populations. Instead we will test if the probability that an observation in group A is superior to an observation from group B is different from the probability that an observation from group B is superior from group A. The main assumption of the Mann-Whitney-Wilcoxon test is that the samples from both groups must be independent so it cannot be used for paired observations. For paired observations we would prefer the Wilcoxon signed-rank test that we won’t detail here. If the observations in group A are drawn from a random variable X and the observation in group B are coming from a random variable Y the null and alternative hypotheses are:</p>
+<p><span class="math inline">\(H_0\)</span> : <span class="math inline">\(P(X &gt; Y) = P(Y &gt; X)\)</span> and <span class="math inline">\(H_a\)</span> : <span class="math inline">\(P(X &gt; Y) \neq P(Y &gt; X)\)</span></p>
+<p>To simplify the test relies on comparing the medians of both populations. The statistic of the test called U is computed as follows. All observations are pooled together and ranked based on their values. For example if we have a pooled set of 6 distinct values (2, 4, 4, 4, 1, 5), the ranked version of this set of obervations becomes (2, 4, 4, 4, 6, 1). Let’s call <span class="math inline">\(R_1\)</span>. We can then compute U as:</p>
+<p>U = <span class="math inline">\(R_1 - \frac{(n_1)(n_1 + 1)}{2}\)</span></p>
+<p>With this statistics U we can then compute the p-value using either a Wilcoxon Rank-Sum Table in case of small samples and approximating U as a normal distribution for large samples:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="statistical-tests-part-1.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(dataset<span class="sc">$</span>VariableY <span class="sc">~</span> dataset<span class="sc">$</span>group, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum exact test
+## 
+## data:  dataset$VariableY by dataset$group
+## W = 358, p-value = 0.1774
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>We can notice that the output of the Mann-Whitney-Wilcoxon test is smaller than for the Student’s t test. Indeed as it is a non parametric test it does not provide direct effect size or confidence interval. However, relying only on the p-value is not correct and one would prefer to report also the difference between the median of both samples.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/01-comparing-2-groups.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/01-comparing-2-groups.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="power-of-a-statistical-test" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Power of a statistical test</h2>
+<div id="motivation-3" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Motivation</h3>
+<p>After looking at the results of the group comparison using the <code>decathlon2</code> dataset the searcher wants to build another study in order to prove that the impact of the material used to build the surface of the stadium can impact the performance of the racing events and the long jump event. While building the protocol of his study the searcher encounters the question : How many sportsmen should he recruit in order to obtain satisfactory testing results?</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="statistical-tests-part-1.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb100-2"><a href="statistical-tests-part-1.html#cb100-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="statistical-tests-part-1.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(decathlon2)</span></code></pre></div>
+</div>
+<div id="working-example-4" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Working example</h3>
+<p>To answer this question we need to introduce an important notion in statistical modeling. The power of a statistical test. Let’s simulate two variable for 2 different group. To do so we will have a look at two tests:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="statistical-tests-part-1.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">352</span>)</span>
+<span id="cb101-2"><a href="statistical-tests-part-1.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Creation dataset</span></span>
+<span id="cb101-3"><a href="statistical-tests-part-1.html#cb101-3" aria-hidden="true" tabindex="-1"></a>variableX.groupA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span><span class="dv">1</span>)</span>
+<span id="cb101-4"><a href="statistical-tests-part-1.html#cb101-4" aria-hidden="true" tabindex="-1"></a>variableX.groupB <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span><span class="dv">1</span>)</span>
+<span id="cb101-5"><a href="statistical-tests-part-1.html#cb101-5" aria-hidden="true" tabindex="-1"></a>variableY.groupA <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span><span class="dv">1</span>)</span>
+<span id="cb101-6"><a href="statistical-tests-part-1.html#cb101-6" aria-hidden="true" tabindex="-1"></a>variableY.groupB <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="fl">0.3</span>, <span class="at">sd =</span><span class="dv">1</span>)</span>
+<span id="cb101-7"><a href="statistical-tests-part-1.html#cb101-7" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">VariableX =</span> <span class="fu">c</span>(variableX.groupA, variableX.groupB), <span class="at">VariableY =</span> <span class="fu">c</span>(variableY.groupA, variableY.groupB), <span class="at">group =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&#39;A&#39;</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="st">&#39;B&#39;</span>,<span class="dv">10</span>)))</span></code></pre></div>
+<p>We created both Variables to have a different means depending on the group. Now let’s test these differences using the Student’s t test.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="statistical-tests-part-1.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(VariableX <span class="sc">~</span> group, <span class="at">data =</span> dataset)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  VariableX by group
+## t = -2.9165, df = 15.489, p-value = 0.01036
+## alternative hypothesis: true difference in means between group A and group B is not equal to 0
+## 95 percent confidence interval:
+##  -2.8904084 -0.4533992
+## sample estimates:
+## mean in group A mean in group B 
+##      -0.0255522       1.6463516</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="statistical-tests-part-1.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(VariableY <span class="sc">~</span> group, <span class="at">data =</span> dataset)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  VariableY by group
+## t = -0.55427, df = 17.078, p-value = 0.5866
+## alternative hypothesis: true difference in means between group A and group B is not equal to 0
+## 95 percent confidence interval:
+##  -1.220411  0.712452
+## sample estimates:
+## mean in group A mean in group B 
+##      0.07988438      0.33386405</code></pre>
+<p>We can see that even if we simulated both variables from different distributions depending on the group. We ended up with one test detecting significant differences between the groups and the other one not detecting differences. Typically, there is 4 different possible outcomes from a statistical test::</p>
+<table>
+<thead>
+<tr class="header">
+<th>Reality  Test results</th>
+<th>Non-significant</th>
+<th>Significant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_0\)</span> True</td>
+<td><span class="math inline">\(1-\beta\)</span> (True Negative)</td>
+<td><span class="math inline">\(\alpha\)</span> (False Positive)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_0\)</span> False</td>
+<td><span class="math inline">\(\beta\)</span> (False Negative)</td>
+<td><span class="math inline">\(1-\alpha\)</span> (True Positive)</td>
+</tr>
+</tbody>
+</table>
+<p>The <span class="math inline">\(\alpha\)</span> represents they type I error, i.e. the probability of finding a significant difference when there is none. This coefficient <span class="math inline">\(\alpha\)</span> is often fixed to 5%. The <span class="math inline">\(\beta\)</span> coefficient represent the probability to obtain a non-significant test while the alternative hypothesis is true and is called type II error. This is the case when we test the VariableY that we simulated. The power of a statistical test correspond to the values 1-<span class="math inline">\(\beta\)</span>, and is the probability to reject the null hypothesis appropriately.</p>
+<p>The power of a statistical test depends on 4 different parameters, the size of the effect (in the example the effect size is small), the sample size, the variance of the sample, and the significance level of the test <span class="math inline">\(\alpha\)</span>.</p>
+<p>If the effect size of the phenomenon we want to study cannot be easily changed, we can influence the three others to obtain a good power:</p>
+<ul>
+<li>Increasing the sample size</li>
+<li>Decreasing the variability of the samples</li>
+<li>Increasing the level <span class="math inline">\(alpha\)</span> , i.e. increasing the chance of false positives</li>
+</ul>
+<p>As the latter is not advisable in most studies, the easiest approach to influence the power of the test is to increase the sample size. Let’s compute the power to reject the null hypothesis in our example. To do so we can for example use the function <code>pwr.t.test</code> or power from the R package <em>pwr</em>:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="statistical-tests-part-1.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb106-2"><a href="statistical-tests-part-1.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Power computation VariableX</span></span>
+<span id="cb106-3"><a href="statistical-tests-part-1.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">d =</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">1</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;two.sample&quot;</span>),</span>
+<span id="cb106-4"><a href="statistical-tests-part-1.html#cb106-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 10
+##               d = 2
+##       sig.level = 0.05
+##           power = 0.988179
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="statistical-tests-part-1.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Power computation VariableY</span></span>
+<span id="cb108-2"><a href="statistical-tests-part-1.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">d =</span> <span class="fl">0.5</span><span class="sc">/</span><span class="dv">1</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;two.sample&quot;</span>),</span>
+<span id="cb108-3"><a href="statistical-tests-part-1.html#cb108-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 10
+##               d = 0.5
+##       sig.level = 0.05
+##           power = 0.1850957
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>We can see that the power to reject the null hypothesis for VariableX is 98.8% but for VariableY it is only 18.5%. As you can see the relation between the power and the effect size is not linear as the effect size is 4 times larger (0.5 to 2) but the power to reject <span class="math inline">\(H_0\)</span> is more than 5 times larger for VariableX. For simplicity we will not present, here, the exact formula to compute the power as it involves more statistical knowledge than the aim of this course.</p>
+<p>We can plot the evolution of the power as a function of the effect size:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="statistical-tests-part-1.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co">#computation of the power for different sample size</span></span>
+<span id="cb110-2"><a href="statistical-tests-part-1.html#cb110-2" aria-hidden="true" tabindex="-1"></a>powers <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">d =</span> <span class="fl">0.5</span><span class="sc">/</span><span class="dv">1</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;two.sample&quot;</span>),</span>
+<span id="cb110-3"><a href="statistical-tests-part-1.html#cb110-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>))<span class="sc">$</span>power</span></code></pre></div>
+<pre><code>## Warning in qt(sig.level/tside, nu, lower = FALSE): Production de NaN</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="statistical-tests-part-1.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot of the power as a function of the sample size</span></span>
+<span id="cb112-2"><a href="statistical-tests-part-1.html#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="statistical-tests-part-1.html#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), powers)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p>We see that even with a sample size of 30 the power to detect the difference between the two groups is only 0.4778965. Instead we can compute what would be the sample size needed for a given a power. The common desired power requested in studies are 80% and 90%. We can compute the sample size needed for both power for the VariableY</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="statistical-tests-part-1.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co">#computation of sample size for a fixed power of 80%</span></span>
+<span id="cb113-2"><a href="statistical-tests-part-1.html#cb113-2" aria-hidden="true" tabindex="-1"></a>test.<span class="fl">80.</span>percent <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> <span class="fl">0.5</span><span class="sc">/</span><span class="dv">1</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.8</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;two.sample&quot;</span>),</span>
+<span id="cb113-3"><a href="statistical-tests-part-1.html#cb113-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>))</span>
+<span id="cb113-4"><a href="statistical-tests-part-1.html#cb113-4" aria-hidden="true" tabindex="-1"></a>test.<span class="fl">80.</span>percent</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 63.76561
+##               d = 0.5
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="statistical-tests-part-1.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co">#computation of sample size for a fixed power 0f 90%</span></span>
+<span id="cb115-2"><a href="statistical-tests-part-1.html#cb115-2" aria-hidden="true" tabindex="-1"></a>test.<span class="fl">90.</span>percent <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">d =</span> <span class="fl">0.5</span><span class="sc">/</span><span class="dv">1</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.9</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;two.sample&quot;</span>),</span>
+<span id="cb115-3"><a href="statistical-tests-part-1.html#cb115-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>))</span>
+<span id="cb115-4"><a href="statistical-tests-part-1.html#cb115-4" aria-hidden="true" tabindex="-1"></a>test.<span class="fl">90.</span>percent</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 85.03128
+##               d = 0.5
+##       sig.level = 0.05
+##           power = 0.9
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>We can see that we would need 64 samples in each group for a power of 80% and 85 for a power of 90%.</p>
+<p>We have seen that in order to determine the proper sample size needed in a study we need to know or to give an estimate of the effect sizes we want to test, the standard deviation existing in the sample and to fix both type I error and the power to detect a true positive. To do so the approach often used is to go back to the literature or to used pilot studies.</p>
+<p>Note that for the Student’s t test obtaining power and sample sizes is relatively simple due to the exact mathematical formula linking all 4 parameters. But for a lot of test (especially non parametric ones) there are no exact formulas and simulations are needed. Hopefully, there are a lot of function in R that are able to do the simulation and power computations.</p>
+<hr />
+<blockquote>
+<p><em>Quick task(s)</em>:</p>
+<p>Solve <a href="/_book/02-poweranalysis.tasks.nocode.html#Probabilistic%20distributions">the task(s)</a>, and check your solution(s) <a href="/_book/02-poweranalysis.tasks.code.html#Probabilistic%20distributions">here</a>.</p>
+</blockquote>
+<hr />
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-and-exploratory-data-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="common-regression-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,856 @@
+
+# Exercises
+
+## Chapter 1
+
+### Exercise 1
+
+Load the dataset mtcars in the R memory using the command (datamtcars)
+
+1.1 How many variables and observations are contained in the dataset? Print the 5 first rows of the dataset 
+
+```{r, eval = FALSE, echo = FALSE}
+data(mtcars)
+
+str(mtcars)
+
+head(mtcars)
+
+```
+
+1.2 Plot the histograms of the continuous numerical variables of the dataset (type `?mtcars` to obtain the description of the dataset).
+
+```{r, eval = FALSE, echo = FALSE}
+hist(mtcars$mpg)
+
+hist(mtcars$disp)
+
+hist(mtcars$hp)
+
+hist(mtcars$drat)
+
+hist(mtcars$drat)
+
+hist(mtcars$wt)
+
+hist(mtcars$qsec)
+
+```
+
+1.3 We can clearly distinguish 3 right skewed distribution. Which are they?
+
+```{r, eval = FALSE, echo = FALSE}
+#The variables mpg, disp and hp shows right skewness according the the histograms plotted.
+
+```
+
+
+1.4 The variables `vs` and `am` both split the data in 2 categories plot the boxplots of the variable `qsec` for each group define by `vs` and `am`:
+
+```{r, eval = FALSE, echo = FALSE}
+
+boxplot(qsec ~ vs, data = mtcars)
+
+boxplot(qsec ~ am, data = mtcars)
+
+```
+
+1.5 Plot boxplots using the command `boxplot(qsec ~ vs:am)`. What is the difference with the plots obtained previously?
+
+```{r, eval = FALSE, echo = FALSE}
+boxplot(qsec ~ vs:am, data = mtcars)
+
+#the plot present the observations for each combination of groups. Consequently, the data are splited in 4 instead of 2 for the previous boxplots leading to different results.
+
+```
+
+1.6 compute the mean and standard variation for each continuous variable of the dataset for the 2 different engine types.
+
+```{r, eval = FALSE, echo = FALSE}
+mcars.continuous <- mtcars[, c('mpg', 'disp', 'hp', 'drat', 'wt', 'qsec')]
+
+mean.variables <- apply(mcars.continuous, 2, mean)
+mean.variables
+
+sd.variables <- apply(mcars.continuous, 2, sd)
+sd.variables
+```
+
+### Exercise 2:
+
+We continue with the same dataset:
+
+2.1 compute the correlation matrix associated for the three different correlations for all variables except the `vs` and `am` variables.
+
+```{r, eval = FALSE, echo = FALSE}
+data.corr <- mtcars[,-which(colnames(mtcars) %in%c('am', 'vs'))]
+
+cor.pearson <- cor (data.corr, use = 'complete.obs', method = 'pearson')
+cor.spearman <- cor (data.corr, use = 'complete.obs', method = 'spearman')
+cor.kendall <- cor (data.corr, use = 'complete.obs', method = 'kendall')
+```
+
+2.2 Display the results using heatmaps.
+
+```{r, eval = FALSE, echo = FALSE}
+library(gplots)
+heatmap.2(cor.pearson, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+
+
+heatmap.2(cor.spearman, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+
+
+heatmap.2(cor.kendall, trace = 'none', cexRow = 0.8, cexCol = 0.8, col= colorRampPalette(c("blue","white","red"))(20))
+```
+
+### Exercise 3(*)
+
+3.1 Perform a pca analysis and plot the resulting scree plot.
+
+```{r, eval = FALSE, echo = FALSE}
+library(FactoMineR)
+library(gplots)
+library(factoextra)
+
+pca.analysis <- PCA(mtcars, scale.unit = TRUE, graph = FALSE)
+fviz_eig(pca.analysis, addlabels = TRUE, ylim = c(0, 50))
+```
+
+3.2 display the eigenvalues of the oca analysis. How many principal components would you keep?
+
+```{r, eval = FALSE, echo = FALSE}
+eigenvalues <- get_eigenvalue(pca.analysis)
+eigenvalues
+#From the results 2 or 3 principal components are sufficient
+```
+
+
+
+3.3 Plot the correlation circle for the first two principal components. What is your interpretation of the first principal component?
+
+```{r, eval = FALSE, echo = FALSE}
+
+fviz_pca_var(pca.analysis, col.var = "black", axes = c(1,2))
+
+```
+
+3.4 Display the contribution of each variable on the principal components
+
+```{r, eval = FALSE, echo = FALSE}
+library("corrplot")
+variable.analysis <- get_pca_var(pca.analysis)
+corrplot(variable.analysis$contrib, is.corr=FALSE)
+
+```
+
+## Chapter 2
+
+### Exercise 1
+
+Load the `ToothGrowth` dataset using the command line `data(ToothGrowth)`. This dataset is the result of an experiment on Guinea Pigs. It looks at the length of odontoblast cells  after animals received a dose of vitamin C by one of two delivery methods. Namely, Orange juice (noted OJ) and ascorbic acid noted VC.
+
+Source: Crampton, E. W. (1947). The growth of the odontoblast of the incisor teeth as a criterion of vitamin C intake of the guinea pig. The Journal of Nutrition, 33(5), 491–504. doi: 10.1093/jn/33.5.491.
+
+1.1 Plot the histogram of the length of the odontoblast in the entire dataset.
+
+```{r, eval = FALSE, echo = FALSE}
+hist(ToothGrowth$len)
+```
+
+1.2 Plot the boxplot of the length of the ordotonblast for each method of delivery of the Vitamin C. Compute the quartiles for both distributions.
+
+
+```{r, eval = FALSE, echo = FALSE}
+boxplot(len ~ supp, data = ToothGrowth)
+quantile(ToothGrowth$len[ToothGrowth$supp == 'OJ'])
+quantile(ToothGrowth$len[ToothGrowth$supp == 'VC'])
+```
+
+1.3 Compute the mean absolute deviation in each group
+
+```{r, eval = FALSE, echo = FALSE}
+mad(ToothGrowth$len[ToothGrowth$supp == 'OJ'])
+mad(ToothGrowth$len[ToothGrowth$supp == 'VC'])
+```
+
+1.4 Perform a Student't test to compare the mean of the length of the cells in both groups 
+
+```{r, eval = FALSE, echo = FALSE}
+test.length <- t.test (len ~ supp, data = ToothGrowth)
+test.length
+```
+
+1.5 Extract the value of the t statistics, the standard error and the degree of freedom from the test statistics. Display the results in the sentence:
+
+The t statistics has a value of `r`, the estimated degrees of freedom of the Student's t distribution are `r`. The final p.value of the test is `r`.
+
+```{r, eval = FALSE, echo = FALSE}
+
+#The t statistics has a value of `r test.length$statistics`, the estimated degrees of freedom of the Student's t distribution are `r test.length$parameter`. The final p.value of the test is `r test.length$p.value`.
+
+```
+
+1.6 Plot the distribution of the Student's t distribution under the null hypothesis
+
+```{r, eval = FALSE, echo = FALSE}
+curve(dt(x, df = test.length$parameter), from =-5, to = 5)
+
+```
+
+1.7 What are the values of the quantiles corresponding to boundaries between significane and non-significance?
+
+```{r, eval = FALSE, echo = FALSE}
+
+qt(c(0.025, 0.975), df = test.length$parameter)
+
+```
+
+1.8 what would be the number of Guinea Pigs per group required in order to have a power of 80% to detect a significant difference between both groups? And for a power of 90%?
+
+```{r, eval = FALSE, echo = FALSE}
+library(pwr)
+mean.difference <- test.length$estimate[1] -  test.length$estimate[2]
+standard.error <- test.length$stderr
+pwr.t.test (n = NULL, d = mean.difference/(standard.error * sqrt(length(ToothGrowth[,1]))), sig.level = 0.05, power = 0.8, type = c("two.sample"), alternative = c("two.sided"))
+
+pwr.t.test (n = NULL, d = mean.difference/(standard.error * sqrt(length(ToothGrowth[,1]))), sig.level = 0.05, power = 0.9, type = c("two.sample"), alternative = c("two.sided"))
+```
+
+1.9 Perform a Wilcoxon-Mann-Whitney test to compare the distribution of the length of the cells between both delivery methods
+
+```{r, eval = FALSE, echo = FALSE}
+wilcox.test(len ~ supp, data = ToothGrowth, exact = FALSE)
+
+```
+
+
+### Exercise2
+
+2.1 Create a plot that represent the power as a function of the sample for an experiment with an estimated difference in mean of 2, a standard deviation of 1.2, and a significance level of 0.05 of a two sided Student's t-test.
+
+```{r, eval = FALSE, echo = FALSE}
+sample.size <- c(1:30)
+powers <- pwr.t.test (n = sample.size, d = 2/1.2, sig.level = 0.05, power = NULL, type = c("two.sample"), alternative = c("two.sided"))$power
+plot(sample.size, powers)
+
+```
+
+2.2 Create the same plot for a standard deviation of 2.4.
+
+```{r, eval = FALSE, echo = FALSE}
+sample.size <- c(1:30)
+powers <- pwr.t.test (n = sample.size, d = 2/2.4, sig.level = 0.05, power = NULL, type = c("two.sample"), alternative = c("two.sided"))$power
+plot(sample.size, powers)
+
+```
+
+2.2 Create the same plot for a significance threshold of 0.1.
+
+```{r, eval = FALSE, echo = FALSE}
+sample.size <- c(1:30)
+powers <- pwr.t.test (n = sample.size, d = 2/1.2, sig.level = 0.01, power = NULL, type = c("two.sample"), alternative = c("two.sided"))$power
+plot(sample.size, powers)
+
+```
+
+## Chapter 3
+
+### Exercise 1
+
+1.1 We go back to the `ToothGrowth` dataset. We saw that there is a significant difference in the average length of the odontoblast between the two delivery methods of vitamin C. We are now interested in the relationshipt between the dose of vitamin C and the length of odontoblast. Perform a linear regression model to test for association between these 2 variables.
+
+```{r, eval = FALSE, echo = FALSE}
+data(ToothGrowth)
+regression <- lm (len ~ dose, data = ToothGrowth)
+regression
+```
+
+1.2 Extract the estimates and corresponding statistics and p-values frol the regression
+
+```{r, eval = FALSE, echo = FALSE}
+summary(regression)$coefficients
+```
+
+1.3 Create Plots in order to check the assumptions of the model
+
+```{r, eval = FALSE, echo = FALSE}
+
+hist(regression$residuals, breaks = 10)
+qqnorm(regression$residuals, pch = 1, frame = FALSE)
+qqline(regression$residuals, col = "steelblue", lwd = 2)
+
+```
+
+1.3 We can see that the residuals does not really follow a gaussian distribution. Use a log transformation on the length variable and compare the results
+
+```{r, eval = FALSE, echo = FALSE}
+
+ToothGrowth$log.len <- log(ToothGrowth$len)
+regression <- lm (log.len ~ dose, data = ToothGrowth)
+summary(regression)$coefficients
+hist(regression$residuals, breaks = 10)
+qqnorm(regression$residuals, pch = 1, frame = FALSE)
+qqline(regression$residuals, col = "steelblue", lwd = 2)
+
+```
+
+1.4 The transformation slightly improved the results. From the previous exercises we have observed an association between the delivery method and the length of the cells. Ass the delivery method in the linear regression:
+
+```{r, eval = FALSE, echo = FALSE}
+
+ToothGrowth$log.len <- log(ToothGrowth$len)
+regression <- lm (log.len ~ dose + supp, data = ToothGrowth)
+summary(regression)$coefficients
+
+```
+
+1.5 It could be relevant to add a possible interaction between the dose given and the delivery method. Add an interaction effect in the model:
+
+
+```{r, eval = FALSE, echo = FALSE}
+
+ToothGrowth$log.len <- log(ToothGrowth$len)
+regression <- lm (log.len ~ dose + supp + dose:supp, data = ToothGrowth)
+summary(regression)$coefficients
+
+```
+
+1.6 What do you conclude from this analysis?
+
+### Exercise 2
+
+2.1. Return to the budworms example. Using the model fitted including the main effects of `sex` and `ldose` as well as their interaction, extract the fitted probabilities. Make a graph of observed and expected probabilities, and include a legend. Make sure to distinguish the groups, for example by using different plotting symbols for `sex` and different colours depending on the dose. Note that the observed probabilities are given by `numdead/20`. 
+
+
+```{r, eval = FALSE, echo = FALSE}
+dose <- c(1, 2, 4, 8, 16, 32)
+ldose <- log2(dose)
+numdead <- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+ldose <- rep(ldose, 2)
+sex <- rep(c("male", "female"), each = length(dose))
+resp <- cbind(numdead, numalive = 20 - numdead)
+```
+
+
+```{r, eval = FALSE, echo = FALSE}
+budworm.lgi <- glm(resp ~ sex + ldose + sex:ldose, family = binomial)
+summary(budworm.lgi)
+anova(budworm.lgi, test = "Chisq")
+myfitted <- predict(budworm.lgi, type = "response")
+# For the colours
+mycols <- rainbow(n = length(dose)) # this creates the unique colours, one per dose
+mycols <- rep(mycols, 2) # this repeats them, stacked
+# For the points
+mypch <- rep(2, length(sex))
+mypch[ sex == "male" ] <- 6
+# For more point options, see `help(points)`
+plot(numdead/20, myfitted, pch = mypch, xlab = "observed probability", ylab = "fitted probability",
+     col = mycols)
+
+```
+
+### Exercise 3
+
+Analyse now the `birthwt` data from the package `MASS`, to investigate factors that may affect the chance of low birth weight. 
+
+3.1 Fit a logistic regression model to the variable representing low weight, using `smoke` as covariate in the model. Note that the response variable now is binary, not counts. Examine the model fit to check if it represents a good approximation of the data. 
+
+```{r, eval = FALSE, echo = FALSE}
+library(MASS)
+bwfit <- glm(low ~ smoke, family = binomial, data = birthwt)
+summary(bwfit)
+```
+
+3.2 Extract fitted probabilities and plot those together with the observed data. Note that the latter is now simply a binary variable.
+
+```{r, eval = FALSE, echo = FALSE}
+myfitted <- predict(bwfit, type = "response")
+# Now we put the observed and fitted data together, as two columns in a matrix
+myres <- cbind(birthwt$low, myfitted)
+# Sort the matrix by the fitted values, to help display results in a clear way
+myres <- myres[order(myres[, 2]), ]
+# Create a colour vector to better distinguish low/normal birth weights in the graph
+mycols <- rep("blue", nrow(birthwt))
+mycols[ myres[, 1] == 1] <- "red"
+plot(myres[, 1], pch = 21, col = mycols, xlab = "individuals", ylab = "observed/fitted response")
+points(myres[, 2], pch = 3, col = mycols)
+
+```
+
+3.3 Fit now a logistic regression model to the variable representing low weight, using all covariates in the model. Examine the model fit to check if it represents a good approximation of the data. Extract fitted probabilities and plot those together with the observed data. Note that the latter is now simply a binary variable.
+
+```{r, eval = FALSE, echo = FALSE}
+bwfit <- glm(low ~ smoke + lwt, family = binomial, data = birthwt)
+summary(bwfit)
+myfitted <- predict(bwfit, type = "response")
+# Now we put the observed and fitted data together, as two columns in a matrix
+myres <- cbind(birthwt$low, myfitted)
+# Sort the matrix by the fitted values, to help display results in a clear way
+myres <- myres[order(myres[, 2]), ]
+# Create a colour vector to better distinguish low/normal birth weights in the graph
+mycols <- rep("blue", nrow(birthwt))
+mycols[ myres[, 1] == 1] <- "red"
+plot(myres[, 1], pch = 21, col = mycols, xlab = "individuals", ylab = "observed/fitted response")
+points(myres[, 2], pch = 3, col = mycols)
+```
+
+3.4 We think that the model can be improved further, but it is not immediately clear which variables should be included, and in which order. For this, we can use the function `step`, which performs stepwise regression. This involves comparing model fits by using the Akaike Information Criterion (AIC). A statistical test helps deciding whether the AIC value indicates a statistically significant improvement between model fits. Try to improve the basic model which includes `smoke` and `lwt`, by adding variables `age`, `ptl`, `ht` and  `ftv` one at a time. Check the help file for `step`, and call the function using as `object` the fitted model with `smoke` and `lwt`, and as `scope` the formula for the model including these two, plus the extra covariates.
+
+```{r, eval = FALSE, echo = FALSE}
+bw.step <- step(bwfit, scope = low ~ smoke + lwt + age + ptl + ht + ftv, direction = "forward")
+```
+
+## Chapter 4
+
+### Exercise 1
+
+ A study has looked at the relationship between aspirin use and heart attacks via a randomized clinical trial. The aim is to test whether aspirin taken regularly reduces mortality from cardiovascular disease. Study participants did not know if they used aspirin or a placebo. The table below summarizes some of their findings, according to fatal miocardial infarcts (FMI) and non-fatal ones (NFMI).
+
+| | FMI | NFMI | No attack|
+|---|-------|-------|-------|
+Placebo | 18 | 171 | 10845 |
+Aspirin | 5 | 99 | 10933 |
+
+Source: example 2.2.4 (pp. 16-17) of Agresti, A. (1990) Categorical data analsis. Wiley, New York.
+
+1.1. Compute the proportions of heart attack depending on the drug used. Hint: After entering the data, add up the columns corresponding to heart attack and use `prop.table`. Save the result as an object. Write a small bit of text where you indicate the proportions found.
+
+```{r, eval = FALSE, echo = FALSE}
+data.mat <- matrix(c(18, 171, 10845, 5, 99, 10933), nrow = 2, ncol = 3, byrow = TRUE)
+rownames(data.mat) <- c("placebo", "aspirin")
+colnames(data.mat) <- c("FMI", "NFMI", "No attack")
+# Check that the table is entered correctly
+data.mat
+# Add the first two columns
+data.mat1 <- cbind(rowSums(data.mat[, 1:2]), data.mat[, 3])
+# Now use prop.table to compute proportions per row
+prop.table(data.mat1, margin = 1)
+pt <- prop.table(data.mat1, margin = 1)
+```
+
+The study found that there were `r` of those using aspirin, and `r` of those using placebo.
+
+```{r, eval = FALSE, echo = FALSE}
+# The study found that there were `r round(pt[2, 1], 3)` of those using aspirin, and `r round(pt[1, 1], 3)` of those using placebo.
+```
+
+1.2 Compute the relative risk of heart attacks in the placebo group, compared with the aspirin group.
+
+```{r, eval = FALSE, echo = FALSE}
+rr <- pt[2, 1] / pt[1, 1]
+rr
+```
+
+1.3 Compute the sample odds ratio of having a heart attack in the placebo group.
+
+```{r, eval = FALSE, echo = FALSE}
+or <- (data.mat1[1, 1]*data.mat1[2, 2])/(data.mat1[1, 2]*data.mat1[2, 1])
+or
+```
+
+1.4 Write a short piece of text where the computed relative risk and odds ratio are included, with inline code.
+
+```{r, eval = FALSE, echo = FALSE}
+# The relative risk and odds ratio of having a heart attack in the placebo group, compared with the aspirin group, are `r round(rr, 2)` and `r round(or, 2)`. 
+```
+
+1.5 Test the hypothesis that the use of aspirin, compared to placebo, has no effect on the chance of a heart attack, against the hypothesis that aspirin modifies the chance, without making an assumption about in which direction the modification may occur. 
+
+```{r, eval = FALSE, echo = FALSE}
+# The appropriate test here is Fisher's exact test
+fisher.test(data.mat1)
+```
+
+1.6 Extract the odds ratio estimates from 1.3 and 1.6, and include them as inline code in the text below.
+
+The odds ratio estimated by us from the table was `r`, and the one estimated by Fisher`s exact test was `r`.
+
+```{r, eval = FALSE, echo = FALSE}
+# The odds ratio estimated by us from the table was `r round(or, 2)`, and the one estimated by Fisher`s exact test was `r round(fisher.test(data.mat1)$estimate, 2)`.
+
+```
+
+### Exercise 2 
+
+A study looked at the association between job satisfaction and income, gathering the data in the table below. 
+
+| | Very dissatisf. | Little dissatisf. | Moderately satisf. | Very satisf. |
+|--|--|--|--|--|
+`<6,000` | 20 | 24 | 80 | 82 |
+`6,000-15,000` | 22 | 38 | 104 | 125 |
+`15,000-25,000` | 13 | 28 | 81 | 113 |
+`>25,000` | 7 | 18 | 54 | 92 |
+
+
+Source: example 2.3.2 (pp. 20-21) of Agresti, A. (1990) Categorical data analsis. Wiley, New York.
+
+2.1 Enter the data into R by making a matrix. Assign meaningful row and columns names. Print out the matrix to check that it has been entered correctly.
+
+```{r, eval = FALSE, echo = FALSE}
+data.mat <- matrix(c(20, 24, 80, 82, 22, 38, 104, 125, 13, 28, 81, 113, 7, 18, 54, 92),
+                   nrow = 4, ncol = 4, byrow = TRUE)
+rownames(data.mat) <- c('<6000', '6000-15,000', '15,000-25,000', '>25,000')
+data.mat
+```
+
+
+2.2 Add the counts from the dissatisfaction columns up, keeping the split between income levels. Do the same for the satisfaction columns. Make a new table (or a matrix) with these two new columns.
+
+```{r, eval = FALSE, echo = FALSE}
+dissat <- rowSums(data.mat[, 1:2])
+sat <- rowSums(data.mat[, 3:4])
+data.mat1 <- cbind(dissat, sat)
+data.mat1
+```
+
+2.3 Use the chi-square test to compare the spread of people across income classes between satisfied and dissatisfied groups. Print out the test result and save the p-value in an object.
+
+```{r, eval = FALSE, echo = FALSE}
+chisq.test(data.mat1)
+chi.p <- chisq.test(data.mat1)$p.value
+```
+
+2.4 Complete the text below with the values of this example using inline code.
+
+This study recorded job satisfaction from `r` people across `r` income classes. A chi-square test for the count distribution across income classes yielded a p-value of `r`.
+
+```{r, eval = FALSE, echo = FALSE}
+# This study recorded job satisfaction from `r sum(data.mat)` people across `r nrow(data.mat)` income classes. A chi-square test for the count distribution across income classes yielded a p-value of `r round(chi.p, 3)`.
+```
+
+
+2.5 Compute the total sample size that would be required, in order to find the observed effect size as significant with a significance level $\alpha=0.05$ and power 0.8. Note that the number of degrees of freedom is equal to the number of rows in the table, minus 1.
+
+```{r, eval = FALSE, echo = FALSE}
+library(pwr)
+chisq.stat <- chisq.test(data.mat1)$statistic
+eff.size <- sqrt(chisq.stat/sum(data.mat1))
+pwr.chisq.test(w = eff.size, df = nrow(data.mat1)-1, power = 0.8)
+```
+
+
+2.6 Compute log-odds ratios for each income class, compared with the lowest income class.
+
+```{r, eval = FALSE, echo = FALSE}
+income <- factor(rownames(data.mat1))
+logist.fit <- glm(data.mat1 ~ income, family = binomial)
+summary(logist.fit)
+# The desired log-odds ratios are the coefficient estimates, so the first column of the coefficients table,
+# without the intercept
+or <- summary(logist.fit)$coef[, 1][-1] 
+or
+```
+
+2.7 Complete the following text with inline code.
+
+This study found that odds of being dissatisfied, compared with being satisfied, is for the income class `>25,000` `r` that for the income class of `<6,000`.
+
+```{r, eval = FALSE, echo = FALSE}
+# This study found that odds of being dissatisfied, compared with being satisfied, is for the income class `>25,000` `r round(exp(or[1]), 2)` that for the income class of `<6,000`.
+```
+
+
+### Exercise 3
+ 
+
+The table below gives the grade into which left and right eye of the same person were classified. Use an appropriate test to check if there is evidence that eye grades of one side are typically better than the other side, against the null hypothesis that the better grade is observed at random for the left and for the right eye.
+
+| | Left eye graded best | Left eye graded worst |
+|---|---|---|
+Right eye graded best | 3532 | 700 |
+Right eye graded worst | 597 | 2648 |
+
+3.1 Enter the data as a matrix and define row and column names. Check that your definition is correct.
+
+```{r, eval = FALSE, echo = FALSE}
+data.mat <- matrix(c(3532, 700, 597, 2648), nrow = 2, ncol = 2, byrow = TRUE)
+rownames(data.mat) <- c("right best", "right worst")
+colnames(data.mat) <- c("left best", "left worst")
+data.mat
+```
+
+3.2 Use an appropriate test to check if there is evidence that eye grades of one side are typically better than the other side, against the null hypothesis that the better grade is observed at random for the left and for the right eye.
+
+```{r, eval = FALSE, echo = FALSE}
+mcnemar.test(data.mat)
+```
+
+
+### Exercise 4 
+
+A study compared radiation therapy with surgery in treating cancer of the larynx. The data is given below.
+
+| | Cancer controlled | Cancer not controlled |
+|---|---|---|
+Surgery | 21 | 2 |
+Radiation therapy | 15 | 3 |
+
+4.1 Enter the data as a matrix, and define row as well as column names.
+
+```{r, eval = FALSE, echo = FALSE}
+data.mat <- matrix(c(21, 2, 15, 3), nrow = 2, ncol = 2, byrow = 2)
+rownames(data.mat) <- c("surgery", "radiation therapy")
+colnames(data.mat) <- c("controlled", "not controlled")
+data.mat
+```
+
+4.2 Use a test to check if there is evidence that the response (cancer controlled or not) is independent of therapy.
+
+```{r, eval = FALSE, echo = FALSE}
+fisher.test(data.mat)
+```
+
+4.3 Compute the power of the test given the current data to find a difference between the two observed proportions.
+
+```{r, eval = FALSE, echo = FALSE}
+library(statmod)
+power.fisher.test(p1  = 21/23, p2 = 15/18, n1 = 23, n2 = 18)
+```
+
+
+4.4 Evaluate the power for larger sample sizes, keeping the relative sample size for the first and second groups the same. Make a graph of results, with the total expected sample size on the x-axis and the power on the y-axis.
+
+```{r, eval = FALSE, echo = FALSE}
+sr <- seq(from = 2, to = 15, by = 0.5)
+powerv <- NULL
+for(xi in 1:length(sr)) powerv <- c(powerv, 
+                                    power.fisher.test(p1  = 21/23, p2 = 15/18, 
+                                                      n1 = floor(23*sr[xi]), n2 = floor(18*sr[xi])))
+
+plot(sr*(sum(data.mat)), powerv, pch = 20, col = "blue", main = "Power Fisher exact test", 
+     xlab = "total sample size", ylab = "estimated power")
+```
+
+## Chapter 5
+
+### Exercise 1 
+
+Consider again the leukemia data in dataset `leuk`. We will now compare survival probabilities between the groups given by `ag`, representing the test result for the presence of Auer rods and/or significant granulation of leukaemic cells.
+
+1.1 Plot the Kaplan-Meier survival curves separately per group defined by the AG test. Compute the log-rank test and add the test result to the graph's title. 
+
+
+
+```{r, eval = FALSE, echo = FALSE}
+library(survival)
+library(MASS)
+#### First plot the Kaplan-Meier curves
+# Creating a survfit object that compares the two groups, for later plotting
+leuk.fit <- survfit(Surv(leuk$time) ~ ag, data = leuk)
+# Now make the plot
+plot(leuk.fit)
+```
+
+1.2 By default the curves are plotted with the same colour. Add colours to the plot by using the slot `col` in the `plot` call. Note that curves are plotted using the order of the factor levels in the grouping variable, which is also the order used by `print` and `summary` - in this example D1 comes first, followed by D2. Add a legend to the plot indicating which group corresponds to which colour.
+
+```{r, eval = FALSE, echo = FALSE}
+vcols <- c("blue", "darkgreen")
+plot(leuk.fit, col = vcols)
+legend("topright", legend = levels(leuk$ag), lty = "solid", col = vcols)
+```
+
+
+1.3 Note that in this case no confidence interval was displayed. Indeed, only when there is a single curve are confidence intervals displayed by default. Display confidence intervals in the plot, using the option `conf.int = TRUE`.
+
+```{r, eval = FALSE, echo = FALSE}
+vcols <- c("blue", "darkgreen")
+plot(leuk.fit, col = vcols, conf.int = TRUE)
+legend("topright", legend = levels(leuk$ag), lty = "solid", col = vcols)
+```
+
+Colours defined for the groups we now used also for the confidence interval curves.
+
+1.4 Use the log-rank test to compare the survival probabilities of the two groups defined by `ag`. Save the p-value corresponding to the test as an object.
+
+```{r, eval = FALSE, echo = FALSE}
+
+# Compute the log-rank test and save it as an object
+leuk.lr <- survdiff(Surv(time) ~ ag, data = leuk)
+# Check the slots available within the test result object
+names(leuk.lr)
+# There is a slot called "chisq" containing the test statistic, 
+# but none containing the corresponding p-value
+# We compute this by hand. Under H0, the test statistic follows a chi-square dist with 1 d.f.
+# This is the same as a gamma distribution with parameters shape = 1/2 and rate = 1/2
+lr.p <- pgamma(leuk.lr$chisq, shape = 1/2, rate = 1/2, lower.tail = FALSE)
+# Check that the computed p-value is the same as the one given by the test
+leuk.lr
+lr.p
+```
+
+1.5 Plot the Kaplan-Meier curves separately per group, and add the p-value to the plot title. Use different colours to display the curves of different groups.
+
+```{r, eval = FALSE, echo = FALSE}
+##### Add the p-value to the title of the Kaplan-Meier plot, with confidence intervals
+
+vcols <- c("blue", "darkgreen")
+plot(leuk.fit, col = vcols, conf.int = TRUE, main = paste("Log-rank p=", round(lr.p, 3)))
+legend("topright", legend = levels(leuk$ag), lty = "solid", col = vcols)
+```
+
+1.6 Now fit a Cox regression model to the `Surv` response using `log(wbc)` as covariate, and another using both `log(wbc)` and `ag` as covariates. Save the fitted models as objects.
+
+```{r, eval = FALSE, echo = FALSE}
+leuk.cox <- coxph(Surv(time) ~  log(wbc), leuk)
+leuk.cox2 <- coxph(Surv(time) ~  log(wbc) + ag, leuk)
+```
+
+1.7 The model is fitted using methods similar to those used for generalized linear models. In particular, we can here also use ANOVA to compare models that are nested. Use `anova` to compare these two model fits. Can you conclude that the model with both `log(wbc)` and `ag` as covariates yields a better fit than the model with only `log(wbc)`?
+
+
+```{r, eval = FALSE, echo = FALSE}
+anova(leuk.cox, leuk.cox2)
+```
+
+1.8 Let us compare survival probabilities estimated by Kaplan-Meier with those estimated by the Cox model. Make the graph of the Kaplan-Meier curves separately per `ag` group, as well as of the Cox model's baseline hazards estimated separately, without correcting for `log(wbc)`. How do the survival probabilities  estimated by Kaplan-Meier compare with those estimated by Cox regression?
+
+
+```{r, eval = FALSE, echo = FALSE}
+leuk.cox <- coxph(Surv(time) ~ strata(ag), data = leuk)
+
+ plot(survfit(Surv(time) ~ ag, data=leuk), lty=2:3,  ylim=c(0,1), col=c("blue","red"))
+ lines(survfit(leuk.cox), lty=2:3, lwd=3, col=c("blue","red"), conf.int = FALSE)
+ legend(80, 0.8, legend=paste( rep(c("ag absent","ag present"), each=2), c("Cox","K-M")), 
+        lty=rep(2:3,2), col = rep(c("blue","red"), each=2),
+        lwd=c(3,1,3,1))
+```
+
+1.9 Now repeat this plot, using the Cox model with separate baseline hazards depending on the group defined by `ag` as before, and correcting for the effect of `log(wbc)`. How do these results compare with those from the previous exercise?
+
+```{r, eval = FALSE, echo = FALSE}
+leuk.cox <- coxph(Surv(time) ~ strata(ag) + log(wbc), data = leuk)
+ plot(survfit(Surv(time) ~ ag, data=leuk), lty=2:3,  ylim=c(0,1), col=c("blue","red"))
+ lines(survfit(leuk.cox), lty=2:3, lwd=3, col=c("blue","red"), conf.int = FALSE)
+ legend(80, 0.8, legend=paste( rep(c("ag absent","ag present"), each=2), c("Cox","K-M")), 
+        lty=rep(2:3,2), col = rep(c("blue","red"), each=2),
+        lwd=c(3,1,3,1))
+
+```
+
+### Exercise 2
+
+Read in the migraine data again. Check that the Kaplan-Meier curve produced by using the `survfit` object with just an intercept is the same as the one produced by plotting the `Surv` object directly.
+
+```{r, eval = FALSE, echo = FALSE}
+migraine <- read.delim("migraine_data.txt")
+migr.surv <- Surv(time = migraine$time, event = migraine$event)
+plot(survfit(migr.surv ~ 1))
+plot(migr.surv)
+```
+
+
+### Exercise 3 
+
+Researchers want to start a study to find if progression  is related to a chromosomal aberration sometimes found in cancer patients. Here we mean by *progression* the combination of time from end-of-treatment to relapse, as well as the event, which can be relapse or end-of-study, the latter representing censoring. In addition, individuals are recorded as having the aberration or not. From a previous study, progression data and information about the chromosomal aberration are available. Now they want to know how many patients are needed in their new study, designed to test if this chromosomal aberration affects progression  or not.
+
+In addition to the chromosomal aberration, other covariates will be taken into account when studying progression, such as the study. For this reason, the researchers decided that they will use a Cox proportional-hazards model to analyse the data and test for the effect of the chromosomal aberration on progression to relapse.
+
+3.1. Read the data in from file `data_progression_2groups.txt`.
+
+
+
+```{r, eval = FALSE, echo = FALSE}
+data.prog <- read.delim("data_progression_2groups.txt")
+str(data.prog)
+# Note that the variable `pfs`, recording the number of days until event, is integer. 
+# Transform it into numeric.
+data.prog$pfs <- as.numeric(data.prog$pfs)
+```
+
+
+3.2. Now explore the data. Check which variables it contains, compute the number of events equal to `yes`, and the proportion of them.
+
+```{r, eval = FALSE, echo = FALSE}
+table(data.prog$event)
+p.event <- mean(data.prog$event == "yes")
+```
+
+3.3. Create a numeric variable representing the event (=1 if an event ocurred, =0 otherwise). The number of days of progression-free survival is given in the variable `pfs`. Create a `Surv` object and make a Kaplan-Meier curve of the data.
+
+```{r, eval = FALSE, echo = FALSE}
+# Create a numeric event variable
+event <- as.numeric(data.prog$event == "yes")
+mysurv <- Surv(data.prog$pfs, event )
+```
+
+```{r, eval = FALSE, echo = FALSE}
+plot(mysurv)
+```
+
+
+3.4. Check how many cases there are in each group, and make separate Kaplan-Meier plots for the groups. 
+
+```{r, eval = FALSE, echo = FALSE}
+table(data.prog$group)
+plot(survfit(mysurv ~ data.prog$group))
+```
+
+3.5 Perform a log-rank test to compare the progression data between the groups.
+
+```{r, eval = FALSE, echo = FALSE}
+survdiff(mysurv ~ data.prog$group)
+```
+
+3.6 Now fit a Cox proportional-hazards model to estimate the difference in log-hazards between the two groups. Check if there is evidence that the proportional hazards assumption holds.
+
+```{r, eval = FALSE, echo = FALSE}
+cox.prog <- coxph(mysurv ~ data.prog$group)
+cox.progs <- coxph(mysurv ~ strata(data.prog$group) )
+```
+
+```{r, eval = FALSE, echo = FALSE}
+plot(survfit(cox.prog))
+plot(survfit(cox.progs), log = TRUE)
+```
+
+3.7 Now use these results to determine how many samples would be required, in order to have the power of 0.80 to find an effect of the same size of the current effect, with a significance level of 0.01. Do not forget to load the function to estimate the sample size using the available parameters.
+
+```{r, eval = FALSE, echo = FALSE}
+# get.ssize.surv
+#
+# Function to compute the sample size required to find a log-hazard ratio using Cox regression, 
+# where the ratio is computed between two groups
+#
+# Inputs
+# beta: power, so 1-prob. type-II error 
+# alpha: desired significance level 
+# p1: proportion of individuals in group 1 - it does not matter which group is taken as group 1, 
+#     since this enters the formula via p1(1-p1)
+# b1: log hazard ratio between the two groups 
+#   It corresponds to the beta coefficient in the cox ph regression
+# pevents: prop events
+#
+# Output:
+# the sample size required
+
+get.ssize.surv <- function(beta, alpha=0.05, p1=0.5, b1=0.5, pevents=1)
+{
+  num <- ( qnorm(1-alpha/2,lower.tail=FALSE) + qnorm(beta, lower.tail=FALSE) ) ^2
+  den <- p1*(1-p1)*( b1^2 )*pevents
+  n <- num/den
+  n
+}
+```
+
+
+```{r, eval = FALSE, echo = FALSE}
+# Observed log-hazard ratio
+b1 <- cox.prog$coefficients
+# Proportion of individuals in the group of interest, compared to the entire set
+p1 <- mean(data.prog$group == "yes")
+get.ssize.surv(beta = 0.8, p1 = p1, b1 = b1, pevents = p.event, alpha = 0.01)
+```
+
+3.8 Now use these results to determine how many samples would be required, in order to have the power of 0.80 to find an effect of half the size of the current effect, with a significance level of 0.01.
+
+```{r, eval = FALSE, echo = FALSE}
+get.ssize.surv(beta = 0.8, p1 = p1, b1 = b1/2, pevents = p.event, alpha = 0.01)
+```
+
+3.9 Make a graph of the sample size necessary to find an effect size of values between the current log-hazard ratio and half of its size, using all other parameters the same as before.
+
+```{r, eval = FALSE, echo = FALSE}
+b1vec <- seq(from = b1/2, to = b1, length.out = 10)
+ssizes <- get.ssize.surv(beta = 0.8, p1 = p1, b1 = b1vec, pevents = p.event, alpha = 0.01)
+plot(b1vec, ssizes, pch = 20, col = "blue", xlab = "log-hazard ratio", ylab = "sample size")
+```

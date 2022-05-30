@@ -1,0 +1,38 @@
+---
+title: "05-Relative-risk"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+### Quick tasks
+
+
+Researchers are looking at the relationship between colon cancer and BMI. For this, they put together a prospective study, where patients are followed up. Those who developed colon cancer also had their BMI at time of diagnosis recorded. As reference, they used the individuals who did not develop colon cancer during the study. The resulting table of the explanatory variable `bmi` (categorized as either `high` or `normal-low`) and the response `colon.cancer` (categorized as 1 for cases and 0 for controls) is: 
+
+```{r, echo = FALSE}
+set.seed(3986)
+nsm <- 300
+nco <- 250
+bmi <- c(rep("high", nsm), rep("normal-low", nco))
+bmi <- factor(bmi, levels = c("normal-low", "high") )
+
+colon.cancer <-  c(rbinom(nsm, size = 1, prob = 0.6), rbinom(nco, size = 1, prob = .3))
+table(colon.cancer, bmi)
+```
+
+```{r, echo = FALSE}
+data.colon <- data.frame(colon.cancer, bmi)
+write.table(data.colon, file = "data_colon_RR_OR.txt", sep = "\t", row.names = FALSE)
+```
+
+Compute the relative risk of developing colon cancer given high BMI, compared to that given normal or low BMI.
+
+```{r}
+data.colon <- read.delim("data_colon_RR_OR.txt")
+myt <- table(data.colon$colon.cancer, data.colon$bmi)
+rr <- ( myt[2, 2]/colSums(myt)[2] ) / ( myt[2, 1]/colSums(myt)[1] )
+rr
+```

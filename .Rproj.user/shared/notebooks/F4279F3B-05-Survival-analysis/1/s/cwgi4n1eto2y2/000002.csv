@@ -1,0 +1,5 @@
+"0","migr.surv <- Surv(time = mydata1$time, event = mydata1$event)
+"
+"2","Error in Surv(time = mydata1$time, event = mydata1$event) : 
+  object 'mydata1' not found
+"
