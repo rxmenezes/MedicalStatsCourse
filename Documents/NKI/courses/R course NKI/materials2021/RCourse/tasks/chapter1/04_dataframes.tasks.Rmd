@@ -66,7 +66,7 @@ pulse$BMI <- NULL
 
 # Exploring a new data.frame {#newFrame}
 
-The `swiss` data set has demographic data on swiss provinces. It is an example data.frame that is available in R. Just type `swiss` at the prompt to see it.
+The `swiss` data set has demographic data on swiss provinces/regions around 1888. It is an example data.frame that is available in R. Just type `swiss` at the prompt to see it.
 
 -	Use the functions View, head and tail to get an overview of the data set
 ```{r}
