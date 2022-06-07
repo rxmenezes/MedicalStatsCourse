@@ -382,7 +382,7 @@ We are going to read our first data set into R. To structure this, we are going 
 
 #### Creating and opening a new project
 
-Choose File...New project...New directory... and create a new folder on your computer for this R course.
+Choose File...New project...New directory... and create a new folder on your computer for this R course. Make sure this new folder is NOT within the course folder, to avoid confusion.
 
 RStudio has created a `.Rproj` file for you that you can use to open Rstudio. You end up in the right project immediately.
 
@@ -483,9 +483,9 @@ We can `run` (Ctrl+Enter) part of this code by sending it to the prompt. Check w
 - We made a block of several lines
 - We made a block of part of a line
 
-We can `source` to run the whole script.
+If we use (Ctrl+Shift+Enter), the entire content of the R script file is run. We can do the same thing by using `source()` to run the whole script.
 
-We can save a script. Use the `.R` extension.
+We can save a script. By default the file receives the `.R` extension.
 
 #### Using a script
 
@@ -495,7 +495,7 @@ Type at the prompt only to try things out.
 
 To check that the script works, close RStudio and open again. Run the script.
 
-More advanced way of working with scripts: R markdown (later in the course)
+More advanced way of working with scripts: R Markdown (later in the course)
 
 
 #### Comments
@@ -581,9 +581,9 @@ pulse$age
 ```
 
 
-Note the autocomplete in RStudio that helps suggest the right column.
+Note the autocomplete in RStudio suggests the right column.
 
-To add a column to a data.frame, use the assigmnent:
+To add a column to a data.frame, use the assignment:
 ```{r}
 pulse$pulse.diff <- pulse$pulse2 - pulse$pulse1
 head( pulse )
