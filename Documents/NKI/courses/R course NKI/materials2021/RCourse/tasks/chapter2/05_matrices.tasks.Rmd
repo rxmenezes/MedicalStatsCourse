@@ -1,0 +1,107 @@
+---
+title: "Matrices (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE,eval=TRUE}
+source( "../../setup/R_course_setup.R" );
+```
+
+# Matrices (tasks)
+
+## Tasks
+
+### Matrix creating
+
+Create a matrix with 5 rows and 5 columns, with entries formed by the sequence of integers from 1 to 25. Fill in entries by row: first entries on row 1, then entries on row 2, and so on. Save the matrix as an object. Show the matrix created.
+
+```{r}
+mat <- matrix(1:25, nrow = 5, ncol = 5, byrow = TRUE)
+mat 
+```
+
+Assign the following row names to this matrix: "Row 1", "Row 2", and so on until "Row 5".
+
+```{r}
+rownames(mat) <- c("Row 1", "Row 2", "Row 3", "Row 4")
+```
+
+Compute the sum of columns of the matrix, per column.
+
+```{r}
+colSums(mat)
+```
+
+Compute the row means of the matrix, per row.
+
+```{r}
+rowMeans(mat)
+```
+
+You have been told that the element on the second row and fifth column was actually not observed. Make this entry `NA`.
+
+```{r}
+mat[2, 5] <- NA
+```
+
+Now recompute the column sums. Check the help file of the function used, to make sure that `NA`s are ignored when computing the sums.
+
+```{r}
+# ?colSums
+colSums(mat, na.rm = TRUE)
+```
+
+Use the function `summary()` to compute various statistics of the matrix columns. 
+
+```{r}
+# ?summary
+summary(mat)
+```
+
+### Matrix of correlation coefficients {#corMatrix}
+
+#### Extra tasks
+
+The goal of this exercise is to calculate a matrix of column-column Pearson correlation coefficients for a number of data frame columns. The `cor` function does not accept a `data.frame` argument and it works only with numerical columns. Therefore, first the numerical columns of the data frame need to be extracted and converted to a matrix.
+
+- Read the pulse data frame to `pulse` variable; check its class.
+```{r}
+pulse <- read.table( "../../data/pulse.txt" )
+```
+```{r result="as.is", echo=FALSE, comment=""}
+catReadTable( "pulse.txt", "pulse" )
+```
+
+```{r}
+class( pulse )
+```
+
+- Calculate correlation of columns `height` and `weight`.
+```{r}
+cor( pulse$height, pulse$weight )
+```
+
+- Understand the error of `cor( pulse )`.
+```{r error=TRUE}
+cor( pulse )
+```
+
+- Select only numerical columns of `pulse`. Then use `as.matrix` on the selected columns. Store the result in `m`. Confirm that `m` is a matrix. Check `m` dimensions and `str( m )`.
+```{r}
+m <- as.matrix( pulse[ c( "height", "weight", "age", "pulse1", "pulse2" ) ] )
+class( m )
+dim( m )
+str( m )
+```
+
+- Try `cor( m )` and understand the result. Read the `cor` documentation for further ideas related to `NA`. Assign the final result to `corM`.
+```{r}
+cor( m )
+cor( m, use = 'p' )
+corM <- cor( m, use = 'p' )
+```
+
+- Read documentation for `round` and round the `corM` matrix to 2 most significant digits. (*)
+```{r}
+round( corM, 2 )
+```
