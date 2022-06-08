@@ -1,0 +1,818 @@
+# Data types, part 1
+
+## Basic data types (cont.) 
+
+### Missing values
+
+Numeric, character, logical vectors, factors might contain elements marked as 'missing'.
+
+`NA` is a constant which indicates a missing value.
+
+`NA` values would appear in the course materials and tasks.
+
+### Numeric vectors 
+
+There are several ways to construct a vector of numbers.
+
+#### Single number (numeric vector with a single element)
+
+```{r}
+
+7
+```
+
+#### Multiple numbers
+
+```{r}
+c( 5, -2.5, NA, 7+3, 1/3 )
+```
+
+#### Sequence of numbers (one by one)
+
+```{r}
+3:17
+```
+
+#### Sequence of numbers
+
+Sequence of numbers with a defined step:
+```{r}
+seq( 5, 15, 2 )
+```
+
+#### Combine (several) vectors of numbers
+
+Multiple vectors can be combined together:
+```{r}
+v <- 1:9
+w <- seq( 10, 90, 10 )
+c( 0, v, w, 100 )
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "numeric", "01_basic_data_types_cont.Rmd" );
+```
+
+
+### Character vectors 
+
+There are several ways to construct a vector of texts.
+
+#### Simple single text (character vector with a single element)
+
+With double quotes:
+```{r}
+"Bioinformatics"
+```
+
+Or, with single quotes:
+```{r}
+'Biostatistics'
+```
+
+#### Multiple texts
+
+```{r}
+c( "Bioinformatics", "Biostatistics" )
+```
+
+
+
+### Logical vectors 
+
+#### Elementary logical values
+
+```{r}
+TRUE
+FALSE
+T
+F
+c( FALSE, F, TRUE, T )    # vector of logical values
+```
+
+(*) `NA` is a logical constant and it gets automatically converted to other types when necessary.
+
+#### Logical operators
+
+##### Negation
+
+Unary negation operator (denoted `!`):
+```{r}
+!TRUE
+!FALSE
+```
+
+##### AND Operator `&`
+
+Binary operator AND (denoted `&`) returns `TRUE` result when `all` its arguments are `TRUE`:
+```{r}
+TRUE & TRUE
+```
+
+Otherwise returns `FALSE`:
+```{r}
+FALSE & TRUE
+FALSE & FALSE
+```
+
+##### OR operator `|`
+
+Binary operator OR (denoted `|`) returns `TRUE` result when `any` (at least one) of its arguments is `TRUE`:
+```{r}
+TRUE | TRUE
+FALSE | TRUE
+```
+
+Otherwise returns `FALSE`:
+```{r}
+FALSE | FALSE
+```
+
+#### Relational operators
+
+##### Equality operator `==`
+
+```{r}
+1 == 2
+"Bioinformatics" == "Biostatistics"
+FALSE == F
+```
+
+##### Inequality operators 
+
+```{r}
+1 != 2    # unequal  
+"a" != "A"
+FALSE != T
+1 < 2     # less than
+1 > 2     # greater than
+2 <= 2    # less or equal 
+2 >= 2    # greater or equal
+```
+
+#### Comparison of two vectors
+
+```{r}
+v <- c( 0, 1, 2, 3, 4 )
+w <- c( 4, 3, 2, 1, 0 )
+v == w
+v != w
+v < w
+v <= w
+v >= w
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "logical", "01_basic_data_types_cont.Rmd" );
+```
+
+### Type conversions 
+
+Sometimes a conversion to a vector of certain type might be needed.
+The family of functions: `as.numeric`, `as.character`, `as.logical` take as an argument a vector of any type and return a vector of the type given in the function name.
+When the conversion of an element is not possible, `NA` value is used.
+
+```{r}
+v <- 101:110
+v
+as.character( v )
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "conversions", "01_basic_data_types_cont.Rmd" );
+```
+
+
+## Vectors
+
+Vectors are data structures which are able to store multiple elements in a defined order.
+
+There are several ways to access (single/multiple) elements from vectors which are discussed below.
+
+### Square brackets operator
+
+#### By numbers
+
+Vector elements are kept at successive, numbered (indexed) positions. 
+R vectors keep the first element at index 1 and the last element at index which can be obtained with the function `length`.
+
+The indices can be used to fetch elements from the corresponding positions with the square bracket operators `[ pos ]`.
+
+Let's take a vector:
+```{r}
+v <- 101:110
+```
+
+To get the first element of `v`:
+```{r}
+v[1]
+```
+
+To get the last element of `v`:
+```{r}
+v[ length( v ) ]
+```
+
+To get an element at a given index:
+```{r}
+v[ 5 ]
+```
+
+Setting a single element:
+```{r}
+v
+v[ 2 ] <- 22
+v
+```
+
+Getting multiple elements:
+```{r}
+v[ c( 2,4,7 ) ]
+```
+
+Setting multiple elements:
+```{r}
+v[ c( 2,4,7 ) ] <- c( 22, 24, 27 )
+v
+```
+
+#### By names
+
+Elements of the vectors can also be given names, i.e. `named vector`. Let's take a vector:
+```{r}
+v <- 101:110
+v
+```
+
+Setting names of vector elements:
+```{r}
+names( v ) <- LETTERS[ 1:length( v ) ]
+v
+```
+
+Getting names of vector elements:
+```{r}
+names( v )
+```
+
+Accessing elements (single or multiple) by names:
+```{r}
+v[ "C" ]
+v[ c( "F", "H" ) ]
+```
+
+#### By condition (logical indices)
+
+We can use a logical vector to select elements of a vector. Consider the vector
+
+```{r}
+b <- c(5, 7)
+```
+
+and say that we want to select the second element, but not the first. For this we know we can use
+
+```{r}
+b[2]
+```
+
+and it turns out we can also use a logical vector with `TRUE` for the element to be selected, and `FALSE` for the one not to be selected. That is `b[ c(FALSE, TRUE) ]` gives the same selection as above:
+
+```{r}
+b[ c(FALSE, TRUE) ]
+```
+
+This example is trivial. Let us take a longer vector:
+
+```{r}
+v <- 101:110
+v
+```
+
+Now let us construct a logical vector `idx` with the same number of elements as `v`:
+
+```{r}
+idx <- c( F, F, F, T, F, T, F, F, T, NA )
+```
+
+`v` can now be "filtered through" `idx`, where positions in `idx` are selected or not according to:
+
+  - `TRUE` in `idx`, then the element appears in the result;
+  - `FALSE` in `idx`, then the element is skipped;
+  - `NA` in `idx`, then the element is substituted with `NA` in the result.
+  
+This means that `NA` entries in `idx` will include `NA`s entries in the result, even if the original  vector `v` did not involve `NA`s.
+
+In the example above, the result is:
+
+```{r}
+v[ idx ]
+```
+
+A logical vector like `idx` is typically a result of equality/comparison, or is generated by specialized functions. For example, if we wish to select entries in `v` that have values at least equal to 102 and smaller than 106, we could use:
+
+```{r}
+v
+idx <- v >= 102
+idx
+v[ idx ]
+```
+
+We can also combine logical statements into a single one. Say, if we wish to select entries in `v` that have values at least equal to 102 and smaller than 106, we could use:
+
+```{r}
+v
+idx <- (v >= 102) & (v < 106)
+idx
+v[ idx ]
+```
+
+Indices given by a logical vector are referred to as *logical indices*. 
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "brackets", "02_selecting.Rmd" );
+```
+
+### Other useful functions  
+
+Other functions which are in general useful are:
+
+- `sort()`: sorts the elements of a vector:
+
+```{r}
+v
+sort(v)
+```
+
+- `unique()`: returns a vector containing the unique entries of a vector:
+
+```{r}
+u <- c(5, 5, 4, 4, 3, 1)
+unique(u)
+w <- c("Monday", "Tuesday", "Thursday", "Friday", "Monday", "Wednesday", "Thursday")
+w
+unique(w)
+```
+
+- `duplicated()`: returns a logical vector indicating which entries are duplicated or not:
+
+```{r}
+duplicated(u)
+duplicated(w)
+```
+
+So, in order to select all duplicated entries, the following could be used:
+
+```{r}
+u[ duplicated(u) ]
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "utility", "02_selecting.Rmd" );
+```
+
+## Data frames 
+
+### What is a data frame
+
+<center>![Vectors](figure/Data_types_mdfl.png)</center>
+
+Data frame is a collection of variables represented as vectors of the same length.
+
+Therefore, all the vectors (columns) should have unique names.
+
+Rows represent separate records.
+
+Rows might have names as well (although for new code, better create a separate column with names).
+
+### Creating
+
+#### From manually provided vectors
+
+An example data frame built of `character`, `numeric` and `logical` vectors:
+
+```{r}
+ids <- c( "A", "B", "D", "E" );
+ns <- c( "Amy", "Bob", "Dan", "Eve" )
+as <- c( 40, NA, 6, 16 )
+ss <- c( TRUE, NA, FALSE, FALSE )
+
+d <- data.frame(
+  row.names = ids,
+  name = ns,
+  age = as,
+  smoker = ss
+)
+d
+```
+
+The class of `d` is:
+```{r}
+class( d )
+```
+
+Function `str` gives a compact display of an object structure/content:
+```{r}
+str( d )
+```
+
+#### Import from files
+
+Datasets my come in various formats, e.g. `.tsv`, `.csv`, `.xls(x)`, `.sav`, `.txt` etc. R provides functions to import these formats as data.frame. 
+
+_Note_: always after a file is read the columns must be checked whether their class and values are as expected. Additional conversions might be necessary (e.g. declaring factor levels, order of factor levels).
+
+##### TSV file
+
+For files stored in [tab-separated files (`tsv`) format](https://en.wikipedia.org/wiki/Tab-separated_values) use:
+
+
+```{r eval=FALSE}
+d <- read.table( "data/pulse.tsv", header = TRUE, sep = "\t" )
+```
+
+
+```{r result="as.is", echo=FALSE, comment="",eval=TRUE}
+catReadTable( "pulse.tsv", "d" )
+d <- read.table( "data/pulse.tsv", header = TRUE, sep = "\t" )
+```
+```{r}
+str( d )
+```
+
+
+##### CSV file
+
+Data frames (tables) stored in files in [comma-separated values (`csv`) format](https://en.wikipedia.org/wiki/Comma-separated_values) can be read with:
+```{r eval=FALSE}
+d <- read.csv( "data/pulse.csv" );
+```
+
+```{r result="as.is", echo=FALSE, comment="",eval=TRUE}
+d <- catReadCsv( "pulse.csv", "d" )
+```
+```{r}
+str( d )
+```
+
+##### (*) Microsoft Excel file
+
+Reading Microsoft Excel files requires an additional library/package, which needs to be installed first. There exists several packages providing reading of Excel files.
+
+###### (*) With package readxl
+
+```{r eval=FALSE,echo=TRUE}
+# install.packages( "readxl" )
+library( readxl );
+d <- read_excel( "data/pulse.xlsx", sheet = 1 );
+str( d );
+```
+```{r eval=TRUE,echo=FALSE}
+# install.packages( "readxl" )
+library( readxl )
+d <- read_excel( "data/pulse.xlsx", sheet = 1 )
+str( d )
+```
+
+
+###### (*) With package gdata
+
+Please note that `gdata` package requires additional PERL packages to be installed; `readxl` seems to be easier to use.
+
+```{r eval=FALSE,echo=TRUE}
+# install.packages( "gdata" )
+library( gdata )
+d <- read.xls( "data/pulse.xlsx", sheet = 1 )
+str( d )
+```
+
+
+#### (*) SPSS files
+
+Reading SPSS files requires an additional library/package `foreign` (normally installed with R distribution). 
+
+```{r eval=FALSE,echo=TRUE}
+library( foreign )
+d <- read.spss( "data/pulse.sav", to.data.frame = TRUE )
+str( d )
+```
+```{r eval=TRUE,echo=FALSE,warning=FALSE,message=FALSE}
+library( foreign )
+d <- read.spss( "data/pulse.sav", to.data.frame = TRUE );
+str( d )
+```
+
+
+
+
+### Properties
+
+Let's discuss the data frame `pulse`:
+```{r eval=FALSE}
+pulse <- read.table( "data/pulse.txt", header = TRUE, sep = "\t" )
+```
+```{r result="as.is", echo=FALSE, comment="",eval=TRUE}
+pulse <- catReadTable( "pulse.txt", "pulse" )
+```
+
+To shorten output we will use the first 20 rows of the `pulse` data frame:
+```{r}
+pulse <- head( pulse, 20 )
+```
+
+#### Dimensions
+
+There are several functions to get dimensions of a data frame:
+
+- `ncol( pulse )` provides the number of columns:
+```{r}
+ncol( pulse )
+```
+
+- `nrow( pulse )` provides the number of rows:
+```{r}
+nrow( pulse )
+```
+
+- `dim( pulse )` returns a vector with two elements: number of rows and number of columns
+```{r}
+dim( pulse )
+```
+
+#### Columns/rows names
+
+`colnames()` is used to get the names of the columns. In data frames, the same result is returned by `names()`:
+
+```{r}
+colnames( pulse )
+names( pulse )
+```
+
+To get names of the rows use:
+
+```{r}
+rownames( pulse )
+```
+
+
+
+### Content
+
+A column of a data frame might be accessed through the `$` operator.
+
+Additionally, the content of a data frame can be accessed with the square bracket `[ ]` (square brackets) operator used in two different ways:
+
+- with one argument `[ col(s) ]` referring to a column
+- with two arguments `[ row(s), col(s) ]`
+
+<!-- Note:  sometimes it is not obvious what is returned by those operators.
+When a single column is requested, should it be:
+
+- a vector with the column elements (so, a 1-dimensional structure)?
+- a data frame with a single column (so, a 2-dimensional structure)? -->
+
+We can illustrate this by creating a vector with the `height` variable of the `pulse` data, using both syntaxes:
+
+```{r}
+height1 <- pulse[ "height" ]
+height2 <- pulse[, "height" ]
+```
+
+Now check the class of the objects created:
+
+```{r}
+class(height1) 
+class(height2) 
+```
+
+So, by extracting one column of `pulse`using the syntax `[, columnName]`, a vector is created
+
+
+#### Dollar operator
+
+The `$` method returns a _single_ column as a _vector_:
+```{r}
+pulse$weight
+```
+
+When the column name is valid the returned value is a _vector_:
+```{r}
+class( pulse$weight )
+```
+
+When the name is invalid, `NULL` is returned:
+```{r}
+pulse$wrong
+```
+
+Be careful, the `$` notation searches for a column name starting with a provided prefix:
+```{r}
+pulse$we
+```
+
+
+
+#### Square brackets operator, single argument
+
+Square brackets notation with a single argument return requested columns as a _data frame_ (compare to the dollar operator section):
+```{r}
+pulse[ 'weight' ]
+class( pulse[ 'weight' ] )
+```
+
+```{r}
+pulse[ 3 ]
+class( pulse[ 3 ] )
+```
+
+Since the returned object is a `data.frame`, multiple columns might be returned (for example in a different order):
+```{r}
+pulse[ c( 'height', 'weight' ) ]
+```
+
+When a name is invalid, an error is produced:
+```{r error=TRUE}
+pulse[ 'wrong' ]
+```
+
+#### Square brackets operator, two arguments
+
+Single brackets notation with two arguments `[ row(s), col(s) ]` might be used to get (multiple) row(s) and (multiple) column(s):
+```{r}
+pulse[ c( 1, 3 ), c( 'height', 'weight' ) ]
+pulse[ c( "1993_C", "1993_A", "wrong" ), c( 'height', 'weight' ) ]
+```
+
+Warning: notice the difference of the class of the output when only a single column is requested:
+
+```{r}
+pulse[ , c( 'height', 'weight' ) ]
+class( pulse[ , c( 'height', 'weight' ) ] )
+```
+
+```{r}
+pulse[ , c( 'weight' ) ]
+class( pulse[ , c( 'weight' ) ] )
+```
+
+Empty index field means "all" rows or columns:
+```{r}
+pulse[ , ]
+pulse[ , c( 'height', 'weight' ) ]
+pulse[ c( "1993_C", "1993_A" ), ]
+```
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "dataframes", "03_data_frames.Rmd" );
+```
+
+
+
+## Matrices
+
+### What is a matrix
+
+<center>![Vectors](figure/Data_types_mdfl.png)</center>
+
+Matrix is a two-dimensional array of elements of the same type.
+
+Rows and columns are addressed by numerical indices.
+
+Rows and columns might also get names. The names might be used for indexing.
+
+### Creation
+
+A matrix can be constructed from a vector. Depending on the arguments, elements are put to the matrix in a different order:
+
+```{r}
+m <- matrix( 1:6, nrow = 2 );
+m
+m <- matrix( 1:6, nrow = 2, byrow = TRUE );
+m
+m <- matrix( 1:6, ncol = 2 );
+m
+```
+
+The class of `m` is:
+```{r}
+class( m )
+```
+
+Function `str` gives a compact display of an object structure/content:
+```{r}
+str( m )
+```
+
+### Dimensions
+
+There are several functions to get dimensions of a matrix:
+
+- `ncol( m )` provides the number of columns:
+```{r}
+ncol( m )
+```
+
+- `nrow( m )` provides the number of rows:
+```{r}
+nrow( m )
+```
+
+- `dim( m )` returns a vector with two elements: number of rows and number of columns
+```{r}
+dim( m )
+```
+
+### Setting/getting names of the columns and rows
+
+`colnames( m )` and `rownames( m )` are used to set and get the names of matrix columns and rows:
+```{r}
+m
+colnames( m ) <- c( "A", "B" )
+m
+rownames( m ) <- c( "X", "Y", "Z" )
+m
+```
+
+To get names use:
+```{r}
+rownames( m )
+colnames( m )
+```
+
+### Getting matrix elements
+
+Single brackets notation with two arguments `[ row(s), col(s) ]` might be used to get specified row(s) and column(s). By default single rows/cols will get reduced to a vector.
+
+```{r}
+m[ 3, 1 ]
+m[ c( 2, 3 ), 1 ]
+m[ c( 2, 3 ), c( "B", "A" ) ]
+m[ c( F, T, T ), c( "B", "A" ) ]
+```
+
+Notice the difference in the output class when only a single element is requested:
+```{r}
+class( m[ 3, 1 ] )
+class( m[ c( 2, 3 ), c( "B", "A" ) ] )
+```
+
+Dropping of `matrix` dimensionality might be prevented:
+```{r}
+m[ 3, 1 ]
+m[ 3, 1, drop = FALSE ]
+class( m[ 3, 1, drop = FALSE ] )
+```
+
+Empty index field means "all" rows or columns:
+```{r}
+m[ , c( "B", "A" ) ]
+m[ c( "Z", "X", "Y" ), ]
+m[ , ]
+```
+
+### Useful matrix functions
+
+Short summary of matrix operations: http://www.statmethods.net/advstats/matrix.html
+
+#### Row/columns means/sums
+
+```{r}
+m
+rowMeans( m )
+rowSums( m )
+colMeans( m )
+colSums( m )
+```
+
+
+####  (*) Transposition
+
+```{r}
+m <- matrix( 1:6, nrow = 3 );
+colnames( m ) <- c( "A", "B" )
+rownames( m ) <- c( "X", "Y", "Z" )
+m
+t(m)
+```
+
+####  (*) Matrix multiplication
+
+```{r}
+m
+t( m )
+m %*% t( m )
+```
+
+####  (*) Element-wise multiplication
+
+```{r}
+m
+m+1
+m * (m+1)
+```
+
+
+```{r results="asis", echo=FALSE, comment=""}
+catLinkTaskSection( "corMatrix", "05_matrices.Rmd" );
+```
