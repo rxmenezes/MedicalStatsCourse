@@ -66,7 +66,7 @@ The goal of this exercise is to calculate a matrix of column-column Pearson corr
 
 - Read the pulse data frame to `pulse` variable; check its class.
 ```{r}
-pulse <- read.table( "../../data/pulse.txt" )
+pulse <- read.table( "data/pulse.txt" )
 ```
 ```{r result="as.is", echo=FALSE, comment=""}
 catReadTable( "pulse.txt", "pulse" )
@@ -88,11 +88,13 @@ cor( pulse )
 
 - Select only numerical columns of `pulse`. Then use `as.matrix` on the selected columns. Store the result in `m`. Confirm that `m` is a matrix. Check `m` dimensions and `str( m )`.
 ```{r}
-m <- as.matrix( pulse[ c( "height", "weight", "age", "pulse1", "pulse2" ) ] )
+m <- as.matrix( pulse[ c( "height", "weight", "age", "pulse1", "pulse2", "year" ) ] )
 class( m )
 dim( m )
 str( m )
 ```
+
+Note that it does not make sense to compute the correlation with `year`, although this is technically allowed.
 
 - Try `cor( m )` and understand the result. Read the `cor` documentation for further ideas related to `NA`. Assign the final result to `corM`.
 ```{r}
