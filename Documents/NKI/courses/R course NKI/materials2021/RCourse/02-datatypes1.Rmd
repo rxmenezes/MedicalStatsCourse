@@ -389,13 +389,13 @@ catLinkTaskSection( "utility", "02_selecting.Rmd" );
 
 <center>![Vectors](figure/Data_types_mdfl.png)</center>
 
-Data frame is a collection of variables represented as vectors of the same length.
+A data frame is a collection of variables represented as vectors of the same length.
 
-Therefore, all the vectors (columns) should have unique names.
+Therefore, all the vectors (columns) should have unique names. They can be of different types: one column can be character, another a factor, and other columns can be numeric. Of course, entries within a single vector are all of the same type.
 
 Rows represent separate records.
 
-Rows might have names as well (although for new code, better create a separate column with names).
+Rows may have names as well (although for new code, better create a separate column with names).
 
 ### Creating
 
