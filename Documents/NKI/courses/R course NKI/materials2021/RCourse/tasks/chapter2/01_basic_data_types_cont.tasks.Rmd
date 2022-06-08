@@ -213,12 +213,20 @@ NA & NA
 ```{r}
 v <- 19:10
 v
-w <- v < 12 | v >= 17
+w <- (v < 12) | (v >= 17)
 w
 
 ```
 
-- Study the logical vector `w` from the previous task. Count how many positions are `TRUE`. For this use the `sum` function.
+- Logical vectors can also be transformed into numeric. Do this for the vector `w` created above.
+
+```{r}
+as.numeric(w)
+```
+
+What happens to the entries in `w` equal to TRUE? And those equal to `FALSE`? 
+
+- Count how many positions in `w` are equal to `TRUE`. For this, use the `sum` function.
 
 ```{r}
 w
