@@ -1,0 +1,208 @@
+---
+title: "Data frames (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "../../setup/R_course_setup.R" );
+```
+
+# Data frames (tasks)
+
+## Tasks
+
+### Creating a data frame
+
+#### Primary tasks
+
+- Create a `data.frame` from given vectors
+
+Create the following vectors: `firstname` containing "George", "Leila" and "Alice";  `age` containing 34, 27 and 41; and `height` containing 173, 177 and 162. 
+
+```{r}
+firstname <- c("George", "Leila", "Alice")
+age <- c(34, 27, 41)
+height <- c(173, 177, 162)
+```
+
+Create a `data.frame` containing these variables.
+
+```{r}
+mydata <- data.frame(firstname, age, height)
+```
+
+Check the structure of the `data.frame` created.
+
+```{r}
+str(mydata)
+```
+
+Compute the mean height of the individuals in the data.
+
+```{r}
+mean(mydata$height)
+```
+
+Compute the mean age of the individuals in the data.
+
+```{r}
+mean(mydata[, "age"])
+```
+
+Check what happens if you try to compute the mean by selecting the variable `age` via square brackets, without the comma:
+
+```{r error = TRUE}
+mean(mydata[, "age"])
+```
+
+### Reading data from files with different formats
+
+#### Primary tasks
+
+- Load the `pulse.csv` file into the `d` object. Display the structure of `d` and the first few rows.
+
+```{r eval=FALSE}
+d <- read.csv( "data/pulse.csv" )
+```
+
+```{r result="as.is", echo=FALSE, comment="",eval=TRUE}
+# Do not run this code chunk during the course
+d <- catReadCsv( "pulse.csv", "d" )
+```
+
+```{r}
+str( d )
+head( d )
+```
+
+Tabulate `gender` and `exercise`.
+
+```{r}
+table(d$gender)
+table(d$exercise)
+```
+
+- Select a small part of the data to work with
+
+Select the first 10 rows from table `d`. 
+Save the data for the selected rows as a new object called `dnew`.
+
+```{r}
+dnew <- d[1:10, ]
+```
+
+Compute the mean height in this selected data.
+
+```{r}
+mean(dnew$height)
+```
+
+Use the function `summary()` on the `height` variable.
+
+```{r}
+summary(dnew$height)
+```
+
+Make a new data.frame `d2` with the same selected rows and only columns `height`, `weight` and `age`.
+
+```{r}
+d2 <- dnew[, c("height", "weight", "age")]
+```
+
+Use the function `summary()` on this smaller dataset. What do you obtain?
+
+```{r}
+summary(d2)
+```
+
+
+- Sorting the rows of a data.frame by one or more variables
+
+Use the dataset `d2` you just created. Use `sort()` to sort the entries of `age`.
+
+```{r}
+sort(d2$age)
+```
+
+Now use `order()` to again sort the elements of `age`. Hint: you have already done this in `02_selecting.tasks`.
+
+```{r}
+d2$age[ order(d2$age) ]
+```
+
+Use now the same trick to sort the rows in `d2`, including all columns, according to `age`.
+
+```{r}
+d2[ order(d2$age), ]
+```
+
+Now sort the rows in `d2` first by `age` and then by `weight`. This means: individuals of the same `age` are sorted by their `weight`.
+
+```{r}
+d2[ order(d2$age, d2$weight), ]
+```
+
+Sort the rows in `dnew`, the data.frame from the previous exercise which contains the same individuals as `d2` but with more columns, according to both `age` and `weight`.
+
+```{r}
+dnew[ order(d2$age, d2$weight), ]
+```
+
+Now display the sorted rows only for the columns `name` and `year`.
+
+```{r}
+dnew[ order(d2$age, d2$weight), c("name", "year")]
+```
+
+
+- Selecting rows by a logical condition.
+    
+You have been asked to select individuals from the `d` data corresponding to men of weight in the range 60-80 kg. One way of doing this is as follows. 
+
+1. Create a logical vector `isMan` stating whether a row in the data corresponds to men. Hint: check which values in `gender` correspond to men.
+
+```{r}
+table(d$gender)
+isMan <- d$gender == "male"
+```
+
+Tabulate the logical vector to check you have constructed it correctly.
+
+```{r}
+table(isMan)
+```
+
+2. Create a logical vector `isInWeightRange` stating whether a row corresponds to a person with weight between 60 and 80
+
+```{r}
+isInWeightRange <- (d$weight >= 60) & (d$weight <= 80)
+```
+
+Tabulate the resulting vector.
+
+```{r}
+table(isInWeightRange)
+```
+
+3. Select rows of the object `d` corresponding to the combined selections
+
+```{r}
+d[ isMan & isInWeightRange, ]
+```
+
+
+
+#### Extra tasks
+
+- Enforce a data frame type.
+    - Observe below, that `d[ ,cols ]` might sometimes return a vector, and sometimes return a data frame.
+    - Adding `drop = FALSE` argument enforces returning a data frame object.
+```{r echo=TRUE}
+cols <- c( "weight", "height" )
+class( d[ , cols ] )
+cols <- c( "weight" )
+class( d[ , cols ] )
+cols <- c( "weight" )
+class( d[ , cols, drop = FALSE ] )
+```
+
