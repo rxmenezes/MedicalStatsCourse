@@ -367,6 +367,17 @@ So, in order to select all duplicated entries, the following could be used:
 u[ duplicated(u) ]
 ```
 
+If instead you wish to select all unique entries, you can use:
+
+```{r}
+u[ !duplicated(u) ]
+```
+
+You can check that this is the same result that you get using `unique`:
+
+```{r}
+unique(u)
+```
 
 ```{r results="asis", echo=FALSE, comment=""}
 catLinkTaskSection( "utility", "02_selecting.Rmd" );
