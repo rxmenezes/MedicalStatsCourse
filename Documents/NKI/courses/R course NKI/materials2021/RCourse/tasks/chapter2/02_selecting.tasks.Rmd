@@ -1,0 +1,353 @@
+---
+title: "Selecting/indexing/subsetting (vector elements, data frame rows/columns, ...) (tasks)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup,include=FALSE,eval=TRUE}
+source( "../../setup/R_course_setup.R" );
+```
+
+# Selecting/indexing/subsetting (vectors) (tasks)
+
+## Square brackets operator {#brackets}
+
+Define a vector of the sequence of numbers between 101 and 110.
+
+```{r echo=TRUE,eval=TRUE}
+v <- 101:110
+```
+
+### Primary tasks
+
+- Get the seventh element of the vector. 
+
+```{r}
+v[ 7 ]
+
+```
+
+- Get the number of entries in the vector (the same as the length of the vector).
+
+```{r}
+length(v)
+```
+
+- Get the last element of the vector.
+
+```{r}
+v[ length( v ) ]
+```
+
+- Check what happens when you try to get an element with a too large index - 20, say.
+
+```{r}
+v[ 20 ]
+```
+
+- Check what happens when you use a negative index - say -7. What can negative indices be used for?
+
+```{r}
+v[ -7 ]
+```
+
+- Set the 5th element of `v` to zero. Check `v` before and after this change.
+```{r}
+v
+v[ 5 ] <- 0
+v
+```
+
+- Create a vector of indices `idx` with the entries 3, 7 and 1. Get the entries of `v` for positions indicated by `idx` - so the third, seventh and the first.
+
+```{r}
+idx <- c( 3, 7, 1 )
+v[ idx ]
+```
+
+### Extra tasks
+
+- Name the elements of `v` with subsequent small letters of alphabet. Use `1:length( v )` to specify the range of the `letters` vector. (*)
+
+```{r}
+names( v ) <- letters[ 1:length( v ) ]
+v
+```
+
+- Get the values of `v` corresponding to positions named `e` and `h`. (*)
+```{r}
+v[ c( 'e', 'h' ) ]
+```
+
+- In one operation set the 3rd and 5th elements of `v` to 13 and 15. Check the result. (*)
+
+```{r}
+v
+v[ c( 3, 5 ) ] <- c( 13, 15 )
+v
+```
+
+
+## Through utility functions {#utility}
+
+### Result is (part of) the original vector
+
+#### Primary tasks
+
+- Sample a vector randomly: `sample`.
+    - Define `v <- 101:110`. Try several times `sample( v )`. 
+    - Then try several times `sample( v, 3 )`, `sample( v, 15 )` and `sample( v, 15, replace = TRUE )`.
+ 
+```{r error=TRUE}
+v <- 101:110
+sample( v )
+sample( v )
+sample( v, 3 )
+sample( v, 3 )
+sample( v, 15 )
+sample( v, 15, replace = TRUE )
+sample( v, 15, replace = TRUE )
+```
+
+   - Using one result of sampling yielding 15 values, select the first 3. 
+
+```{r}
+vs <- sample(v, 15, replace = TRUE)
+vs[c(1, 2, 3)] # select the first 3 elements
+vs[1:3] # Same result as before
+```
+   
+
+#### Extra tasks
+
+
+- Reverse a vector: `rev`. (*)
+    - Define `v <- 101:110`. 
+    - Compare `v` to `rev( v )`.
+```{r}
+v <- 101:110
+v
+rev( v )
+```
+
+### Result is a logical vector
+
+#### Primary tasks
+
+- Which element(s) are available/missing: `is.na`.
+    - Create a random vector `v` with `NA` elements: `v <- sample( c( 0, 1, NA ), 10, replace = TRUE )`. 
+    - Understand `is.na( v )` and `v[ !is.na( v ) ]`.
+```{r}
+v <- sample( c( 0, 1, NA ), 10, replace = TRUE )
+v
+is.na( v )
+v[ !is.na( v ) ]
+```
+
+#### Extra tasks
+
+- Whether elements of one vector are present in another vector: `%in%`. (*) 
+    - Let's check whether elements of `v <- c( "1", "B", "I", "O", "b" )` are among `LETTERS` with `v %in% LETTERS`. 
+    - How to interpret the result? 
+    - How to find how many of elements in `v` occur in `LETTERS`?
+    
+```{r}
+v <- c( "1", "B", "I", "O", "b" )
+v
+v %in% LETTERS
+sum( v %in% LETTERS )
+```
+
+- Whether elements of a vector are duplicated (have occurred earlier already): `duplicated`. (*)
+    - Let's generate a vector `v` with repeated elements `v <- sample( 1:4, 10, replace = TRUE )`. 
+    - Understand `duplicated( v )`.
+    
+```{r}
+v <- sample( 1:4, 10, replace = TRUE )
+v
+duplicated( v )
+```
+
+### Result is a vector of indices
+
+#### Primary tasks
+
+To find the index of the largest/smallest entry in a vector, you can use: `which.max`, `which.min`.
+    
+- Create a vector `v` by sampling 10 elements from the sequence `1:1000000`. Show `v`.
+    
+    
+```{r}
+v <- sample( 1:1000000, 10 )
+v
+```
+
+- Use `which.max( v )` to find which entry of `v` contains its largest element. 
+
+```{r}
+which.max( v )
+```
+
+- Select the largest element of `v`.
+
+```{r}
+v[ which.max( v ) ]
+```
+
+- Check that this is indeed the largest value in `v` by using `max`.
+
+```{r}
+max(v)
+```
+
+#### Extra tasks
+
+- Indices where a logical vector is `TRUE`: `which`. (*)
+    - Let's create a random logical vector `v <- sample( c( T, F ), 10, replace = TRUE )`. 
+    - Use `which` to find positions with `TRUE` values. 
+    - What is `v[ which( v ) ]`?
+```{r}
+v <- sample( c( T, F ), 10, replace = TRUE )
+v
+which( v )
+v[ which( v ) ]
+```
+
+- Indices at which elements of one vector `match` another vector: `match`. (*)
+    - Let's check where elements of `v <- c( "1", "B", "I", "O", "b" )` are among `LETTERS` with `match( v, LETTERS )`.
+    - How to interpret the result? 
+    - How to find how many of elements in `v` do not occur in `LETTERS`?
+```{r}
+v <- c( "1", "B", "I", "O", "b" )
+idx <- match( v, LETTERS )
+idx
+LETTERS[ idx ]
+sum( is.na( idx ) )
+```
+
+- Indices ordered so, that the elements of a vector would get ordered: `order`. (*)
+    - Let's generate a random vector `v <- sample( LETTERS, 10 )`.
+    - Understand `order( v )` and `v[ order( v ) ]`.
+    - Check whether `v[ order( v ) ] == sort( v )` or even better whether `all( v[ order( v ) ] == sort( v ) )` is TRUE.
+```{r}
+v <- sample( LETTERS, 10 )
+v
+order( v )
+v[ order( v ) ]
+v[ order( v ) ] == sort( v )
+all( v[ order( v ) ] == sort( v ) )
+```
+
+### Other functions
+
+- Sorting a vector
+    - Define `v` as a  sample of small letters of size 5. Check its content. 
+
+```{r}
+v <- sample( letters, 5)
+v
+```
+
+- Sort `v` using `sort()`. Save the result in a new vector.
+
+```{r}
+sort( v )
+u <- sort(v)
+```
+
+- Now computer `order(v)`.
+
+```{r}
+order(v)
+```
+
+To understand what the function `order()` does, check what happens when you use it to select entries in `v`:
+
+```{r}
+v[ order(v) ]
+```
+
+Compare the result to `u`.
+
+```{r}
+u
+```
+
+- Obtaining all unique elements of a vector
+  - Generate again a vector `v` with the sequence of numbers between 101 and 110.
+    
+```{r}
+v <- 101:110
+```
+
+  - Sample 15 elements of this vector with replacement, as done in a previous exercise.
+
+```{r}  
+vs <- sample( 101:110, 15, replace = TRUE )
+```
+
+  - Now use `unique()` to obtain the set of unique entries in the sampled vector.
+    
+```{r}
+unique( vs )
+```
+
+  - Use a function on this result to find out how many unique values the sampled vector has.
+    
+```{r}
+length(unique( vs ))
+```
+
+
+- Obtaining the logical vector indicating duplicated entries (those which have occurred earlier)
+  - Use `duplicated()` to obtain the logical vector indicating which entries are duplicated in `v`. Check if the result makes sense by comparing it to `v` itself
+
+```{r}
+duplicated(v)
+v
+```
+
+  - Use the logical vector created to select entries of the vector `v` which are duplicated
+    
+```{r}
+v[ duplicated(v) ]
+```
+
+  - Compute the number of duplicated entries in `v`.
+
+There are multiple ways to find out how many entries in `v` are duplicated. Some of them are:
+
+```{r}
+sum( duplicated( v ) )
+length( v[ duplicated(v) ] )
+```
+
+#### Extra tasks
+
+- Create a vector with ranks of elements of another vector: `rank`.
+    - Let's generate a random vector `v <- sample( LETTERS, 10 )`.
+    - Understand the difference of `order( v )` and `rank( v )`.
+```{r}
+v <- sample( LETTERS, 10 )
+v
+order( v )
+rank( v )
+```
+
+*Explanation*: We already know that `order` returns the indices that, when used on the original vector, sorts its elements. The function `rank` gives you the relative position of each entry, from the smallest to the largerst by default. For example, define
+
+```{r}
+myv <- c("A", "C", "E", "B", "F")
+myv
+```
+
+It is easy to see that the result of `order` should be the vector: `c(1, 4, 2, 3, 5)`, since the first element in alphabetical order `A` is at position one, then the second element in alphabetical order `B` is in position 4, etc. Indeed, check that this is also the result of `order`:
+
+```{r}
+order(myv)
+```
+
+The `rank` gives you the relative position of each entry, also in alphabetical order. The first entry in `myv` is also the first element in alphabetical order, so the first element in `rank` is 1. The second entry in `myv` is the fourth element in alphabetical order, so the second element in `rank` is 4.  Then the third entry in `myv` is the second element in alphabetical order, with rank 2. The next entry in `myv` is the third element, and the last entry in `myv` is the fifth element. This means that `rank(myv)` returns `c(1, 4, 2, 3, 5)`. Check this:
+
+```{r}
+rank(myv)
+```
