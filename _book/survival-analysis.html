@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-22" />
+<meta name="date" content="2022-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -434,15 +434,16 @@ In the course of the study, some patients could not record the time of recovery 
 <h3><span class="header-section-number">5.1.5</span> Survival data analysis in R</h3>
 <p>In R, classic survival data analysis methods are available via the package <code>survival</code>. Let us start by loading it.</p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="survival-analysis.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div>
+<pre><code>## Warning: le package &#39;survival&#39; a été compilé avec la version R 4.1.3</code></pre>
 <p>A survival data analysis starts by the creation of the response object, which combines the event variable with the time-to-event. In the migraine study example, these are variables <code>event</code> and <code>time</code>. The response object is created by the function <code>Surv()</code>:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="survival-analysis.html#cb279-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata1<span class="sc">$</span>time, <span class="at">event =</span> mydata1<span class="sc">$</span>event)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="survival-analysis.html#cb280-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata1<span class="sc">$</span>time, <span class="at">event =</span> mydata1<span class="sc">$</span>event)</span></code></pre></div>
 <p>With the response object created, it is straightforward to plot the Kaplan-Meier curve yielded by this object:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="survival-analysis.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(migr.surv, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="survival-analysis.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(migr.surv, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
 <p>The computation of the Kaplan-Meier curve is actually done using the function <code>survfit</code>. It requires as input a formula object, with the <code>Surv</code> object as response and for example a grouping variable as covariate. In this case we will consider no grouping, so we use <code>1</code> to represent a model with just the intercept:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="survival-analysis.html#cb281-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>( migr.surv <span class="sc">~</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="survival-analysis.html#cb282-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>( migr.surv <span class="sc">~</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>The summary of <code>survfit</code> yields the computed survival probabilities. In particular, we can now check that the computed probabilites we obtained above are correct:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="survival-analysis.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( svfit )</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="survival-analysis.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( svfit )</span></code></pre></div>
 <pre><code>## Call: survfit(formula = migr.surv ~ 1)
 ## 
 ##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
@@ -505,20 +506,20 @@ In the course of the study, some patients could not record the time of recovery 
 <div id="working-example-cont-2" class="section level3" number="5.1.7">
 <h3><span class="header-section-number">5.1.7</span> Working example (cont)</h3>
 <p>Let us compare the obtained survival curves between groups using drugs D1 and D2 in a small subset of the migraine example. First select the subset:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="survival-analysis.html#cb284-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">10</span>), ])</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="survival-analysis.html#cb285-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">10</span>), ])</span></code></pre></div>
 <p>Then create the response, the <code>Surv</code> object:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="survival-analysis.html#cb285-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata<span class="sc">$</span>time, <span class="at">event =</span> mydata<span class="sc">$</span>event)</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="survival-analysis.html#cb286-1" aria-hidden="true" tabindex="-1"></a>migr.surv <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> mydata<span class="sc">$</span>time, <span class="at">event =</span> mydata<span class="sc">$</span>event)</span></code></pre></div>
 <p>Now use <code>survfit</code> to compute the Kaplan-Meier per group. This function uses as input a formula, defining the <code>Surv</code> response and the grouping variable <code>drug</code> indicating the drug used per individual:</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="survival-analysis.html#cb286-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(migraine<span class="sc">$</span>time, migraine<span class="sc">$</span>event) <span class="sc">~</span> migraine<span class="sc">$</span>drug)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="survival-analysis.html#cb287-1" aria-hidden="true" tabindex="-1"></a>svfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(migraine<span class="sc">$</span>time, migraine<span class="sc">$</span>event) <span class="sc">~</span> migraine<span class="sc">$</span>drug)</span></code></pre></div>
 <p>The object yielded by <code>survfit</code> is of class <code>survfit</code>. We can print out a summary of the object:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="survival-analysis.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(svfit)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="survival-analysis.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(svfit)</span></code></pre></div>
 <pre><code>## Call: survfit(formula = Surv(migraine$time, migraine$event) ~ migraine$drug)
 ## 
 ##                    n events median 0.95LCL 0.95UCL
 ## migraine$drug=D1 200    149     25      24      26
 ## migraine$drug=D2 200    146     25      24      26</code></pre>
 <p>and prind the Kaplan-Meier survival probabilities estimated for the two groups:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="survival-analysis.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(svfit)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="survival-analysis.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(svfit)</span></code></pre></div>
 <pre><code>## Call: survfit(formula = Surv(migraine$time, migraine$event) ~ migraine$drug)
 ## 
 ##                 migraine$drug=D1 
@@ -568,10 +569,10 @@ In the course of the study, some patients could not record the time of recovery 
 ##    32     23       3    0.210 0.03326        0.154        0.287
 ##    34     15       2    0.182 0.03423        0.126        0.263</code></pre>
 <p>Making a graph of the Kaplan-Meier curves is also straightforward:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="survival-analysis.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(svfit)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="survival-analysis.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(svfit)</span></code></pre></div>
 <p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
 <p>The log-rank test is computed by using the function <code>survdiff</code> on the comparison to be made, represented by the formula involving the <code>Surv</code> object as response, and the grouping variable on the right-hand side:</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="survival-analysis.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(migr.surv <span class="sc">~</span> mydata<span class="sc">$</span>drug)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="survival-analysis.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(migr.surv <span class="sc">~</span> mydata<span class="sc">$</span>drug)</span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = migr.surv ~ mydata$drug)
 ## 
@@ -634,10 +635,10 @@ which means that the hazard ratio for two observations at the same time point <s
 <div id="working-example-9" class="section level3" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> Working example</h3>
 <p>To illustrate methods we will use the dataset <code>Melanoma</code>. Check what it contains by reading its help file, and examining the structure of the data.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="survival-analysis.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
-<span id="cb294-2"><a href="survival-analysis.html#cb294-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb294-3"><a href="survival-analysis.html#cb294-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb294-4"><a href="survival-analysis.html#cb294-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="survival-analysis.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
+<span id="cb295-2"><a href="survival-analysis.html#cb295-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb295-3"><a href="survival-analysis.html#cb295-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb295-4"><a href="survival-analysis.html#cb295-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
 ##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
 ##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
@@ -655,11 +656,11 @@ of the study:</p>
 <li><code>status</code> = 3: dead from other causes"</li>
 </ul>
 <p>We will first create a <code>Surv</code> object having only the event <code>dead from melanoma</code>, and both alive as well as dead due to other causes together as censoring. For this, we use:</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="survival-analysis.html#cb296-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="survival-analysis.html#cb297-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>So, in this case the endpoint variable used in <code>Surv</code> is a logical vector, equal to <code>TRUE</code> if <code>status</code> = 1, and <code>FALSE</code> otherwise.</p>
 <p>Now we want to know if <code>sex</code> affects the survival probability of melanoma. To do this, we compute the Cox regression using the <code>Surv</code> object defined above, and <code>sex</code> as a covariate:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="survival-analysis.html#cb297-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
-<span id="cb297-2"><a href="survival-analysis.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="survival-analysis.html#cb298-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb298-2"><a href="survival-analysis.html#cb298-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
 ## 
@@ -685,8 +686,8 @@ of the study:</p>
 <div id="group-specific-baseline-hazards" class="section level3" number="5.2.4">
 <h3><span class="header-section-number">5.2.4</span> Group-specific baseline hazards</h3>
 <p>The Cox model is easily extended to allow different baseline hazards for different groups. For example, in the <code>leuk</code> data there could be interest in allowing for different event rates in time, depending on the <code>ag</code> group of the patient - patients termed <code>AG</code> positive display Auer rods and/or significant granulation of their leukemic cells, which may affect the overall event rate. Different hazards according to <code>ag</code> group can be fitted by including the argument <code>strata</code> as <code>ag</code> in the model, as in:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="survival-analysis.html#cb299-1" aria-hidden="true" tabindex="-1"></a>leuk.coxs <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> <span class="fu">strata</span>(ag) <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span>
-<span id="cb299-2"><a href="survival-analysis.html#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(leuk.coxs)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="survival-analysis.html#cb300-1" aria-hidden="true" tabindex="-1"></a>leuk.coxs <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> <span class="fu">strata</span>(ag) <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span>
+<span id="cb300-2"><a href="survival-analysis.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(leuk.coxs)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time) ~ strata(ag) + log(wbc), data = leuk)
 ## 
@@ -704,21 +705,24 @@ of the study:</p>
 ## Likelihood ratio test= 7.78  on 1 df,   p=0.005
 ## Wald test            = 7.5  on 1 df,   p=0.006
 ## Score (logrank) test = 7.92  on 1 df,   p=0.005</code></pre>
-<p>Plots of the estimated survival distributions can be produced by using as input <code>survfit</code> applied to the fitted Cox model:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="survival-analysis.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb301-2"><a href="survival-analysis.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG as covariate&quot;</span>)</span>
-<span id="cb301-3"><a href="survival-analysis.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>)</span></code></pre></div>
-<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-173-1.png" width="960" /></p>
+<p>The estimated survival distribution can now be displayed using <code>plot</code> with as input <code>survfit</code> applied to the fitted Cox model:</p>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="survival-analysis.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>, <span class="at">log=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-174-1.png" width="672" />
-So, from the first model we obtained a single survival distribution, plotted making use of the reference or average value of each covariate. The stratified Cox regression plot yielded two survival distributions, one per stratum (AG group).</p>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-173-1.png" width="672" /></p>
+<p>We now fit also the model with <code>AG</code> as covariate:</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="survival-analysis.html#cb303-1" aria-hidden="true" tabindex="-1"></a>leuk.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> ag <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span></code></pre></div>
+<p>Plots of the estimated survival distributions are now:</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="survival-analysis.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb304-2"><a href="survival-analysis.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.cox), <span class="at">main =</span> <span class="st">&quot;AG as covariate&quot;</span>)</span>
+<span id="cb304-3"><a href="survival-analysis.html#cb304-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-175-1.png" width="960" /></p>
+<p>So, from the first model we obtained a single survival distribution, plotted making use of the reference or average value of each covariate. The stratified Cox regression plot yielded two survival distributions, one per stratum (AG group).</p>
 </div>
 <div id="the-proportional-hazards-assumption" class="section level3" number="5.2.5">
 <h3><span class="header-section-number">5.2.5</span> The proportional hazards assumption</h3>
 <p>By fitting a separate baseline hazard per group, we can compare the group-specific baseline hazards. This helps with checking the proportional-hazards assumption. Above we have made a graph of the separate hazards, on the scale of the survival probability. We can remake this plot on the scale of the log-probability. If the proportional hazards assumption holds, this should yield relatively parallel proportional hazards.</p>
 <p>In the <code>leuk</code> example, this can be done as follows:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="survival-analysis.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-175-1.png" width="672" /></p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="survival-analysis.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(leuk.coxs), <span class="at">main =</span> <span class="st">&quot;AG defining strata&quot;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-176-1.png" width="672" /></p>
 <hr />
 <blockquote>
 <p><em>Quick task(s)</em>:</p>
@@ -764,9 +768,9 @@ N = \frac{[z(1-\alpha/2) + z(\mbox{power})]^2}{p(1-p)\beta_1^2 P\{\mbox{event}\}
 <div id="working-example-10" class="section level3" number="5.3.3">
 <h3><span class="header-section-number">5.3.3</span> Working example</h3>
 <p>Let us consider again the Melanoma data. For these data, the event of interest is <code>status</code>=1, and all other events are considered together as censoring. We define below the <code>Surv</code> object and fit the Cox model, as before:</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="survival-analysis.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb304-2"><a href="survival-analysis.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb304-3"><a href="survival-analysis.html#cb304-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="survival-analysis.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb306-2"><a href="survival-analysis.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb306-3"><a href="survival-analysis.html#cb306-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
 ##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
 ##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
@@ -775,9 +779,9 @@ N = \frac{[z(1-\alpha/2) + z(\mbox{power})]^2}{p(1-p)\beta_1^2 P\{\mbox{event}\}
 ##  $ year     : int  1972 1968 1977 1968 1965 1971 1972 1974 1968 1971 ...
 ##  $ thickness: num  6.76 0.65 1.34 2.9 12.08 ...
 ##  $ ulcer    : int  1 0 0 0 1 1 1 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="survival-analysis.html#cb306-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb306-2"><a href="survival-analysis.html#cb306-2" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
-<span id="cb306-3"><a href="survival-analysis.html#cb306-3" aria-hidden="true" tabindex="-1"></a>mel.cox</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="survival-analysis.html#cb308-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb308-2"><a href="survival-analysis.html#cb308-2" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb308-3"><a href="survival-analysis.html#cb308-3" aria-hidden="true" tabindex="-1"></a>mel.cox</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
 ## 
@@ -791,32 +795,32 @@ N = \frac{[z(1-\alpha/2) + z(\mbox{power})]^2}{p(1-p)\beta_1^2 P\{\mbox{event}\}
 <div id="minimum-sample-size" class="section level3" number="5.3.4">
 <h3><span class="header-section-number">5.3.4</span> Minimum sample size</h3>
 <p>Below we write a function to compute the sample size, given the desired power to find a log-hazard ratio from a Cox proportional-hazards model fit. This is written with a binary grouping in mind.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="survival-analysis.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get.ssize.surv</span></span>
-<span id="cb308-2"><a href="survival-analysis.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb308-3"><a href="survival-analysis.html#cb308-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute the sample size required to find a log-hazard ratio </span></span>
-<span id="cb308-4"><a href="survival-analysis.html#cb308-4" aria-hidden="true" tabindex="-1"></a><span class="co">#using Cox regression, </span></span>
-<span id="cb308-5"><a href="survival-analysis.html#cb308-5" aria-hidden="true" tabindex="-1"></a><span class="co"># where the ratio is computed between two groups</span></span>
-<span id="cb308-6"><a href="survival-analysis.html#cb308-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb308-7"><a href="survival-analysis.html#cb308-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs</span></span>
-<span id="cb308-8"><a href="survival-analysis.html#cb308-8" aria-hidden="true" tabindex="-1"></a><span class="co"># beta: power, so 1-prob. type-II error </span></span>
-<span id="cb308-9"><a href="survival-analysis.html#cb308-9" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha: desired significance level </span></span>
-<span id="cb308-10"><a href="survival-analysis.html#cb308-10" aria-hidden="true" tabindex="-1"></a><span class="co"># p1: proportion of individuals in group 1 - it does not matter which group </span></span>
-<span id="cb308-11"><a href="survival-analysis.html#cb308-11" aria-hidden="true" tabindex="-1"></a><span class="co">#is taken as group 1, </span></span>
-<span id="cb308-12"><a href="survival-analysis.html#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     since this enters the formula via p1(1-p1)</span></span>
-<span id="cb308-13"><a href="survival-analysis.html#cb308-13" aria-hidden="true" tabindex="-1"></a><span class="co"># b1: log hazard ratio between the two groups </span></span>
-<span id="cb308-14"><a href="survival-analysis.html#cb308-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   It corresponds to the beta coefficient in the cox ph regression</span></span>
-<span id="cb308-15"><a href="survival-analysis.html#cb308-15" aria-hidden="true" tabindex="-1"></a><span class="co"># pevents: prop events</span></span>
-<span id="cb308-16"><a href="survival-analysis.html#cb308-16" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb308-17"><a href="survival-analysis.html#cb308-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
-<span id="cb308-18"><a href="survival-analysis.html#cb308-18" aria-hidden="true" tabindex="-1"></a><span class="co"># the sample size required</span></span>
-<span id="cb308-19"><a href="survival-analysis.html#cb308-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-20"><a href="survival-analysis.html#cb308-20" aria-hidden="true" tabindex="-1"></a>get.ssize.surv <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, <span class="at">alpha=</span><span class="fl">0.05</span>, <span class="at">p1=</span><span class="fl">0.5</span>, <span class="at">b1=</span><span class="fl">0.5</span>, <span class="at">pevents=</span><span class="dv">1</span>)</span>
-<span id="cb308-21"><a href="survival-analysis.html#cb308-21" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb308-22"><a href="survival-analysis.html#cb308-22" aria-hidden="true" tabindex="-1"></a>  num <span class="ot">&lt;-</span> ( <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,<span class="at">lower.tail=</span><span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">qnorm</span>(beta, <span class="at">lower.tail=</span><span class="cn">FALSE</span>) ) <span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb308-23"><a href="survival-analysis.html#cb308-23" aria-hidden="true" tabindex="-1"></a>  den <span class="ot">&lt;-</span> p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">*</span>( b1<span class="sc">^</span><span class="dv">2</span> )<span class="sc">*</span>pevents</span>
-<span id="cb308-24"><a href="survival-analysis.html#cb308-24" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> num<span class="sc">/</span>den</span>
-<span id="cb308-25"><a href="survival-analysis.html#cb308-25" aria-hidden="true" tabindex="-1"></a>  n</span>
-<span id="cb308-26"><a href="survival-analysis.html#cb308-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="survival-analysis.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get.ssize.surv</span></span>
+<span id="cb310-2"><a href="survival-analysis.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb310-3"><a href="survival-analysis.html#cb310-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute the sample size required to find a log-hazard ratio </span></span>
+<span id="cb310-4"><a href="survival-analysis.html#cb310-4" aria-hidden="true" tabindex="-1"></a><span class="co">#using Cox regression, </span></span>
+<span id="cb310-5"><a href="survival-analysis.html#cb310-5" aria-hidden="true" tabindex="-1"></a><span class="co"># where the ratio is computed between two groups</span></span>
+<span id="cb310-6"><a href="survival-analysis.html#cb310-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb310-7"><a href="survival-analysis.html#cb310-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs</span></span>
+<span id="cb310-8"><a href="survival-analysis.html#cb310-8" aria-hidden="true" tabindex="-1"></a><span class="co"># beta: power, so 1-prob. type-II error </span></span>
+<span id="cb310-9"><a href="survival-analysis.html#cb310-9" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha: desired significance level </span></span>
+<span id="cb310-10"><a href="survival-analysis.html#cb310-10" aria-hidden="true" tabindex="-1"></a><span class="co"># p1: proportion of individuals in group 1 - it does not matter which group </span></span>
+<span id="cb310-11"><a href="survival-analysis.html#cb310-11" aria-hidden="true" tabindex="-1"></a><span class="co">#is taken as group 1, </span></span>
+<span id="cb310-12"><a href="survival-analysis.html#cb310-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     since this enters the formula via p1(1-p1)</span></span>
+<span id="cb310-13"><a href="survival-analysis.html#cb310-13" aria-hidden="true" tabindex="-1"></a><span class="co"># b1: log hazard ratio between the two groups </span></span>
+<span id="cb310-14"><a href="survival-analysis.html#cb310-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   It corresponds to the beta coefficient in the cox ph regression</span></span>
+<span id="cb310-15"><a href="survival-analysis.html#cb310-15" aria-hidden="true" tabindex="-1"></a><span class="co"># pevents: prop events</span></span>
+<span id="cb310-16"><a href="survival-analysis.html#cb310-16" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb310-17"><a href="survival-analysis.html#cb310-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb310-18"><a href="survival-analysis.html#cb310-18" aria-hidden="true" tabindex="-1"></a><span class="co"># the sample size required</span></span>
+<span id="cb310-19"><a href="survival-analysis.html#cb310-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-20"><a href="survival-analysis.html#cb310-20" aria-hidden="true" tabindex="-1"></a>get.ssize.surv <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, <span class="at">alpha=</span><span class="fl">0.05</span>, <span class="at">p1=</span><span class="fl">0.5</span>, <span class="at">b1=</span><span class="fl">0.5</span>, <span class="at">pevents=</span><span class="dv">1</span>)</span>
+<span id="cb310-21"><a href="survival-analysis.html#cb310-21" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb310-22"><a href="survival-analysis.html#cb310-22" aria-hidden="true" tabindex="-1"></a>  num <span class="ot">&lt;-</span> ( <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,<span class="at">lower.tail=</span><span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">qnorm</span>(beta, <span class="at">lower.tail=</span><span class="cn">FALSE</span>) ) <span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb310-23"><a href="survival-analysis.html#cb310-23" aria-hidden="true" tabindex="-1"></a>  den <span class="ot">&lt;-</span> p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">*</span>( b1<span class="sc">^</span><span class="dv">2</span> )<span class="sc">*</span>pevents</span>
+<span id="cb310-24"><a href="survival-analysis.html#cb310-24" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> num<span class="sc">/</span>den</span>
+<span id="cb310-25"><a href="survival-analysis.html#cb310-25" aria-hidden="true" tabindex="-1"></a>  n</span>
+<span id="cb310-26"><a href="survival-analysis.html#cb310-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>This function takes as arguments:</p>
 <ul>
 <li><p><code>beta</code>: power, so 1-probability of the type-II error. This must be a value between 0 and 1;</p></li>
@@ -830,18 +834,18 @@ since this enters the formula via p1(1-p1). This must be a value between 0 and 1
 <div id="working-example-cont-3" class="section level3" number="5.3.5">
 <h3><span class="header-section-number">5.3.5</span> Working example (cont)</h3>
 <p>Let us extract the quantities needed to perform a power calculation. The proportion of events is the proportion of individuals with <code>status</code>=1 in the data:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="survival-analysis.html#cb309-1" aria-hidden="true" tabindex="-1"></a>p.event <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="survival-analysis.html#cb311-1" aria-hidden="true" tabindex="-1"></a>p.event <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>The log-hazard ratio estimated by the Cox model is stored in the slot <code>coefficients</code> which, in this case, has a single entry:</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="survival-analysis.html#cb310-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> mel.cox<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="survival-analysis.html#cb312-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> mel.cox<span class="sc">$</span>coefficients</span></code></pre></div>
 <p>We also need to compute the proportion of individuals in group 1 (which is arbitrarily chosen). The grouping variable <code>sex</code> has values:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="survival-analysis.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="survival-analysis.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ## 126  79</code></pre>
 <p>so its mean is equal to the proportion of individuals in group 1:</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="survival-analysis.html#cb313-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="survival-analysis.html#cb315-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Melanoma<span class="sc">$</span>sex)</span></code></pre></div>
 <p>Now we can run compute the sample size required, for power = 0.8, say, to detect an effect with a significance level of 0.005.</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="survival-analysis.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get.ssize.surv</span>(<span class="at">beta =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.005</span>, <span class="at">p1 =</span> p1, <span class="at">b1 =</span> b1, <span class="at">pevents =</span> p.event)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="survival-analysis.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get.ssize.surv</span>(<span class="at">beta =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.005</span>, <span class="at">p1 =</span> p1, <span class="at">b1 =</span> b1, <span class="at">pevents =</span> p.event)</span></code></pre></div>
 <pre><code>##      sex 
 ## 461.0044</code></pre>
 <hr />
@@ -874,29 +878,29 @@ since this enters the formula via p1(1-p1). This must be a value between 0 and 1
 <div id="right--left--and-interval-censoring" class="section level3" number="5.4.2">
 <h3><span class="header-section-number">5.4.2</span> Right-, left- and interval censoring</h3>
 <p>In our examples here we have had censored observations. These were observations from which we knew the starting points, but not the time to event - only that the event did not happen until a certain time point. Recall the graoh:</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="survival-analysis.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39562</span>) <span class="co"># (493756)</span></span>
-<span id="cb316-2"><a href="survival-analysis.html#cb316-2" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="dv">400</span></span>
-<span id="cb316-3"><a href="survival-analysis.html#cb316-3" aria-hidden="true" tabindex="-1"></a>fdrug <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> ss<span class="sc">/</span><span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>))</span>
-<span id="cb316-4"><a href="survival-analysis.html#cb316-4" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">7</span>), <span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">75</span>))</span>
-<span id="cb316-5"><a href="survival-analysis.html#cb316-5" aria-hidden="true" tabindex="-1"></a>tte <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(ss, <span class="at">shape =</span> <span class="dv">30</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">+</span>event<span class="sc">/</span><span class="dv">4</span>))</span>
-<span id="cb316-6"><a href="survival-analysis.html#cb316-6" aria-hidden="true" tabindex="-1"></a>migraine <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(event, <span class="at">time =</span> tte, <span class="at">drug =</span> fdrug)</span>
-<span id="cb316-7"><a href="survival-analysis.html#cb316-7" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">5</span>), ])</span>
-<span id="cb316-8"><a href="survival-analysis.html#cb316-8" aria-hidden="true" tabindex="-1"></a>myxlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mydata<span class="sc">$</span>time))</span>
-<span id="cb316-9"><a href="survival-analysis.html#cb316-9" aria-hidden="true" tabindex="-1"></a>mypch <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span>, <span class="fu">nrow</span>(mydata))</span>
-<span id="cb316-10"><a href="survival-analysis.html#cb316-10" aria-hidden="true" tabindex="-1"></a>mypch[ mydata<span class="sc">$</span>event <span class="sc">==</span> <span class="dv">0</span> ] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb316-11"><a href="survival-analysis.html#cb316-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">xlim =</span> myxlim, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">nrow</span>(mydata)<span class="sc">+</span><span class="dv">1</span>), <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb316-12"><a href="survival-analysis.html#cb316-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Data for 10 participants&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;time to event (minutes)&quot;</span>, </span>
-<span id="cb316-13"><a href="survival-analysis.html#cb316-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;participant&quot;</span>)</span>
-<span id="cb316-14"><a href="survival-analysis.html#cb316-14" aria-hidden="true" tabindex="-1"></a>mcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(mydata)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb316-15"><a href="survival-analysis.html#cb316-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){ </span>
-<span id="cb316-16"><a href="survival-analysis.html#cb316-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">segments</span>(<span class="dv">0</span>, xi, mydata<span class="sc">$</span>time[xi], xi,  <span class="at">col =</span> mcol[xi], </span>
-<span id="cb316-17"><a href="survival-analysis.html#cb316-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">lwd =</span> <span class="dv">2</span>)}</span>
-<span id="cb316-18"><a href="survival-analysis.html#cb316-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){</span>
-<span id="cb316-19"><a href="survival-analysis.html#cb316-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(mydata<span class="sc">$</span>time[xi], xi, <span class="at">col =</span> mcol[xi], <span class="at">pch =</span> mypch[ xi ])</span>
-<span id="cb316-20"><a href="survival-analysis.html#cb316-20" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb316-21"><a href="survival-analysis.html#cb316-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>), <span class="at">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb316-22"><a href="survival-analysis.html#cb316-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>) )</span></code></pre></div>
-<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-185-1.png" width="672" /></p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="survival-analysis.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39562</span>) <span class="co"># (493756)</span></span>
+<span id="cb318-2"><a href="survival-analysis.html#cb318-2" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb318-3"><a href="survival-analysis.html#cb318-3" aria-hidden="true" tabindex="-1"></a>fdrug <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> ss<span class="sc">/</span><span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>))</span>
+<span id="cb318-4"><a href="survival-analysis.html#cb318-4" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">7</span>), <span class="fu">rbinom</span>(ss<span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">75</span>))</span>
+<span id="cb318-5"><a href="survival-analysis.html#cb318-5" aria-hidden="true" tabindex="-1"></a>tte <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rgamma</span>(ss, <span class="at">shape =</span> <span class="dv">30</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">+</span>event<span class="sc">/</span><span class="dv">4</span>))</span>
+<span id="cb318-6"><a href="survival-analysis.html#cb318-6" aria-hidden="true" tabindex="-1"></a>migraine <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(event, <span class="at">time =</span> tte, <span class="at">drug =</span> fdrug)</span>
+<span id="cb318-7"><a href="survival-analysis.html#cb318-7" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(migraine[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ], migraine[(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(ss<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span><span class="dv">5</span>), ])</span>
+<span id="cb318-8"><a href="survival-analysis.html#cb318-8" aria-hidden="true" tabindex="-1"></a>myxlim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mydata<span class="sc">$</span>time))</span>
+<span id="cb318-9"><a href="survival-analysis.html#cb318-9" aria-hidden="true" tabindex="-1"></a>mypch <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span>, <span class="fu">nrow</span>(mydata))</span>
+<span id="cb318-10"><a href="survival-analysis.html#cb318-10" aria-hidden="true" tabindex="-1"></a>mypch[ mydata<span class="sc">$</span>event <span class="sc">==</span> <span class="dv">0</span> ] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb318-11"><a href="survival-analysis.html#cb318-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="at">xlim =</span> myxlim, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">nrow</span>(mydata)<span class="sc">+</span><span class="dv">1</span>), <span class="at">col =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb318-12"><a href="survival-analysis.html#cb318-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Data for 10 participants&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;time to event (minutes)&quot;</span>, </span>
+<span id="cb318-13"><a href="survival-analysis.html#cb318-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;participant&quot;</span>)</span>
+<span id="cb318-14"><a href="survival-analysis.html#cb318-14" aria-hidden="true" tabindex="-1"></a>mcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(mydata)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb318-15"><a href="survival-analysis.html#cb318-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){ </span>
+<span id="cb318-16"><a href="survival-analysis.html#cb318-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">segments</span>(<span class="dv">0</span>, xi, mydata<span class="sc">$</span>time[xi], xi,  <span class="at">col =</span> mcol[xi], </span>
+<span id="cb318-17"><a href="survival-analysis.html#cb318-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">lwd =</span> <span class="dv">2</span>)}</span>
+<span id="cb318-18"><a href="survival-analysis.html#cb318-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(xi <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mydata)){</span>
+<span id="cb318-19"><a href="survival-analysis.html#cb318-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(mydata<span class="sc">$</span>time[xi], xi, <span class="at">col =</span> mcol[xi], <span class="at">pch =</span> mypch[ xi ])</span>
+<span id="cb318-20"><a href="survival-analysis.html#cb318-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb318-21"><a href="survival-analysis.html#cb318-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>), <span class="at">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb318-22"><a href="survival-analysis.html#cb318-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>) )</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-186-1.png" width="672" /></p>
 <p>This type of censoring is referred to as <em>right-censoring</em>, because in the graph the right-hand side of the follow-up is incomplete.</p>
 <p>In other cases, the starting time is unknown. This can be the case when the patient enters the study some time after disease onset, and the exact date of disease onset is unknown. This type of censoring is referred to as <em>left-censoring</em>, because in the graph the left-hand side of the follow-up would be incomplete.
 Of course, there are studies where both types of censoring occur.</p>
@@ -911,10 +915,10 @@ However, the Kaplan-Meier method cannot be used directly with left-censored data
 <div id="competing-risks" class="section level3" number="5.4.4">
 <h3><span class="header-section-number">5.4.4</span> Competing risks</h3>
 <p>Let us look again at the Melanoma data:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="survival-analysis.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
-<span id="cb317-2"><a href="survival-analysis.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb317-3"><a href="survival-analysis.html#cb317-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb317-4"><a href="survival-analysis.html#cb317-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="survival-analysis.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?Melanoma</span></span>
+<span id="cb319-2"><a href="survival-analysis.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb319-3"><a href="survival-analysis.html#cb319-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb319-4"><a href="survival-analysis.html#cb319-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Melanoma)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    205 obs. of  7 variables:
 ##  $ time     : int  10 30 35 99 185 204 210 232 232 279 ...
 ##  $ status   : int  3 3 2 3 1 1 1 3 1 1 ...
@@ -932,11 +936,11 @@ of the study:</p>
 <li><code>status</code> = 3: dead from other causes"</li>
 </ul>
 <p>We previously created a <code>Surv</code> object having only the event <code>dead from melanoma</code>, and both alive as well as dead due to other causes together as censoring. For this, we used:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="survival-analysis.html#cb319-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb319-2"><a href="survival-analysis.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(survm <span class="sc">~</span> Melanoma<span class="sc">$</span>sex))</span></code></pre></div>
-<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="survival-analysis.html#cb320-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
-<span id="cb320-2"><a href="survival-analysis.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="survival-analysis.html#cb321-1" aria-hidden="true" tabindex="-1"></a>survm <span class="ot">&lt;-</span> <span class="fu">Surv</span>(Melanoma<span class="sc">$</span>time, Melanoma<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb321-2"><a href="survival-analysis.html#cb321-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">survfit</span>(survm <span class="sc">~</span> Melanoma<span class="sc">$</span>sex))</span></code></pre></div>
+<p><img src="Medical-Statistics-Course_files/figure-html/unnamed-chunk-188-1.png" width="672" /></p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="survival-analysis.html#cb322-1" aria-hidden="true" tabindex="-1"></a>mel.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> sex, <span class="at">data =</span> Melanoma)</span>
+<span id="cb322-2"><a href="survival-analysis.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mel.cox)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time, status == 1) ~ sex, data = Melanoma)
 ## 
