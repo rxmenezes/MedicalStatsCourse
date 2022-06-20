@@ -31,7 +31,7 @@ means <- c(means, mean(sample))
 hist(means,col="blue")
 ```
 
-Not satisfied by his results, the student recruits 9 other students to do the same thing: each student then throws a coin 5 times, independently of each other and all with the same probability of heads. So, in total each experiment involves throwing a coin 50 time, and the  experiment is repeated 500 times. Simulate these data and plot the results.
+Not satisfied by his results, the student recruits 9 other students to do the same thing: each student then tosses a coin 5 times, independently of each other and all with the same probability of heads. So, in total each experiment involves tossing a coin 50 times (each student tossing 5 times), and the  experiment is repeated 500 times. Simulate these data and plot the results.
 
 ```{r}
 means<-NULL
