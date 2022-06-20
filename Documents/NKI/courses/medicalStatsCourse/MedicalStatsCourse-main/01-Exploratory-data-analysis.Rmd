@@ -30,12 +30,28 @@ points(x, y, pch=16, cex=2, col="blue")
 
 ```
 
-Consider another example, where you flip a coin: heads is registered as 1, and tails as 0. The **Bernoulli distribution** can be used to study this variable: it assigns probability _p_ to 1 (heads), and _1-p_ = _q_ to 0 (tails). 
+Consider another example, where you flip a coin once: heads is registered as 1, and tails as 0. The **binomial distribution** can be used to study this variable: it assigns probability _p_ to 1 (heads), and _1-p_ = _q_ to 0 (tails). 
 
-You could also have a variable that can yield  many possible values, which is transformed to yield only 1. For example, let us throw a fair dice and check if the number is equal to or lower than 2. The probability of a success (obtaining a value below or equal 2) corresponds to the dice returning 1 or 2, so is equal to 1/3. Therefore, the probability of throwing a number larger than 2 is 2/3 (corresponding to values 3, 4, 5, 6). The analysis of the association between covariates and the probability of success is often done via logistic regression.
+You could also have a variable that can yield  many possible values, which are transformed to yield only 2. For example, let us throw a fair dice and check if the result is equal to or lower than 2. The probability of a success (obtaining a value below or equal to 2) corresponds to the dice returning 1 or 2, so is equal to 1/6+1/6 = 1/3. Therefore, the probability of throwing a number larger than 2 is 1-1/3=2/3 (corresponding to values 3, 4, 5, 6). We illustrate how the original probabilities of throwing a dice relate to this new response (obtaining a result equal to or smaller than 2):
 
 ```{r}
-#plotting probability Bernoulli distribution
+#plotting probability discrete uniform distribution
+
+x <- 1:6
+y <- rep(1/6, 6)
+col.vector <- c(rep("blue", 2), rep("red", 4))
+
+plot(x, y, type="h", xlim=c(1, 6), ylim=c(0, 1), lwd=2, col=col.vector, ylab="p")
+points(x, y, pch=16, cex=2, col=col.vector)
+
+```
+
+In the above plot, the sum of the probabilities coloured in blue correspond to the probability of the event of interest, and the sum of the ones coloured in red is the probability of all other events.
+
+If we now display the same probabilities again, but representing by 1 the event of interest, and 0 all other events, then we have the following binomial distribution:
+
+
+```{r}
 
 x <- 0:1
 y <- c(2/3, 1/3)
@@ -45,7 +61,11 @@ points(x, y, pch=16, cex=2, col="blue")
 
 ```
 
-Now imagine that you throw a fair coin not once, but 10 times. Then the number of times that the result was heads can be modelled by the **binomial distribution**. It describes the probabilities of results of several independent throws, each of which with the same probability of success (heads).  
+The analysis of the association between covariates and the probability of success is often done via logistic regression. We will see this in chapter 3.
+
+Now imagine that you toss a fair coin not once, but 10 times. If all tosses are independent and have the same probability of heads, then they can be aggregated to yield a binomial distribution with sample size 10 (the total number of throws), and the variable "the number of times that the result was heads" can be modelled by the same binomial distribution. It describes the probabilities of results of several independent coin tosses, each of which with the same probability of success (heads).  
+
+For comparison: the binomial distribution used to model the result of a single coin toss involves a sample size 1.
 
 If we go back to the previous dice example, we can compute the probability to obtain 4 successes (dice gives 1 or 2) in 10 trials. This can be done with the function `dbinom`. The probability is `r dbinom(4, size = 10, p= 1/3)`.
 
