@@ -1,0 +1,43 @@
+---
+title: "01-Introduction-to probabilistic-distributions"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+source( "../R_course_setup.R" );
+```
+
+A student in statistics wants to make a small experiment. He throws a coin 50 times and counts the number of times he gets heads. Compute the probability to obtain heads 20, 25 and 35 times using the function `dbinom`. Plot the probability plot resulting from this experiment.
+
+```{r}
+x <- c(20,25,35)
+dbinom(x, size = 50, prob =0.5)
+plot(x,dbinom(x, size = 50, prob =0.5), ylim=c(0,0.2),col="blue",ylab="p")
+# This already gives the desirable answer. 
+# It may be useful to display the probabilities in the context of 
+# the entire probability distribution
+plot(c(0:50),dbinom(c(0:50), size = 50, prob =0.5), ylim=c(0,0.2),col="gray",ylab="p")
+points(x,dbinom(x, size = 50, prob =0.5), ylim=c(0,0.2), col="blue", ylab="p")
+```
+
+For a second experiment, the student throws a coin 5 times and computes the mean number of heads. He then repeats this experiment 500 times. Simulate this experiment using the `rbinom` and `mean` functions. Plot the histogram of the 500 means obtained.
+
+```{r}
+means<-NULL
+for (k in 1:500){
+sample <- rbinom(5, size = 1, prob =0.5)
+means <- c(means, mean(sample))
+}
+hist(means,col="blue")
+```
+
+Not satisfied by his results, the student recruits 9 other students to do the same thing: each student then throws a coin 5 times, independently of each other and all with the same probability of heads. So, in total each experiment involves throwing a coin 50 time, and the  experiment is repeated 500 times. Simulate these data and plot the results.
+
+```{r}
+means<-NULL
+for (k in 1:500){
+sample <- rbinom(50, size = 1, prob =0.5)
+means <- c(means, mean(sample))
+}
+hist(means,col="blue")
+```
