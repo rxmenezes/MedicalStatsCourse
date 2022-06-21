@@ -16,7 +16,7 @@ data(decathlon2)
 
 ### Working Example
 
-Let's use the simulated dataset we used in the previous chapter and add one variable `VariableZ` that we will build using the 2 other variables.
+Let's use the simulated dataset we used in the previous chapter, and add one variable `VariableZ` that we will build using the 2 other variables.
 
 ```{r}
 set.seed(352)
@@ -49,7 +49,7 @@ Let's make a scatterplot of `VariableZ` and `VariableY`.
 plot(dataset$VariableY, dataset$VariableZ)
 ```
 
-We can clearly see that as we look at higher values of the `VariableY` the values of `VariableZ` are also increasing. Quantifying the effect of a variable $x$ on the variation of a variable of interest $y$ is the aim of a linear regression model. A linear regression model is written as:
+As we look at higher values of the `VariableY`, we can clearly see that the values of `VariableZ`  also increase. Quantifying the effect of a variable $x$ on the variation of a variable of interest $y$ is the aim of a linear regression model. A linear regression model is written as:
 
 $y_i = \alpha + \beta x_i + \epsilon_i$
 
@@ -104,7 +104,7 @@ We see that we obtain exactly the same results. As both approaches are equivalen
 
 Note that there is another possible statistical test to apply is the likelihood ratio test. This test comes from  a statiscal test called goodness of fit test which allows to test for a significant improvement of the model fit. By comparing the likelihoods, i.e. the probability of observing the set of values based on the statistical model fitted, of the models fitted under the null hypothesis (in our case with only an intercept) and the alternative hypothesis (the model that we fitted). This test will be seen more in detail later in the course. Asymptotically (with the number of samples sufficiently large), both likelihood ratio test and student's t test are equivalent.
 
-There are four assumptions associated witha linear regression model. First, the outcome has to be a normally ditributed continuous variable. The relationship between the variable $x$ and $\overline{y}$ is linear. The observations have to be independent and the variance of the residuals have to be independent of X (homoscedasticity). To trust the results of the linear regression several steps have to be taken based on theses assumptions:
+There are four assumptions associated with a linear regression model. First, the outcome has to be a normally ditributed continuous variable. The relationship between the variable $x$ and $\overline{y}$ is linear. The observations have to be independent and the variance of the residuals have to be independent of X (homoscedasticity). To trust the results of the linear regression several steps have to be taken based on theses assumptions:
 
 - Checking the distribution of the outcome if the distribution is too far from a gaussian distribution it can be good to apply a transformation to the data. Such as log transformation.
 
@@ -125,7 +125,7 @@ qqline(regression$residuals, col = "steelblue", lwd = 2)
 
 ```
 
-The closer the points are from the blue line the closer the set of values is close from a normal distribution.
+The closer the points are to the blue line, the closer the (empirical) distribution of values is to a normal distribution.
 
 Another interesting graph to plot is the scatter plot of the outcome and the residuals. 
 
